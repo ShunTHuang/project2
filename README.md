@@ -36,5 +36,8 @@ git clone https://gitlab.com/nsnam/ns-3-dev.git
 ### ✅ Clone the Project2 Repository
 
 ```bash
-cd ns-3-dev/src
+cd ns-3-dev/src             # Move into ns-3 source directory
+mkdir project2              # Create a new folder for your module
+cd project2                 # Enter the project2 folder
+git clone git@github.com:ShunTHuang/project2.git .
 ```
