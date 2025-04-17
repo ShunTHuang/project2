@@ -5,10 +5,16 @@
 #ifndef SRC_PORT_H
 #define SRC_PORT_H
 
-
+#include <cstdint>
+#include "FilterElement.h"
 
 class src_port {
+private:
+    uint32_t value;
 
+public:
+    SrcPort(uint32_t port);
+    bool match(ns3::Ptr<ns3::Packet> p) override;
 };
 
 

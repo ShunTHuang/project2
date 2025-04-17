@@ -5,10 +5,13 @@
 #ifndef FILTERELEMENT_H
 #define FILTERELEMENT_H
 
-
+#include "ns3/packet.h"
+#include "ns3/ptr.h"
 
 class FilterElement {
-
+public:
+    virtual bool match(ns3::Ptr<ns3::Packet> p) = 0;
+    virtual ~FilterElement() {}
 };
 
 
