@@ -5,7 +5,7 @@
 #ifndef SRC_IP_H
 #define SRC_IP_H
 
-#include "../FilterElement.h"
+#include "FilterElement.h"
 #include "ipv4-address.h"
 #include "packet.h"
 

@@ -5,7 +5,7 @@
 #ifndef SRC_MASK_H
 #define SRC_MASK_H
 
-#include "../FilterElement.h"
+#include "FilterElement.h"
 #include "packet.h"
 #include "ipv4-header.h"
 
