@@ -5,10 +5,11 @@
 #ifndef SRC_IP_H
 #define SRC_IP_H
 
-#include "FilterElement.h"
-#include "ns3/ipv4-address.h"
+#include "../FilterElement.h"
+#include "ipv4-address.h"
+#include "packet.h"
 
-class src_ip {
+class SrcIp : public FilterElement {
     private:
         ns3::Ipv4Address value;
 

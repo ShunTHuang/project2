@@ -5,11 +5,11 @@
 #ifndef SRC_MASK_H
 #define SRC_MASK_H
 
-#include "FilterElement.h"
-#include "ns3/ipv4-mask.h"
-#include "ns3/ipv4-address.h"
+#include "../FilterElement.h"
+#include "packet.h"
+#include "ipv4-header.h"
 
-class src_mask {
+class SrcMask : public FilterElement {
 private:
     ns3::Ipv4Address addr;
     ns3::Ipv4Mask mask;
