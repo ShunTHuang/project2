@@ -11,7 +11,13 @@ set(NS3_INCLUDE "${NS3_DIR}/include")
 set(NS3_SRC "${NS3_DIR}/src")
 set(NS3_LIBDIR  "${NS3_DIR}/lib")
 
-include_directories(${NS3_INCLUDE})
+include_directories(
+        ${NS3_INCLUDE}
+        ${NS3_ROOT}/src/core/model
+        ${NS3_ROOT}/src/network/model
+        ${NS3_ROOT}/src/internet/model
+        ${NS3_ROOT}/src/network/utils
+)
 link_directories(${NS3_LIBDIR})
 
 set(SOURCES
