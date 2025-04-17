@@ -7,9 +7,8 @@
 
 #include <queue>
 #include <vector>
-#include "ns3/packet.h"
 #include "ns3/ptr.h"
-#include "filter.h"
+#include "Filter.h"
 
 class TrafficClass {
 private:
@@ -18,22 +17,29 @@ private:
     double weight;
     uint32_t priority_level;
     bool isDefault;
-
-    std::queue<ns3::Ptr<ns3::Packet>> m_queue;
+    std::queue<ns3::Ptr<ns3::Packet> > m_queue;
     std::vector<Filter> filters;
 
 public:
     TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef = false);
 
     bool Enqueue(ns3::Ptr<ns3::Packet> p);
+
     ns3::Ptr<ns3::Packet> Dequeue();
+
     bool match(ns3::Ptr<ns3::Packet> p);
 
-    void AddFilter(const Filter& f);
+    uint32_t GetPriority() const { return priority_level; }
+
+    double GetQuantum() const { return weight; }
+
+    void AddFilter(const Filter &f);
+
     void SetDefault(bool def);
+
     bool IsDefault() const;
+
+    bool IsEmpty() const;
 };
 
-
-
-#endif //TRAFFICCLASS_H
+#endif
