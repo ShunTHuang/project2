@@ -8,8 +8,10 @@
 #include <cstdint>
 
 #include "FilterElement.h"
+#include "packet.h"
+#include "ipv4-header.h"
 
-class protocol {
+class Protocol : public FilterElement {
 private:
     uint32_t value;
 

@@ -7,8 +7,12 @@
 
 #include <cstdint>
 #include "FilterElement.h"
+#include "packet.h"
+#include "ipv4-header.h"
+#include "udp-header.h"
+#include "tcp-header.h"
 
-class src_port {
+class SrcPort : public FilterElement {
 private:
     uint32_t value;
 
@@ -16,7 +20,5 @@ public:
     SrcPort(uint32_t port);
     bool match(ns3::Ptr<ns3::Packet> p) override;
 };
-
-
 
 #endif //SRC_PORT_H
