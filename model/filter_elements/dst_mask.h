@@ -5,7 +5,7 @@
 #ifndef DST_MASK_H
 #define DST_MASK_H
 
-#include "../FilterElement.h"
+#include "FilterElement.h"
 #include "ipv4-address.h"
 #include "ipv4-mask.h"
 #include "ipv4-header.h"
