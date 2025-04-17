@@ -6,9 +6,13 @@
 #define DST_PORT_H
 
 #include <cstdint>
-#include "FilterElement.h"
+#include "../FilterElement.h"
+#include "packet.h"
+#include "udp-header.h"
+#include "tcp-header.h"
+#include "ipv4-header.h"
 
-class dst_port {
+class DstPort : public FilterElement {
 private:
     uint32_t value;
 
