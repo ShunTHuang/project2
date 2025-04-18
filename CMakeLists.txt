@@ -49,6 +49,8 @@ set(HEADERS
         model/filter_elements/protocol.h
         model/queue/StrictPriorityQueue.h
         model/queue/DeficitRoundRobin.h
+        model/utils/QoSCreator.h
+        model/utils/QoSCreator.cpp
 )
 
 add_library(project2 STATIC ${SOURCES} ${HEADERS})

@@ -23,7 +23,8 @@ private:
 
 
 public:
-    TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef = false);
+    TrafficClass(uint32_t priority_level, uint32_t maxPackets, uint32_t quantum,
+        double weight, bool isDefault = false);
 
     bool Enqueue(ns3::Ptr<ns3::Packet> p);
 
