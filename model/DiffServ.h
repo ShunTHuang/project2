@@ -8,7 +8,7 @@
 #include <vector>
 #include "ptr.h"
 #include "packet.h"
-#include "traffic-class.h"
+#include "TrafficClass.h"
 
 class DiffServ {
 protected:
