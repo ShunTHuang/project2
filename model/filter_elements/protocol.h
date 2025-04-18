@@ -6,7 +6,7 @@
 #define PROTOCOL_H
 
 #include "FilterElement.h"
-#include "packet.h"
+#include "ns3/packet.h"
 
 class Protocol : public FilterElement {
 private:

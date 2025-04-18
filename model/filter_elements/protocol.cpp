@@ -3,7 +3,7 @@
 //
 
 #include "protocol.h"
-#include "ipv4-header.h"
+#include "ns3/ipv4-header.h"
 
 Protocol::Protocol(uint32_t proto)
     : value(proto) {}

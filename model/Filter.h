@@ -5,8 +5,8 @@
 #ifndef FILTER_H
 #define FILTER_H
 
-#include "packet.h"
-#include "ptr.h"
+#include "ns3/packet.h"
+#include "ns3/ptr.h"
 #include "FilterElement.h"
 
 class Filter {
@@ -20,7 +20,7 @@ public:
         elements.push_back(elem);
     }
 
-    bool match(ns3::Ptr<ns3::Packet> p);
+    bool match(Ptr<Packet> p);
 };
 
 

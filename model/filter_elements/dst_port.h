@@ -6,7 +6,7 @@
 #define DST_PORT_H
 
 #include "FilterElement.h"
-#include "packet.h"
+#include "ns3/packet.h"
 
 class DstPort : public FilterElement {
 private:

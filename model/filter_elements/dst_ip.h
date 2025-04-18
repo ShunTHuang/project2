@@ -6,9 +6,9 @@
 #define DST_IP_H
 
 #include "FilterElement.h"
-#include "ipv4-address.h"
-#include "packet.h"
-#include "ptr.h"
+#include "ns3/ipv4-address.h"
+#include "ns3/packet.h"
+#include "ns3/ptr.h"
 
 class DstIP : public FilterElement {
 private:
@@ -16,7 +16,7 @@ private:
 
 public:
     DstIP(ns3::Ipv4Address addr);
-    bool match(ns3::Ptr<ns3::Packet> p) override;
+    bool match(ns3::Ptr<ns3::Packet> p);
 };
 
 #endif //DST_IP_H

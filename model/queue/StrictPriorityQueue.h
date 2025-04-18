@@ -16,7 +16,8 @@ namespace ns3 {
         StrictPriorityQueue ();
         ~StrictPriorityQueue () override;
     protected:
-        virtual Ptr<Packet> Schedule () override;
+        Ptr<Packet> Schedule () override;
+        uint32_t Classify(Ptr<Packet> p) override;
     };
 
 }

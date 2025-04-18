@@ -3,9 +3,9 @@
 //
 
 #include "src_port.h"
-#include "ipv4-header.h"
-#include "udp-header.h"
-#include "tcp-header.h"
+#include "ns3/ipv4-header.h"
+#include "ns3/udp-header.h"
+#include "ns3/tcp-header.h"
 
 SrcPort::SrcPort(uint32_t port)
     : value(port) {}
