@@ -27,6 +27,8 @@ public:
 
     ns3::Ptr<ns3::Packet> Dequeue();
 
+    ns3::Ptr<const ns3::Packet> Peek() const;
+
     bool match(ns3::Ptr<ns3::Packet> p);
 
     uint32_t GetPriority() const { return priority_level; }

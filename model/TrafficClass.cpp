@@ -36,6 +36,13 @@ ns3::Ptr<ns3::Packet> TrafficClass::Dequeue() {
     return pkt;
 }
 
+ns3::Ptr<const ns3::Packet> TrafficClass::Peek() const {
+    if (!m_queue.empty()) {
+        return m_queue.front();
+    }
+    return nullptr;
+}
+
 bool TrafficClass::match(ns3::Ptr<ns3::Packet> p) {
     if (isDefault && filters.empty()) {
         return true;
