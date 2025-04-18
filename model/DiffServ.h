@@ -6,6 +6,7 @@
 #define DIFFSERV_H
 
 #include <vector>
+#include <mutex>
 #include "ptr.h"
 #include "packet.h"
 #include "TrafficClass.h"
@@ -16,7 +17,7 @@ protected:
 	mutable std::mutex queue_mutex;
 
 public:
-    virtual ~DiffServ() {}
+    virtual ~DiffServ();
 
     bool Enqueue(ns3::Ptr<ns3::Packet> p);
     ns3::Ptr<ns3::Packet> Dequeue();
