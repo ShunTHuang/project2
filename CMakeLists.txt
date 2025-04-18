@@ -33,6 +33,7 @@ set(SOURCES
         model/filter_elements/dst_port.cpp
         model/filter_elements/protocol.cpp
         model/queue/StrictPriorityQueue.cpp
+        model/queue/DeficitRoundRobin.cpp
 )
 set(HEADERS
         model/DiffServ.h
@@ -47,6 +48,7 @@ set(HEADERS
         model/filter_elements/dst_port.h
         model/filter_elements/protocol.h
         model/queue/StrictPriorityQueue.h
+        model/queue/DeficitRoundRobin.h
 )
 
 add_library(project2 STATIC ${SOURCES} ${HEADERS})
