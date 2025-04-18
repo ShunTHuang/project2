@@ -7,7 +7,7 @@
 
 #include <queue>
 #include <vector>
-#include "ns3/ptr.h"
+#include "ptr.h"
 #include "Filter.h"
 
 class TrafficClass {
