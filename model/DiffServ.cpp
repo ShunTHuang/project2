@@ -5,10 +5,9 @@
 #include "DiffServ.h"
 
 DiffServ::~DiffServ() {
-    for (auto cls : q_class) {
-        delete cls;
+    for (auto tc : q_class) {
+        delete tc;
     }
-    q_class.clear();
 }
 
 bool DiffServ::Enqueue(ns3::Ptr<ns3::Packet> p) {
