@@ -6,9 +6,9 @@
 #define DIFFSERV_H
 
 #include <vector>
-#include "ns3/ptr.h"
-#include "ns3/packet.h"
-#include "traffic-class.h"
+#include "ptr.h"
+#include "packet.h"
+#include "TrafficClass.h"
 
 class DiffServ {
 protected:

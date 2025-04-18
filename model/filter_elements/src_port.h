@@ -5,12 +5,8 @@
 #ifndef SRC_PORT_H
 #define SRC_PORT_H
 
-#include <cstdint>
 #include "FilterElement.h"
 #include "packet.h"
-#include "ipv4-header.h"
-#include "udp-header.h"
-#include "tcp-header.h"
 
 class SrcPort : public FilterElement {
 private:

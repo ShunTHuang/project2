@@ -5,8 +5,8 @@
 #ifndef FILTERELEMENT_H
 #define FILTERELEMENT_H
 
-#include "ns3/packet.h"
-#include "ns3/ptr.h"
+#include "packet.h"
+#include "ptr.h"
 
 class FilterElement {
 public:

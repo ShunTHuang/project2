@@ -3,7 +3,7 @@
 //
 
 #include "TrafficClass.h"
-#include "ns3/log.h"
+#include "log.h"
 
 NS_LOG_COMPONENT_DEFINE("TrafficClass");
 
@@ -41,6 +41,7 @@ bool TrafficClass::match(ns3::Ptr<ns3::Packet> p) {
         return true;
     }
     for (const auto &f: filters) {
+        //TODO: fix this const problem
         if (f.match(p)) {
             return true;
         }

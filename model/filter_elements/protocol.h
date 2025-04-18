@@ -5,11 +5,8 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
-#include <cstdint>
-
 #include "FilterElement.h"
 #include "packet.h"
-#include "ipv4-header.h"
 
 class Protocol : public FilterElement {
 private:
