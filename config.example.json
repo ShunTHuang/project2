@@ -2,24 +2,39 @@
   "qos_mechanism": "spq",
   "queues": [
     {
-      "maxPackets": 100,
-      "weight": 1,
       "priority_level": 0,
+      "maxPackets": 100,
+      "quantum": 100,
+      "weight": 1,
       "isDefault": false,
       "filters": [
-        { "filterType": "Protocol", "filterValue": "tcp" },
-        { "filterType": "DstPort", "filterValue": 22 }
+        [
+          { "filterType": "Protocol", "filterValue": "tcp" },
+          { "filterType": "DstPort", "filterValue": 22 }
+        ],
+        [
+          { "filterType": "Protocol", "filterValue": "tcp" },
+          { "filterType": "DstPort", "filterValue": 8080 }
+        ]
       ]
     },
     {
-      "maxPackets": 100,
-      "weight": 1,
       "priority_level": 1,
-      "isDefault": true,
+      "maxPackets": 100,
+      "quantum": 100,
+      "weight": 1,
+      "isDefault": false,
       "filters": [
-        { "filterType": "Protocol", "filterValue": "udp" },
-        { "filterType": "DstPort", "filterValue": 80 }
+        [
+          { "filterType": "Protocol", "filterValue": "udp" },
+          { "filterType": "DstPort", "filterValue": 80 }
+        ],
+        [
+          { "filterType": "Protocol", "filterValue": "udp" },
+          { "filterType": "DstPort", "filterValue": 3000 }
+        ]
       ]
     }
   ]
 }
+

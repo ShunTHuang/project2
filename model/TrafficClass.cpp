@@ -8,12 +8,14 @@
 NS_LOG_COMPONENT_DEFINE("TrafficClass");
 
 
-TrafficClass::TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef)
-    : packets(0),
-      maxPackets(maxPkts),
-      weight(w),
-      priority_level(prio),
-      isDefault(isDef) {
+TrafficClass::TrafficClass(uint32_t priority_level, uint32_t maxPackets,
+                           uint32_t quantum, double weight, bool isDefault) :
+        packets(0),
+        priority_level(priority_level),
+        maxPackets(maxPackets),
+        quantum(quantum),
+        weight(weight),
+        isDefault(isDefault) {
 }
 
 bool TrafficClass::Enqueue(ns3::Ptr<ns3::Packet> p) {
