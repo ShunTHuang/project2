@@ -13,11 +13,13 @@ namespace ns3 {
     {
     public:
         static TypeId GetTypeId ();
-        StrictPriorityQueue ();
+        StrictPriorityQueue (std::vector<TrafficClass*>& q_class)
+            : DiffServ(q_class) {}
+
         ~StrictPriorityQueue () override;
     protected:
-        Ptr<Packet> Schedule () override;
-        uint32_t Classify(Ptr<Packet> p) override;
+        virtual Ptr<Packet> Schedule() override;
+        virtual uint32_t Classify(ns3::Ptr<ns3::Packet> p) override;
     };
 
 }

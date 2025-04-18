@@ -61,7 +61,7 @@ bool TrafficClass::match(ns3::Ptr<ns3::Packet> p) {
 }
 
 
-void TrafficClass::AddQuantum(uint32_t quantum) {
+void TrafficClass::AddQuantum() {
     quantum += quantum;
 }
 

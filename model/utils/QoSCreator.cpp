@@ -6,18 +6,18 @@
 #include <fstream>
 #include <iostream>
 
+#include "queue/StrictPriorityQueue.h"
+#include "queue/DeficitRoundRobin.h"
+
 using json = nlohmann::json;
 
-std::vector<TrafficClass*> QoSCreator::createQoS(const std::string& filename) {
+DiffServ* QoSCreator::createQoS(const std::string& filename) {
     std::ifstream file(filename);
     if (!file)
         throw std::runtime_error("Failed to open config file");
 
     json config;
     file >> config;
-
-    std::string qos_mechanism = config["qos_mechanism"];
-
 
     std::vector<TrafficClass*> trafficClasses;
 
@@ -32,7 +32,14 @@ std::vector<TrafficClass*> QoSCreator::createQoS(const std::string& filename) {
 
         parseFilters(queue["filters"], tc);
     }
-    return trafficClasses;
+
+    DiffServ* qosMechanism;
+    std::string qos_mechanism = config["qos_mechanism"];
+    if (qos_mechanism == "spq")
+        qosMechanism = new StrictPriorityQueue(trafficClasses);
+    else if (qos_mechanism == "drr")
+        qosMechanism = new DeficitRoundRobin(trafficClasses);
+    return qosMechanism;
 }
 
 void QoSCreator::parseFilters(

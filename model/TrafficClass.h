@@ -41,7 +41,7 @@ public:
 
     uint32_t GetQuantum() const { return quantum; }
 
-    void AddQuantum(uint32_t quantum);
+    void AddQuantum();
 
     void AddFilter(Filter* f);
 

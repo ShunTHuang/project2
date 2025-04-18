@@ -6,8 +6,8 @@
 #define JSONPARSER_H
 
 #include <string>
-#include <vector>
 #include "../TrafficClass.h"
+#include "../DiffServ.h"
 #include "../filter_elements/dst_ip.h"
 #include "../filter_elements/dst_mask.h"
 #include "../filter_elements/dst_port.h"
@@ -21,7 +21,7 @@ class QoSCreator {
 private:
     static void parseFilters(const nlohmann::json& filtersConfig, TrafficClass* trafficClass);
 public:
-    static std::vector<TrafficClass*> createQoS(const std::string& filename);
+    static DiffServ* createQoS(const std::string& filename);
 };
 
 #endif //JSONPARSER_H

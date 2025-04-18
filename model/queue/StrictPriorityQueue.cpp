@@ -18,9 +18,6 @@ namespace ns3 {
         return tid;
     }
 
-    StrictPriorityQueue::StrictPriorityQueue() {
-    }
-
     StrictPriorityQueue::~StrictPriorityQueue() {
     }
 
@@ -38,8 +35,5 @@ namespace ns3 {
         return nullptr;
     }
 
-    uint32_t
-    StrictPriorityQueue::Classify(Ptr<Packet> p) {
-        return 0;
-    }
+    uint32_t Classify(ns3::Ptr<ns3::Packet> p) { return 0; };
 }
