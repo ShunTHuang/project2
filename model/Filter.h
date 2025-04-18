@@ -5,7 +5,8 @@
 #ifndef FILTER_H
 #define FILTER_H
 
-#include <vector>
+#include "packet.h"
+#include "ptr.h"
 #include "FilterElement.h"
 
 class Filter {
