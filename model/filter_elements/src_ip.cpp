@@ -3,7 +3,7 @@
 //
 
 #include "src_ip.h"
-#include "ipv4-header.h"
+#include "ns3/ipv4-header.h"
 
 
 SrcIP::SrcIP(ns3::Ipv4Address addr) : value(addr) {}

@@ -13,10 +13,6 @@ set(NS3_LIBDIR  "${NS3_DIR}/lib")
 
 include_directories(
         ${NS3_INCLUDE}
-        ${NS3_ROOT}/src/core/model
-        ${NS3_ROOT}/src/network/model
-        ${NS3_ROOT}/src/internet/model
-        ${NS3_ROOT}/src/network/utils
 )
 link_directories(${NS3_LIBDIR})
 
@@ -72,9 +68,25 @@ target_link_libraries(SpqSimulation PRIVATE
         ns3.network
         ns3.traffic-control
 )
+
+# DrrSimulation
+add_executable(DrrSimulation
+        examples/DrrSimulation.cpp)
+
+target_link_libraries(DrrSimulation PRIVATE
+        project2
+        ns3.traffic-control
+        ns3.core
+        ns3.network
+        ns3.internet
+        ns3.applications
+        ns3.point-to-point
+)
+
 #target_link_libraries(demo-diffsver PRIVATE
 #        project2
 #        ns3.core
 #        ns3.network
 #        ns3.traffic-control
 #)
+

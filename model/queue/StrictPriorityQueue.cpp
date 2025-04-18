@@ -37,4 +37,9 @@ namespace ns3 {
         }
         return nullptr;
     }
+
+    uint32_t
+    StrictPriorityQueue::Classify(Ptr<Packet> p) {
+        return 0;
+    }
 }

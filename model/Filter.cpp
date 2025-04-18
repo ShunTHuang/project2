@@ -4,7 +4,7 @@
 
 #include "Filter.h"
 
-bool Filter::match(ns3::Ptr<ns3::Packet> p) {
+bool Filter::match(Ptr<Packet> p) {
     for (auto elem : elements) {
         if (!elem->match(p)) {
             return false;

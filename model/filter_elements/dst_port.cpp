@@ -3,9 +3,9 @@
 //
 
 #include "dst_port.h"
-#include "udp-header.h"
-#include "tcp-header.h"
-#include "ipv4-header.h"
+#include "ns3/udp-header.h"
+#include "ns3/tcp-header.h"
+#include "ns3/ipv4-header.h"
 
 DstPort::DstPort(uint32_t port)
     : value(port) {}

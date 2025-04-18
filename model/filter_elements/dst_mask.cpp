@@ -3,7 +3,7 @@
 //
 
 #include "dst_mask.h"
-#include "ipv4-header.h"
+#include "ns3/ipv4-header.h"
 
 DstMask::DstMask(ns3::Ipv4Address address, ns3::Ipv4Mask m)
     : addr(address), mask(m) {}

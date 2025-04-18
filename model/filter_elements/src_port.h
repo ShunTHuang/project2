@@ -6,7 +6,7 @@
 #define SRC_PORT_H
 
 #include "FilterElement.h"
-#include "packet.h"
+#include "ns3/packet.h"
 
 class SrcPort : public FilterElement {
 private:
