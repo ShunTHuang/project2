@@ -53,8 +53,8 @@ set(HEADERS
 
 add_library(project2 STATIC ${SOURCES} ${HEADERS})
 target_include_directories(project2 PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/model
-        ${CMAKE_CURRENT_SOURCE_DIR}/model/filter_elements
+        model
+        model/filter_elements
 )
 
 target_link_libraries(project2 PUBLIC
@@ -63,10 +63,18 @@ target_link_libraries(project2 PUBLIC
         ns3.traffic-control
 )
 
-add_executable(demo-diffsver examples/demo-diffsver.cc)
-target_link_libraries(demo-diffsver PRIVATE
+add_executable(SpqSimulation
+        examples/SpqSimulation.cpp)
+
+target_link_libraries(SpqSimulation PRIVATE
         project2
         ns3.core
         ns3.network
         ns3.traffic-control
 )
+#target_link_libraries(demo-diffsver PRIVATE
+#        project2
+#        ns3.core
+#        ns3.network
+#        ns3.traffic-control
+#)

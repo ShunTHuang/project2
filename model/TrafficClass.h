@@ -19,7 +19,8 @@ private:
     uint32_t priority_level;
     bool isDefault;
     std::queue<ns3::Ptr<ns3::Packet>> m_queue;
-    std::vector<Filter> filters;
+    std::vector<Filter*> filters;
+
 
 public:
     TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef = false);
@@ -29,6 +30,8 @@ public:
     ns3::Ptr<ns3::Packet> Dequeue();
 
     ns3::Ptr<const ns3::Packet> Peek() const;
+
+    ns3::Ptr<ns3::Packet> Peek();
 
     bool match(ns3::Ptr<ns3::Packet> p);
 
@@ -44,7 +47,7 @@ public:
     uint32_t GetQuantum() const { return quantum; }
     void AddQuantum(uint32_t quantum) { quantum += quantum; }
 
-    void AddFilter(const Filter &f);
+    void AddFilter(Filter* f);
 
     void SetDefault(bool def);
 

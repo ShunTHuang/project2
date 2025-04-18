@@ -43,20 +43,29 @@ ns3::Ptr<const ns3::Packet> TrafficClass::Peek() const {
     return nullptr;
 }
 
+ns3::Ptr<ns3::Packet> TrafficClass::Peek() {
+    if (m_queue.empty()) {
+        NS_LOG_LOGIC("Queue empty");
+        return nullptr;
+    }
+
+    ns3::Ptr<ns3::Packet> p = m_queue.front();
+    return p;
+}
+
 bool TrafficClass::match(ns3::Ptr<ns3::Packet> p) {
     if (isDefault && filters.empty()) {
         return true;
     }
-    for (const auto &f: filters) {
-        //TODO: fix this const problem
-        if (f.match(p)) {
+    for (Filter *filter: filters) {
+        if (filter->match(p)) {
             return true;
         }
     }
     return false;
 }
 
-void TrafficClass::AddFilter(const Filter &f) {
+void TrafficClass::AddFilter(Filter *f) {
     filters.push_back(f);
 }
 

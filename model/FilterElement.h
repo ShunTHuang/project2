@@ -2,18 +2,26 @@
 // Created by shun on 4/16/25.
 //
 
-#ifndef FILTERELEMENT_H
-#define FILTERELEMENT_H
+#ifndef FILTER_ELEMENT_H
+#define FILTER_ELEMENT_H
 
-#include "packet.h"
-#include "ptr.h"
 
-class FilterElement {
+#include "ns3/log.h"
+#include "ns3/object.h"
+#include "ns3/packet.h"
+
+using namespace ns3;
+
+class FilterElement: public ns3::Object
+{
 public:
-    virtual bool match(ns3::Ptr<ns3::Packet> p) = 0;
-    virtual ~FilterElement() {}
+
+    FilterElement ();
+    ~FilterElement ();
+
+    virtual bool match(Ptr<Packet> packet) = 0;
+
 };
 
 
-
-#endif //FILTERELEMENT_H
+#endif /* FILTER_ELEMENT_H */
