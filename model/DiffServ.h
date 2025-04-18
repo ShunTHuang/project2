@@ -8,11 +8,12 @@
 #include <vector>
 #include "ptr.h"
 #include "packet.h"
-#include "TrafficClass.h"
+#include "traffic-class.h"
 
 class DiffServ {
 protected:
     std::vector<TrafficClass*> q_class;
+	mutable std::mutex queue_mutex;
 
 public:
     virtual ~DiffServ() {}
