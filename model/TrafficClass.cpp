@@ -64,6 +64,7 @@ void TrafficClass::AddQuantum(uint32_t quantum) {
 }
 
 void TrafficClass::AddFilter(Filter *f) {
+
     filters.push_back(f);
 }
 
