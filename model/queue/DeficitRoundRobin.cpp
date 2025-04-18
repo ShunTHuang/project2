@@ -10,7 +10,7 @@ DeficitRoundRobin::DeficitRoundRobin(const uint32_t quantum)
 ns3::Ptr<ns3::Packet> DeficitRoundRobin::Schedule() override {
     TrafficClass* currQueue = q_class[queueIndex];
     currQueue->AddQuantum(quantum);
-    if (currQueue->peek()->GetSize() <= currQueue->GetQuantum())
+    if (currQueue->Peek()->GetSize() <= currQueue->GetQuantum())
         currQueue->Dequeue();
 }
 
