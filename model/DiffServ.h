@@ -13,6 +13,7 @@
 class DiffServ {
 protected:
     std::vector<TrafficClass*> q_class;
+	mutable std::mutex queue_mutex;
 
 public:
     virtual ~DiffServ() {}
