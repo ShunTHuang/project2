@@ -9,7 +9,7 @@
 #include "ipv4-address.h"
 #include "packet.h"
 
-class SrcIp : public FilterElement {
+class SrcIP : public FilterElement {
     private:
         ns3::Ipv4Address value;
 

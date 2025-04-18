@@ -7,8 +7,6 @@
 
 #include "FilterElement.h"
 #include "ipv4-address.h"
-#include "ipv4-mask.h"
-#include "ipv4-header.h"
 #include "packet.h"
 #include "ptr.h"
 

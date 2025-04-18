@@ -6,8 +6,9 @@
 #define SRC_MASK_H
 
 #include "FilterElement.h"
+#include "ipv4-address.h"
 #include "packet.h"
-#include "ipv4-header.h"
+#include "ptr.h"
 
 class SrcMask : public FilterElement {
 private:

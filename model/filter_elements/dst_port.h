@@ -5,12 +5,8 @@
 #ifndef DST_PORT_H
 #define DST_PORT_H
 
-#include <cstdint>
 #include "FilterElement.h"
 #include "packet.h"
-#include "udp-header.h"
-#include "tcp-header.h"
-#include "ipv4-header.h"
 
 class DstPort : public FilterElement {
 private:

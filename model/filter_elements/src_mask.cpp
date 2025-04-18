@@ -3,6 +3,7 @@
 //
 
 #include "src_mask.h"
+#include "ipv4-header.h"
 
 SrcMask::SrcMask(ns3::Ipv4Address address, ns3::Ipv4Mask m)
     : addr(address), mask(m) {}
