@@ -65,6 +65,11 @@ bool TrafficClass::match(ns3::Ptr<ns3::Packet> p) {
     return false;
 }
 
+
+void TrafficClass::AddQuantum(uint32_t quantum) {
+    quantum += quantum;
+}
+
 void TrafficClass::AddFilter(Filter *f) {
     filters.push_back(f);
 }

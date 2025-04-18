@@ -35,17 +35,11 @@ public:
 
     bool match(ns3::Ptr<ns3::Packet> p);
 
-    ns3::Ptr<const ns3::Packet> peek() const {
-        if (m_queue.empty()) {
-            return nullptr;
-        }
-        return m_queue.front();
-    }
-
     uint32_t GetPriority() const { return priority_level; }
 
     uint32_t GetQuantum() const { return quantum; }
-    void AddQuantum(uint32_t quantum) { quantum += quantum; }
+
+    void AddQuantum(uint32_t quantum);
 
     void AddFilter(Filter* f);
 
