@@ -35,6 +35,7 @@ build_lib(
         model/filter_elements/protocol.h
         model/queue/StrictPriorityQueue.h
         model/queue/DeficitRoundRobin.h
+        model/utils/QoSCreator.h
         LIBRARIES_TO_LINK
         ${libcore}
         ${libnetwork}
@@ -46,6 +47,8 @@ build_lib(
 target_include_directories(project2 PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/model>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/model/filter_elements>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/model/queue>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/model/utils>
 )
 build_exec(
         EXECNAME SpqSimulation
