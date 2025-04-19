@@ -53,11 +53,6 @@ target_include_directories(project2 PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/model/utils>
 )
 
-target_link_libraries(project2 PUBLIC
-        ns3.core
-        ns3.network
-        ns3.traffic-control
-)
 build_exec(
         EXECNAME SpqSimulation
         SOURCE_FILES examples/SpqSimulation.cpp

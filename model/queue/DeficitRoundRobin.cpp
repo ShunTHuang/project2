@@ -10,7 +10,7 @@ namespace ns3 {
 
     TypeId
     DeficitRoundRobin::GetTypeId() {
-        static TypeId tid = TypeId("ns3::SpqQueue")
+        static TypeId tid = TypeId("ns3::DrrQueue")
                 .SetParent<DiffServ>()
                 .AddConstructor<DeficitRoundRobin>();
         return tid;
