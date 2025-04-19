@@ -5,6 +5,17 @@
 #include "DeficitRoundRobin.h"
 
 namespace ns3 {
+    NS_LOG_COMPONENT_DEFINE("DeficitRoundRobin");
+    NS_OBJECT_ENSURE_REGISTERED(DeficitRoundRobin);
+
+    TypeId
+    DeficitRoundRobin::GetTypeId() {
+        static TypeId tid = TypeId("ns3::SpqQueue")
+                .SetParent<DiffServ>()
+                .AddConstructor<DeficitRoundRobin>();
+        return tid;
+    }
+
     Ptr<Packet> DeficitRoundRobin::Schedule() override {
         TrafficClass* currQueue = q_class[queueIndex];
         currQueue->AddQuantum();

@@ -11,6 +11,7 @@ namespace ns3 {
     private:
         uint32_t queueIndex = 0;
     public:
+        static TypeId GetTypeId();
         DeficitRoundRobin(std::vector<TrafficClass*>& q_class)
         : DiffServ(q_class) {}
 
