@@ -68,13 +68,13 @@ void QoSCreator::parseFilters(
                 group->AddElement(new DstIP(ns3::Ipv4Address(filter["filterValue"])));
             } else if (type == "SrcMask") {
                 group->AddElement(new SrcMask(
-                    ns3::Ipv4Address(filter["filterValue"]["address"]),
-                    ns3::Ipv4Mask(filter["filterValue"]["mask"])
+                    Ipv4Address(filter["filterValue"]["address"]),
+                    Ipv4Mask(filter["filterValue"]["mask"])
                 ));
             } else if (type == "DstMask") {
                 group->AddElement(new DstMask(
-                    ns3::Ipv4Address(filter["filterValue"]["address"]),
-                    ns3::Ipv4Mask(filter["filterValue"]["mask"])
+                    Ipv4Address(filter["filterValue"]["address"]),
+                    Ipv4Mask(filter["filterValue"]["mask"])
                 ));
             } else {
                 throw std::invalid_argument("Unknown filter type");

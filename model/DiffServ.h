@@ -21,13 +21,13 @@ namespace ns3 {
         DiffServ(std::vector<TrafficClass*>& q_class);
         virtual ~DiffServ();
 
-        bool Enqueue(ns3::Ptr<ns3::Packet> p);
-        ns3::Ptr<ns3::Packet> Dequeue();
-        ns3::Ptr<ns3::Packet> Remove();
-        ns3::Ptr<const ns3::Packet> Peek() const;
+        bool Enqueue(Ptr<Packet> p);
+        Ptr<Packet> Dequeue();
+        Ptr<Packet> Remove();
+        Ptr<const Packet> Peek() const;
 
-        virtual ns3::Ptr<ns3::Packet> Schedule() = 0;
-        virtual uint32_t Classify(ns3::Ptr<ns3::Packet> p) = 0;
+        virtual Ptr<Packet> Schedule() = 0;
+        virtual uint32_t Classify(Ptr<Packet> p) = 0;
     };
 }
 

@@ -5,14 +5,15 @@
 #include "DeficitRoundRobin.h"
 
 namespace ns3 {
-    ns3::Ptr<ns3::Packet> DeficitRoundRobin::Schedule() override {
+    Ptr<Packet> DeficitRoundRobin::Schedule() override {
         TrafficClass* currQueue = q_class[queueIndex];
         currQueue->AddQuantum();
         if (currQueue->Peek()->GetSize() <= currQueue->GetQuantum())
             return currQueue->Dequeue();
+        return nullptr;
     }
 
-    uint32_t DeficitRoundRobin::Classify(ns3::Ptr<ns3::Packet> p) override {
+    uint32_t DeficitRoundRobin::Classify(Ptr<Packet> p) override {
         return 0;
     }
 }

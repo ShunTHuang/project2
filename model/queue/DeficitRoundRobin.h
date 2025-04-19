@@ -14,8 +14,8 @@ namespace ns3 {
         DeficitRoundRobin(std::vector<TrafficClass*>& q_class)
         : DiffServ(q_class) {}
 
-        ns3::Ptr<ns3::Packet> Schedule() override;
-        uint32_t Classify(ns3::Ptr<ns3::Packet> p) override;
+        Ptr<Packet> Schedule() override;
+        uint32_t Classify(Ptr<Packet> p) override;
     };
 }
 
