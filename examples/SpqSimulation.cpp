@@ -10,6 +10,7 @@
 #include "ns3/applications-module.h"
 #include "ns3/log.h"
 #include "ns3/traffic-control-module.h"
+#include "ns3/trace-helper.h"
 
 using namespace ns3;
 
@@ -65,7 +66,7 @@ int main(int argc, char *argv[])
 
 
   BulkSendHelper bulkA("ns3::TcpSocketFactory",
-                       InetSocketAddress(ifLow.GetAddress(1), portA));
+                       InetSocketAddress(ifHigh.GetAddress(1), portA));
   bulkA.SetAttribute("MaxBytes", UintegerValue(0));
   ApplicationContainer appA = bulkA.Install(hosts.Get(0));
   appA.Start(Seconds(5.0));
@@ -80,8 +81,10 @@ int main(int argc, char *argv[])
   sinkApps.Add(sinkA.Install(hosts.Get(1)));
   sinkApps.Start(Seconds(0.0));
   sinkApps.Stop(Seconds(stopTime));
-
-
+  AsciiTraceHelper ascii;
+  Ptr<OutputStreamWrapper> stream = ascii.CreateFileStream ("src/project2/throughput.tr");
+  p2pHigh.EnableAsciiAll (stream);
+  p2pLow .EnableAsciiAll (stream);
   Simulator::Stop(Seconds(stopTime));
   Simulator::Run();
   NS_LOG_INFO ("SpqSimulation stop time " << Simulator::Now ());
