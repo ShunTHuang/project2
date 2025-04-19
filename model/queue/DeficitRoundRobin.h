@@ -4,7 +4,8 @@
 
 #ifndef DEFICITROUNDROBIN_H
 #define DEFICITROUNDROBIN_H
-#include "../DiffServ.h"
+#include "DiffServ.h"
+
 
 class DeficitRoundRobin : public DiffServ {
 private:

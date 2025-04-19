@@ -7,8 +7,8 @@
 
 #include <vector>
 #include <mutex>
-#include "ptr.h"
-#include "packet.h"
+#include "ns3/ptr.h"
+#include "ns3/packet.h"
 #include "TrafficClass.h"
 
 class DiffServ {

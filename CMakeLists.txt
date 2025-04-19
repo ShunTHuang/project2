@@ -53,6 +53,8 @@ add_library(project2 STATIC ${SOURCES} ${HEADERS})
 target_include_directories(project2 PUBLIC
         model
         model/filter_elements
+        model/queue
+        model/utils
 )
 
 target_link_libraries(project2 PUBLIC

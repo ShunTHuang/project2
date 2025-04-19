@@ -6,15 +6,15 @@
 #define JSONPARSER_H
 
 #include <string>
-#include "../TrafficClass.h"
-#include "../DiffServ.h"
-#include "../filter_elements/dst_ip.h"
-#include "../filter_elements/dst_mask.h"
-#include "../filter_elements/dst_port.h"
-#include "../filter_elements/protocol.h"
-#include "../filter_elements/src_ip.h"
-#include "../filter_elements/src_mask.h"
-#include "../filter_elements/src_port.h"
+#include "TrafficClass.h"
+#include "DiffServ.h"
+#include "filter_elements/dst_ip.h"
+#include "filter_elements/dst_mask.h"
+#include "filter_elements/dst_port.h"
+#include "filter_elements/protocol.h"
+#include "filter_elements/src_ip.h"
+#include "filter_elements/src_mask.h"
+#include "filter_elements/src_port.h"
 #include <nlohmann/json.hpp>
 
 class QoSCreator {
