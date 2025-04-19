@@ -6,17 +6,18 @@
 #define DEFICITROUNDROBIN_H
 #include "DiffServ.h"
 
+namespace ns3 {
+    class DeficitRoundRobin : public DiffServ {
+    private:
+        uint32_t queueIndex = 0;
+    public:
+        DeficitRoundRobin(std::vector<TrafficClass*>& q_class)
+        : DiffServ(q_class) {}
 
-class DeficitRoundRobin : public DiffServ {
-private:
-    uint32_t queueIndex = 0;
-public:
-    DeficitRoundRobin(std::vector<TrafficClass*>& q_class)
-    : DiffServ(q_class) {}
-
-    ns3::Ptr<ns3::Packet> Schedule() override;
-    uint32_t Classify(ns3::Ptr<ns3::Packet> p) override;
-};
+        ns3::Ptr<ns3::Packet> Schedule() override;
+        uint32_t Classify(ns3::Ptr<ns3::Packet> p) override;
+    };
+}
 
 
 #endif //DEFICITROUNDROBIN_H

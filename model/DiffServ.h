@@ -11,23 +11,25 @@
 #include "ns3/packet.h"
 #include "TrafficClass.h"
 
-class DiffServ {
-protected:
-    std::vector<TrafficClass*> q_class;
-	mutable std::mutex queue_mutex;
+namespace ns3 {
+    class DiffServ {
+    protected:
+        std::vector<TrafficClass*> q_class;
+	    mutable std::mutex queue_mutex;
 
-public:
-    DiffServ(std::vector<TrafficClass*>& q_class);
-    virtual ~DiffServ();
+    public:
+        DiffServ(std::vector<TrafficClass*>& q_class);
+        virtual ~DiffServ();
 
-    bool Enqueue(ns3::Ptr<ns3::Packet> p);
-    ns3::Ptr<ns3::Packet> Dequeue();
-    ns3::Ptr<ns3::Packet> Remove();
-    ns3::Ptr<const ns3::Packet> Peek() const;
+        bool Enqueue(ns3::Ptr<ns3::Packet> p);
+        ns3::Ptr<ns3::Packet> Dequeue();
+        ns3::Ptr<ns3::Packet> Remove();
+        ns3::Ptr<const ns3::Packet> Peek() const;
 
-    virtual ns3::Ptr<ns3::Packet> Schedule() = 0;
-    virtual uint32_t Classify(ns3::Ptr<ns3::Packet> p) = 0;
-};
+        virtual ns3::Ptr<ns3::Packet> Schedule() = 0;
+        virtual uint32_t Classify(ns3::Ptr<ns3::Packet> p) = 0;
+    };
+}
 
 
 
