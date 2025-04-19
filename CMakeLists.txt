@@ -36,7 +36,6 @@ build_lib(
         model/queue/StrictPriorityQueue.h
         model/queue/DeficitRoundRobin.h
         model/utils/QoSCreator.h
-        model/utils/QoSCreator.cpp
 
         LIBRARIES_TO_LINK
         ${libcore}
