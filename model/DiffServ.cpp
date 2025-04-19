@@ -13,8 +13,8 @@ namespace ns3 {
 
     TypeId DiffServ::GetTypeId()
     {
-        static TypeId tid = TypeId("ns3::DiffServ")
-            .SetParent<Object>()
+        static TypeId tid = TypeId("ns3::DiffServ<Packet>")
+                .SetParent<Queue<Packet>>()
             .SetGroupName("Network");
         return tid;
     }
