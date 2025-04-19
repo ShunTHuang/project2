@@ -52,32 +52,39 @@ void QoSCreator::parseFilters(
 
             if (type == "Protocol") {
                 std::string proto = filter["filterValue"];
-                if (proto == "tcp") {
+                if (proto == "tcp")
                     group->AddElement(new Protocol(6));
-                } else if (proto == "udp") {
+                if (proto == "udp")
                     group->AddElement(new Protocol(17));
-                }
-            } else if (type == "DstPort") {
+            }
+
+            if (type == "DstPort")
                 group->AddElement(new DstPort(filter["filterValue"]));
-            } else if (type == "SrcPort") {
+
+            if (type == "SrcPort")
                 group->AddElement(new SrcPort(filter["filterValue"]));
-            } else if (type == "SrcIP") {
+
+            if (type == "SrcIP")
                 group->AddElement(new SrcIP(ns3::Ipv4Address(filter["filterValue"])));
-            } else if (type == "DstIP") {
+
+            if (type == "DstIP")
                 group->AddElement(new DstIP(ns3::Ipv4Address(filter["filterValue"])));
-            } else if (type == "SrcMask") {
+
+            if (type == "SrcMask") {
                 group->AddElement(new SrcMask(
                     Ipv4Address(filter["filterValue"]["address"]),
                     Ipv4Mask(filter["filterValue"]["mask"])
                 ));
-            } else if (type == "DstMask") {
+            }
+
+            if (type == "DstMask") {
                 group->AddElement(new DstMask(
                     Ipv4Address(filter["filterValue"]["address"]),
                     Ipv4Mask(filter["filterValue"]["mask"])
                 ));
-            } else {
-                throw std::invalid_argument("Unknown filter type");
             }
+
+            throw std::invalid_argument("Unknown filter type");
         }
         trafficClass->AddFilter(group);
     }
