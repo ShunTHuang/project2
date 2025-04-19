@@ -4,10 +4,9 @@
 
 #include "QoSCreator.h"
 #include <fstream>
-#include <iostream>
 
-#include "queue/StrictPriorityQueue.h"
-#include "queue/DeficitRoundRobin.h"
+#include "StrictPriorityQueue.h"
+#include "DeficitRoundRobin.h"
 
 using json = nlohmann::json;
 
@@ -33,13 +32,13 @@ DiffServ* QoSCreator::createQoS(const std::string& filename) {
         parseFilters(queue["filters"], tc);
     }
 
-    DiffServ* qosMechanism;
     std::string qos_mechanism = config["qos_mechanism"];
     if (qos_mechanism == "spq")
-        qosMechanism = new StrictPriorityQueue(trafficClasses);
-    else if (qos_mechanism == "drr")
-        qosMechanism = new DeficitRoundRobin(trafficClasses);
-    return qosMechanism;
+        return new StrictPriorityQueue(trafficClasses);
+    if (qos_mechanism == "drr")
+        return new DeficitRoundRobin(trafficClasses);
+
+    throw std::invalid_argument("Unknown qos mechanism");
 }
 
 void QoSCreator::parseFilters(
@@ -78,7 +77,7 @@ void QoSCreator::parseFilters(
                     ns3::Ipv4Mask(filter["filterValue"]["mask"])
                 ));
             } else {
-                std::cerr << "Unknown filter type: " << type << std::endl;
+                throw std::invalid_argument("Unknown filter type");
             }
         }
         trafficClass->AddFilter(group);
