@@ -19,9 +19,10 @@ int main(int argc, char *argv[])
 {
   // CommandLine cmd;
   // cmd.Parse(argc, argv);
-
+  LogComponentEnable ("SpqSimulation", LOG_LEVEL_INFO);
+  NS_LOG_INFO ("SpqSimulation Start time" << Simulator::Now ());
   double stopTime = 30.0;
-  uint32_t queueSize = 100;
+
 
 
   NodeContainer hosts, routers;
@@ -35,14 +36,11 @@ int main(int argc, char *argv[])
   p2pLow .SetDeviceAttribute("DataRate", StringValue("1Mbps"));
   p2pLow .SetChannelAttribute("Delay",    StringValue("1ms"));
 
-  p2pHigh.SetQueue("ns3::SpqQueue",
-                   "MaxPackets",      UintegerValue(queueSize),
-                   "PriorityLevels",  UintegerValue(2));
+
+  p2pHigh.SetQueue("ns3::StrictPriorityQueue");
   NetDeviceContainer devsHigh = p2pHigh.Install(hosts.Get(0), routers.Get(0));
 
-  p2pLow.SetQueue("ns3::SpqQueue",
-                  "MaxPackets",      UintegerValue(queueSize),
-                  "PriorityLevels",  UintegerValue(2));
+  p2pLow.SetQueue("ns3::StrictPriorityQueue");
   NetDeviceContainer devsLow  = p2pLow.Install(routers.Get(0), hosts.Get(1));
 
   InternetStackHelper internet;
@@ -86,6 +84,7 @@ int main(int argc, char *argv[])
 
   Simulator::Stop(Seconds(stopTime));
   Simulator::Run();
+  NS_LOG_INFO ("SpqSimulation stop time " << Simulator::Now ());
   Simulator::Destroy();
 
   return 0;
