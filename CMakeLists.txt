@@ -21,6 +21,7 @@ build_lib(
         model/filter_elements/protocol.cpp
         model/queue/StrictPriorityQueue.cpp
         model/queue/DeficitRoundRobin.cpp
+        model/utils/QoSCreator.cpp
         HEADER_FILES
         model/DiffServ.h
         model/TrafficClass.h
