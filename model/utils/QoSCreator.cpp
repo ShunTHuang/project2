@@ -37,7 +37,6 @@ DiffServ* QoSCreator::createQoS(const std::string& filename) {
         return new StrictPriorityQueue(trafficClasses);
     if (qos_mechanism == "drr")
         return new DeficitRoundRobin(trafficClasses);
-
     throw std::invalid_argument("Unknown qos mechanism");
 }
 
