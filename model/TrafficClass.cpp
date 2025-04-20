@@ -12,8 +12,9 @@ TrafficClass::TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef
     : packets(0),
       maxPackets(maxPkts),
       weight(w),
+      quantum(0),
       priority_level(prio),
-      isDefault(isDef) {
+      isDefault(isDef){
 }
 
 bool TrafficClass::Enqueue(ns3::Ptr<ns3::Packet> p) {
@@ -59,8 +60,8 @@ bool TrafficClass::match(ns3::Ptr<ns3::Packet> p) {
 }
 
 
-void TrafficClass::AddQuantum(uint32_t quantum) {
-    quantum += quantum;
+void TrafficClass::AddQuantum(uint32_t q) {
+    quantum += q;
 }
 
 void TrafficClass::AddFilter(Filter *f) {

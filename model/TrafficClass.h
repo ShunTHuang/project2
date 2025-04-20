@@ -33,7 +33,6 @@ public:
 
     ns3::Ptr<ns3::Packet> Peek();
 
-
     bool match(ns3::Ptr<ns3::Packet> p);
 
     uint32_t GetPriority() const { return priority_level; }
