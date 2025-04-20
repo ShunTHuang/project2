@@ -4,88 +4,101 @@
 
 #include "QoSCreator.h"
 #include <fstream>
+#include <stdexcept>
+#include <queue>
+#include "filter_elements//protocol.h"
+#include "filter_elements//dst_port.h"
+#include "filter_elements//src_port.h"
+#include "filter_elements//src_ip.h"
+#include "filter_elements//dst_ip.h"
+#include "filter_elements//src_mask.h"
+#include "filter_elements//dst_mask.h"
 
-#include "StrictPriorityQueue.h"
-#include "DeficitRoundRobin.h"
-
-using json = nlohmann::json;
-
-DiffServ* QoSCreator::createQoS(const std::string& filename) {
+std::vector<TrafficClass*>
+QoSCreator::createTrafficClasses(const std::string& filename) {
     std::ifstream file(filename);
-    if (!file)
-        throw std::runtime_error("Failed to open config file");
-
+    if (!file) {
+        throw std::runtime_error("Failed to open config file: " + filename);
+    }
     json config;
     file >> config;
 
-    std::vector<TrafficClass*> trafficClasses;
+    std::vector<TrafficClass*> classes;
+    for (const auto& q : config["queues"]) {
+        uint32_t priority   = q["priority_level"];
+        uint32_t maxPackets = q["maxPackets"];
+        double   weight     = q["weight"];
+        uint32_t quantum = q["quantum"];
+        bool     isDefault  = q["isDefault"];
 
-    for (const auto& queue : config["queues"]) {
-        uint32_t priority = queue["priority_level"];
-        uint32_t maxPackets = queue["maxPackets"];
-        uint32_t quantum = queue["quantum"];
-        double weight = queue["weight"];
-        bool isDefault = queue["isDefault"];
+        TrafficClass* tc = new TrafficClass(maxPackets, weight, priority , isDefault);
 
-        auto* tc = new TrafficClass(priority, maxPackets, quantum, weight, isDefault);
+        parseFilters(q["filters"], tc);
 
-        parseFilters(queue["filters"], tc);
+        classes.push_back(tc);
     }
-
-    std::string qos_mechanism = config["qos_mechanism"];
-    if (qos_mechanism == "spq")
-        return new StrictPriorityQueue(trafficClasses);
-    if (qos_mechanism == "drr")
-        return new DeficitRoundRobin(trafficClasses);
-    throw std::invalid_argument("Unknown qos mechanism");
+    return classes;
 }
 
-void QoSCreator::parseFilters(
-    const nlohmann::json& filtersConfig,
-    TrafficClass* trafficClass
-) {
-    for (const auto& filterGroupJson : filtersConfig) {
-        auto* group = new Filter();
+DiffServ*
+QoSCreator::createQoS(const std::string& filename) {
+    auto classes = createTrafficClasses(filename);
 
-        for (const auto& filter : filterGroupJson) {
-            std::string type = filter["filterType"];
+    std::ifstream file(filename);
+    if (!file) {
+        throw std::runtime_error("Failed to open config file: " + filename);
+    }
+    json config;
+    file >> config;
+    std::string mech = config["qos_mechanism"];
 
+    if (mech == "spq") {
+        return new StrictPriorityQueue(classes);
+    }
+    //if (mech == "drr") {
+        //return new DeficitRoundRobin(classes);
+    //}
+    throw std::invalid_argument("Unknown qos mechanism: " + mech);
+}
+
+void
+QoSCreator::parseFilters(const json& filtersConfig, TrafficClass* tc) {
+    for (const auto& groupJson : filtersConfig) {
+        Filter* group = new Filter();
+        for (const auto& f : groupJson) {
+            std::string type = f["filterType"];
             if (type == "Protocol") {
-                std::string proto = filter["filterValue"];
-                if (proto == "tcp")
-                    group->AddElement(new Protocol(6));
-                if (proto == "udp")
-                    group->AddElement(new Protocol(17));
+                std::string p = f["filterValue"];
+                group->AddElement(p == "tcp"
+                                  ? static_cast<FilterElement*>(new Protocol(6))
+                                  : static_cast<FilterElement*>(new Protocol(17)));
             }
-
-            if (type == "DstPort")
-                group->AddElement(new DstPort(filter["filterValue"]));
-
-            if (type == "SrcPort")
-                group->AddElement(new SrcPort(filter["filterValue"]));
-
-            if (type == "SrcIP")
-                group->AddElement(new SrcIP(ns3::Ipv4Address(filter["filterValue"])));
-
-            if (type == "DstIP")
-                group->AddElement(new DstIP(ns3::Ipv4Address(filter["filterValue"])));
-
-            if (type == "SrcMask") {
-                group->AddElement(new SrcMask(
-                    Ipv4Address(filter["filterValue"]["address"]),
-                    Ipv4Mask(filter["filterValue"]["mask"])
-                ));
+            else if (type == "DstPort") {
+                group->AddElement(new DstPort(f["filterValue"]));
             }
-
-            if (type == "DstMask") {
-                group->AddElement(new DstMask(
-                    Ipv4Address(filter["filterValue"]["address"]),
-                    Ipv4Mask(filter["filterValue"]["mask"])
-                ));
+            else if (type == "SrcPort") {
+                group->AddElement(new SrcPort(f["filterValue"]));
             }
-
-            throw std::invalid_argument("Unknown filter type");
+            else if (type == "SrcIP") {
+                group->AddElement(new SrcIP(Ipv4Address(f["filterValue"])));
+            }
+            else if (type == "DstIP") {
+                group->AddElement(new DstIP(Ipv4Address(f["filterValue"])));
+            }
+            else if (type == "SrcMask") {
+                auto addr = f["filterValue"]["address"];
+                auto mask = f["filterValue"]["mask"];
+                group->AddElement(new SrcMask(Ipv4Address(addr), Ipv4Mask(mask)));
+            }
+            else if (type == "DstMask") {
+                auto addr = f["filterValue"]["address"];
+                auto mask = f["filterValue"]["mask"];
+                group->AddElement(new DstMask(Ipv4Address(addr), Ipv4Mask(mask)));
+            }
+            else {
+                throw std::invalid_argument("Unknown filter type: " + type);
+            }
         }
-        trafficClass->AddFilter(group);
+        tc->AddFilter(group);
     }
 }

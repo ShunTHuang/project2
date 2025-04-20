@@ -2,26 +2,27 @@
 // Created by koichi on 4/18/25.
 //
 
-#ifndef JSONPARSER_H
-#define JSONPARSER_H
+#ifndef QOSCREATOR_H
+#define QOSCREATOR_H
 
 #include <string>
+#include <vector>
+#include <nlohmann/json.hpp>
 #include "TrafficClass.h"
 #include "DiffServ.h"
-#include "filter_elements/dst_ip.h"
-#include "filter_elements/dst_mask.h"
-#include "filter_elements/dst_port.h"
-#include "filter_elements/protocol.h"
-#include "filter_elements/src_ip.h"
-#include "filter_elements/src_mask.h"
-#include "filter_elements/src_port.h"
-#include <nlohmann/json.hpp>
+#include "StrictPriorityQueue.h"
+#include "DeficitRoundRobin.h"
+
+using json = nlohmann::json;
 
 class QoSCreator {
-private:
-    static void parseFilters(const nlohmann::json& filtersConfig, TrafficClass* trafficClass);
 public:
-    static DiffServ* createQoS(const std::string& filename);
+    std::vector<TrafficClass*> createTrafficClasses(const std::string& filename);
+
+    DiffServ* createQoS(const std::string& filename);
+
+private:
+    void parseFilters(const json& filtersConfig, TrafficClass* tc);
 };
 
-#endif //JSONPARSER_H
+#endif // QOSCREATOR_H
