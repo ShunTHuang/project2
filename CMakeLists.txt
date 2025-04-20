@@ -22,6 +22,7 @@ build_lib(
         model/queue/StrictPriorityQueue.cpp
         model/queue/DeficitRoundRobin.cpp
         model/utils/QoSCreator.cpp
+        model/utils/SocketCreator.cpp
         HEADER_FILES
         model/DiffServ.h
         model/TrafficClass.h
@@ -37,6 +38,7 @@ build_lib(
         model/queue/StrictPriorityQueue.h
         model/queue/DeficitRoundRobin.h
         model/utils/QoSCreator.h
+        GlobalDefaults.h
         LIBRARIES_TO_LINK
         ${libcore}
         ${libnetwork}
@@ -46,6 +48,7 @@ build_lib(
         ${libtraffic-control}
 )
 target_include_directories(project2 PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/model>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/model/filter_elements>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/model/queue>
