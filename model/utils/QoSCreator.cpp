@@ -86,20 +86,22 @@ QoSCreator::parseFilters(const json& filtersConfig, TrafficClass* tc) {
                 group->AddElement (new SrcPort (port));
             }
             else if (type == "SrcIP") {
-                group->AddElement(new SrcIP(Ipv4Address(f["filterValue"])));
+                std::string ip = f["filterValue"];
+                group->AddElement(new SrcIP(Ipv4Address(ip.c_str())));
             }
             else if (type == "DstIP") {
-                group->AddElement(new DstIP(Ipv4Address(f["filterValue"])));
+                std::string ip = f["filterValue"];
+                group->AddElement(new DstIP(Ipv4Address(ip.c_str())));
             }
             else if (type == "SrcMask") {
-                auto addr = f["filterValue"]["address"];
-                auto mask = f["filterValue"]["mask"];
-                group->AddElement(new SrcMask(Ipv4Address(addr), Ipv4Mask(mask)));
+                std::string addr = f["filterValue"]["address"];
+                std::string mask = f["filterValue"]["mask"];
+                group->AddElement(new SrcMask(Ipv4Address(addr.c_str()), Ipv4Mask(mask.c_str())));
             }
             else if (type == "DstMask") {
-                auto addr = f["filterValue"]["address"];
-                auto mask = f["filterValue"]["mask"];
-                group->AddElement(new DstMask(Ipv4Address(addr), Ipv4Mask(mask)));
+                std::string addr = f["filterValue"]["address"];
+                std::string mask = f["filterValue"]["mask"];
+                group->AddElement(new DstMask(Ipv4Address(addr.c_str()), Ipv4Mask(mask.c_str())));
             }
             else {
                 throw std::invalid_argument("Unknown filter type: " + type);
