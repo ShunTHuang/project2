@@ -20,7 +20,7 @@ namespace ns3 {
         DeficitRoundRobin();
         DeficitRoundRobin(std::vector<TrafficClass*> trafficClasses);
         ~DeficitRoundRobin() override;
-        void DoInitialize (void) override;
+        void DoInitialize() override;
 
         Ptr<Packet> Schedule() override;
         uint32_t Classify(Ptr<Packet> p) override;
