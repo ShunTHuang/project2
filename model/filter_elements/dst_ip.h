@@ -10,7 +10,8 @@
 #include "ns3/packet.h"
 #include "ns3/ptr.h"
 
-class DstIP : public FilterElement {
+class DstIP : public FilterElement
+{
 private:
     Ipv4Address value;
 

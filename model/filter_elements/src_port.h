@@ -8,7 +8,8 @@
 #include "FilterElement.h"
 #include "ns3/packet.h"
 
-class SrcPort : public FilterElement {
+class SrcPort : public FilterElement
+{
 private:
     uint32_t value;
 
