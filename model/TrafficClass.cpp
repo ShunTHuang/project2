@@ -4,17 +4,19 @@
 
 #include "TrafficClass.h"
 #include "ns3/log.h"
+#include "ns3/simulator.h"
 
 NS_LOG_COMPONENT_DEFINE("TrafficClass");
 
 
-TrafficClass::TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef)
+TrafficClass::TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef, uint32_t quantum)
     : packets(0),
       maxPackets(maxPkts),
       weight(w),
-      quantum(0),
+      quantum(quantum),
       priority_level(prio),
-      isDefault(isDef){
+      isDefault(isDef),
+      counts(0){
 }
 
 bool TrafficClass::Enqueue(ns3::Ptr<ns3::Packet> p) {
@@ -27,23 +29,26 @@ bool TrafficClass::Enqueue(ns3::Ptr<ns3::Packet> p) {
     return true;
 }
 
-ns3::Ptr<ns3::Packet> TrafficClass::Dequeue() {
+Ptr<Packet> TrafficClass::Dequeue() {
     if (m_queue.empty()) {
         return nullptr;
     }
     auto pkt = m_queue.front();
+    NS_ASSERT_MSG(pkt != nullptr, "[Traffic] Dequeue got nullptr from front");
     m_queue.pop();
     --packets;
     return pkt;
 }
 
-ns3::Ptr<ns3::Packet> TrafficClass::Peek() {
+Ptr<Packet> TrafficClass::Peek() {
     if (m_queue.empty()) {
-        NS_LOG_LOGIC("Queue empty");
+        NS_LOG_LOGIC("[TrafficClass] Queue empty");
+
         return nullptr;
     }
 
-    ns3::Ptr<ns3::Packet> p = m_queue.front();
+    Ptr<Packet> p = m_queue.front();
+    NS_ASSERT_MSG(p != nullptr, "[Traffic] Peek got nullptr from queue front");
     return p;
 }
 
@@ -60,8 +65,18 @@ bool TrafficClass::match(ns3::Ptr<ns3::Packet> p) {
 }
 
 
-void TrafficClass::AddQuantum(uint32_t q) {
-    quantum += q;
+void TrafficClass::AddQuantum() {
+    counts += quantum;
+}
+
+void TrafficClass::DecCounts(uint32_t pktSize) {
+    if (counts >= pktSize) {
+        counts -= pktSize;
+    } else {
+        NS_LOG_WARN("Trying to decrease more than available quantum. counts="
+                    << counts << ", pktSize=" << pktSize);
+        counts = 0;
+    }
 }
 
 void TrafficClass::AddFilter(Filter *f) {

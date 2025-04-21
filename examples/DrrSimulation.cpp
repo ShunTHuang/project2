@@ -9,34 +9,48 @@
 #include "ns3/applications-module.h"
 #include "ns3/traffic-control-module.h"
 #include "ns3/log.h"
+#include "queue/DeficitRoundRobin.h"
 
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("DrrSimulation");
 
 int main(int argc, char *argv[]) {
-
     LogComponentEnable ("DrrSimulation", LOG_LEVEL_INFO);
+    LogComponentEnable("BulkSendApplication", LOG_LEVEL_INFO);
+    LogComponentEnable("PacketSink", LOG_LEVEL_INFO);
+    LogComponentEnable("TcpL4Protocol", LOG_LEVEL_INFO);
+    LogComponentEnable("TcpSocketBase", LOG_LEVEL_INFO);
+
     NS_LOG_INFO ("DrrSimulation Start time" << Simulator::Now ());
     double stopTime = 20.0;
 
-    NodeContainer hosts, router;
+    NodeContainer hosts;
+    NodeContainer router;
     hosts.Create(2);       // host0: sender, host1: receiver
     router.Create(1);      // router: drr-enabled
 
     // 4Mbps，1Mbps）
-    PointToPointHelper p2pIn, p2pOut;
+    PointToPointHelper p2pIn;
+    PointToPointHelper p2pOut;
     p2pIn .SetDeviceAttribute("DataRate", StringValue("4Mbps"));
     p2pIn .SetChannelAttribute("Delay",    StringValue("1ms"));
     p2pOut.SetDeviceAttribute("DataRate", StringValue("1Mbps"));
     p2pOut.SetChannelAttribute("Delay",    StringValue("1ms"));
 
     // host0 <-> router
-    p2pIn.SetQueue("ns3::DeficitRoundRobin", "Quantum", StringValue("300"));
     NetDeviceContainer dIn = p2pIn.Install(hosts.Get(0), router.Get(0));
     // router <-> host1
-    p2pOut.SetQueue("ns3::DeficitRoundRobin");
     NetDeviceContainer dOut = p2pOut.Install(router.Get(0), hosts.Get(1));
+
+    Ptr<DeficitRoundRobin> drr = CreateObject<DeficitRoundRobin>();
+    drr->SetAttribute("ConfigFile", StringValue("src/config.example.json"));
+    drr->Initialize();
+
+    Ptr<NetDevice> dev = dOut.Get(0);
+    Ptr<PointToPointNetDevice> ptpDev = DynamicCast<PointToPointNetDevice>(dev);
+    ptpDev->SetQueue(drr);
+    ptpDev->AggregateObject(drr);
 
     // Add DRR Queue to bottleneck link
     InternetStackHelper internet;
@@ -49,14 +63,18 @@ int main(int argc, char *argv[]) {
     ipv4.SetBase("10.1.2.0", "255.255.255.0");
     Ipv4InterfaceContainer iflow = ipv4.Assign(dOut);
 
+    Ipv4GlobalRoutingHelper::PopulateRoutingTables();
+
     // Port numbers
-    uint16_t ports[3] = {50000, 50001, 50002};
+    uint16_t ports[3] = {50001, 50002, 50003};
+    ApplicationContainer sinkApps;
 
     // BulkSend from host0 to host1
     for (int i = 0; i < 3; ++i) {
         BulkSendHelper bulk("ns3::TcpSocketFactory",
                             InetSocketAddress(iflow.GetAddress(1), ports[i]));
         bulk.SetAttribute("MaxBytes", UintegerValue(0));
+        bulk.SetAttribute("SendSize", UintegerValue(1500));
         ApplicationContainer app = bulk.Install(hosts.Get(0));
         app.Start(Seconds(0.0));
         app.Stop(Seconds(stopTime));
@@ -66,7 +84,22 @@ int main(int argc, char *argv[]) {
         ApplicationContainer sinkApp = sink.Install(hosts.Get(1));
         sinkApp.Start(Seconds(0.0));
         sinkApp.Stop(Seconds(stopTime));
+
+        sinkApps.Add(sinkApp);
     }
+
+    p2pOut.EnablePcapAll("drr-out");
+
+    Simulator::Schedule(Seconds(stopTime), [sinkApps, ports]() {
+        for (uint32_t i = 0; i < sinkApps.GetN(); ++i) {
+            Ptr<PacketSink> sink = DynamicCast<PacketSink>(sinkApps.Get(i));
+            if (sink) {
+                std::cout << "Port " << ports[i % 3]
+                          << " received: " << sink->GetTotalRx()
+                          << " bytes" << std::endl;
+            }
+        }
+    });
 
     Simulator::Stop(Seconds(stopTime));
     Simulator::Run();

@@ -10,8 +10,6 @@
 #include <nlohmann/json.hpp>
 #include "TrafficClass.h"
 #include "DiffServ.h"
-#include "StrictPriorityQueue.h"
-#include "DeficitRoundRobin.h"
 
 using json = nlohmann::json;
 
