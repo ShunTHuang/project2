@@ -31,7 +31,7 @@ QoSCreator::createTrafficClasses(const std::string& filename) {
         double   weight     = q["weight"];
         uint32_t quantum = q["quantum"];
         bool     isDefault  = q["isDefault"];
-        TrafficClass* tc = new TrafficClass(maxPackets, weight, priority , isDefault);
+        TrafficClass* tc = new TrafficClass(maxPackets, weight, priority , isDefault, quantum);
 
         parseFilters(q["filters"], tc);
 
