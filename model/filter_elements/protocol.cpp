@@ -7,9 +7,13 @@
 #include "ns3/ppp-header.h"
 
 Protocol::Protocol(uint32_t proto)
-    : value(proto) {}
+    : value(proto)
+{
+}
 
-bool Protocol::match(Ptr<Packet> packet) {
+bool
+Protocol::match(Ptr<Packet> packet)
+{
     Ptr<Packet> copy = packet->Copy();
     PppHeader pppHeader;
     Ipv4Header ipv4Header;

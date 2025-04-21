@@ -10,7 +10,8 @@
 #include "ns3/packet.h"
 #include "ns3/ptr.h"
 
-class DstMask : public FilterElement {
+class DstMask : public FilterElement
+{
 private:
     Ipv4Address addr;
     Ipv4Mask mask;

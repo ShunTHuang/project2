@@ -9,9 +9,13 @@
 #include "ns3/ppp-header.h"
 
 SrcPort::SrcPort(uint32_t port)
-    : value(port) {}
+    : value(port)
+{
+}
 
-bool SrcPort::match(Ptr<Packet> p) {
+bool
+SrcPort::match(Ptr<Packet> p)
+{
     Ptr<Packet> copyPacket = p->Copy();
     PppHeader pppHeader;
     Ipv4Header ipv4Header;
@@ -20,21 +24,24 @@ bool SrcPort::match(Ptr<Packet> p) {
     copyPacket->RemoveHeader(ipv4Header);
     uint8_t protocol = ipv4Header.GetProtocol();
 
-    if (protocol == 6) {  // TCP
+    if (protocol == 6)
+    {  // TCP
         TcpHeader tcpHeader;
-        if (copyPacket->PeekHeader(tcpHeader)) {
+        if (copyPacket->PeekHeader(tcpHeader))
+        {
             NS_LOG_UNCOND("[port] match() called, tcp dport="
                                   << tcpHeader.GetDestinationPort());
 
             return tcpHeader.GetDestinationPort() == value;
         }
     }
-    if (protocol == 17) {  // UDP
+    if (protocol == 17)
+    {  // UDP
         UdpHeader udpHeader;
-        if (copyPacket->PeekHeader(udpHeader)) {
+        if (copyPacket->PeekHeader(udpHeader))
+        {
             return udpHeader.GetDestinationPort() == value;
         }
     }
-
     return false;
 }

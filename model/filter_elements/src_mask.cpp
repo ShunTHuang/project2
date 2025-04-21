@@ -7,9 +7,14 @@
 #include "ns3/ppp-header.h"
 
 SrcMask::SrcMask(Ipv4Address address, Ipv4Mask m)
-    : addr(address), mask(m) {}
+    : addr(address),
+      mask(m)
+{
+}
 
-bool SrcMask::match(Ptr<Packet> p) {
+bool
+SrcMask::match(Ptr<Packet> p)
+{
     PppHeader pppHeader;
     Ipv4Header ipv4Header;
     Ptr<Packet> packetCopy = p->Copy();
