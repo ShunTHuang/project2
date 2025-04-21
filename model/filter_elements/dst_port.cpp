@@ -6,31 +6,32 @@
 #include "ns3/udp-header.h"
 #include "ns3/tcp-header.h"
 #include "ns3/ipv4-header.h"
+#include "ns3/ppp-header.h"
 
 DstPort::DstPort(uint32_t port)
     : value(port) {}
 
-bool DstPort::match(ns3::Ptr<ns3::Packet> p) {
-    ns3::Ipv4Header ipv4Header;
-    ns3::Ptr<ns3::Packet> packetCopy = p->Copy();
+bool DstPort::match(ns3::Ptr<ns3::Packet> packet) {
+    Ptr<Packet> copyPacket = packet->Copy();
+    PppHeader pppHeader;
+    Ipv4Header ipv4Header;
 
-    // Extract IP header
-    if (!packetCopy->PeekHeader(ipv4Header)) {
-        return false;
-    }
 
-    // Remove IP header so we can access transport layer header
-    packetCopy->RemoveHeader(ipv4Header);
+    copyPacket->RemoveHeader(pppHeader);
+    copyPacket->RemoveHeader(ipv4Header);
     uint8_t protocol = ipv4Header.GetProtocol();
 
     if (protocol == 6) {  // TCP
         ns3::TcpHeader tcpHeader;
-        if (packetCopy->PeekHeader(tcpHeader)) {
+        if (copyPacket->PeekHeader(tcpHeader)) {
+            NS_LOG_UNCOND("[port] match() called, tcp dport="
+                                  << tcpHeader.GetDestinationPort());
+
             return tcpHeader.GetDestinationPort() == value;
         }
     } else if (protocol == 17) {  // UDP
         ns3::UdpHeader udpHeader;
-        if (packetCopy->PeekHeader(udpHeader)) {
+        if (copyPacket->PeekHeader(udpHeader)) {
             return udpHeader.GetDestinationPort() == value;
         }
     }
