@@ -9,7 +9,7 @@
 Protocol::Protocol(uint32_t proto)
     : value(proto) {}
 
-bool Protocol::match(ns3::Ptr<ns3::Packet> packet) {
+bool Protocol::match(Ptr<Packet> packet) {
     Ptr<Packet> copy = packet->Copy();
     PppHeader pppHeader;
     Ipv4Header ipv4Header;

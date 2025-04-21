@@ -11,11 +11,11 @@
 
 class SrcIP : public FilterElement {
     private:
-        ns3::Ipv4Address value;
+        Ipv4Address value;
 
     public:
-        SrcIP(ns3::Ipv4Address addr);
-        bool match(ns3::Ptr<ns3::Packet> p) override;
+        SrcIP(Ipv4Address addr);
+        bool match(Ptr<Packet> p) override;
 };
 
 

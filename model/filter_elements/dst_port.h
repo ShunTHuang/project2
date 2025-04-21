@@ -14,7 +14,7 @@ private:
 
 public:
     DstPort(uint32_t port);
-    bool match(ns3::Ptr<ns3::Packet> p) override;
+    bool match(Ptr<Packet> p) override;
 };
 
 

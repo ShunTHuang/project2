@@ -14,7 +14,7 @@ private:
 
 public:
     Protocol(uint32_t proto);
-    bool match(ns3::Ptr<ns3::Packet> p) override;
+    bool match(Ptr<Packet> p) override;
 };
 
 

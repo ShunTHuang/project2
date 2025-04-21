@@ -12,11 +12,11 @@
 
 class DstIP : public FilterElement {
 private:
-    ns3::Ipv4Address value;
+    Ipv4Address value;
 
 public:
-    DstIP(ns3::Ipv4Address addr);
-    bool match(ns3::Ptr<ns3::Packet> p);
+    DstIP(Ipv4Address addr);
+    bool match(Ptr<Packet> p);
 };
 
 #endif //DST_IP_H

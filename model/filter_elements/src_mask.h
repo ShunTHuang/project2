@@ -12,12 +12,12 @@
 
 class SrcMask : public FilterElement {
 private:
-    ns3::Ipv4Address addr;
-    ns3::Ipv4Mask mask;
+    Ipv4Address addr;
+    Ipv4Mask mask;
 
 public:
-    SrcMask(ns3::Ipv4Address address, ns3::Ipv4Mask m);
-    bool match(ns3::Ptr<ns3::Packet> p) override;
+    SrcMask(Ipv4Address address, Ipv4Mask m);
+    bool match(Ptr<Packet> p) override;
 };
 
 
