@@ -23,6 +23,7 @@ namespace ns3 {
         std::lock_guard<std::mutex> lock(queue_mutex);
 
         uint32_t index = Classify(p); // Classify() returns the index of the queue
+        NS_LOG_UNCOND("Enqueue packet UID=" << p->GetUid() << " to class " << index);
         if (index >= q_class.size()) {
             return false;
         }

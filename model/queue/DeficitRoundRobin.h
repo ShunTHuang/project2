@@ -12,14 +12,15 @@ namespace ns3 {
     class DeficitRoundRobin : public DiffServ {
     private:
         uint32_t queueIndex;
-        std::vector<uint32_t> m_quantumList;
+        std::string m_configFile;
 
     public:
         static TypeId GetTypeId();
 
         DeficitRoundRobin();
-        DeficitRoundRobin(const std::vector<uint32_t>& quantumList);
+        DeficitRoundRobin(std::vector<TrafficClass*> trafficClasses);
         ~DeficitRoundRobin() override;
+        void DoInitialize (void) override;
 
         Ptr<Packet> Schedule() override;
         uint32_t Classify(Ptr<Packet> p) override;

@@ -5,14 +5,15 @@
 #include "QoSCreator.h"
 #include <fstream>
 #include <stdexcept>
-#include <queue>
-#include "filter_elements//protocol.h"
-#include "filter_elements//dst_port.h"
-#include "filter_elements//src_port.h"
-#include "filter_elements//src_ip.h"
-#include "filter_elements//dst_ip.h"
-#include "filter_elements//src_mask.h"
-#include "filter_elements//dst_mask.h"
+#include "filter_elements/protocol.h"
+#include "filter_elements/dst_port.h"
+#include "filter_elements/src_port.h"
+#include "filter_elements/src_ip.h"
+#include "filter_elements/dst_ip.h"
+#include "filter_elements/src_mask.h"
+#include "filter_elements/dst_mask.h"
+#include "queue/StrictPriorityQueue.h"
+#include "queue/DeficitRoundRobin.h"
 
 std::vector<TrafficClass*>
 QoSCreator::createTrafficClasses(const std::string& filename) {
@@ -31,7 +32,7 @@ QoSCreator::createTrafficClasses(const std::string& filename) {
         uint32_t quantum = q["quantum"];
         bool     isDefault  = q["isDefault"];
 
-        TrafficClass* tc = new TrafficClass(maxPackets, weight, priority , isDefault);
+        TrafficClass* tc = new TrafficClass(maxPackets, weight, priority , isDefault, quantum);
 
         parseFilters(q["filters"], tc);
 
@@ -55,9 +56,9 @@ QoSCreator::createQoS(const std::string& filename) {
     if (mech == "spq") {
         return new StrictPriorityQueue(classes);
     }
-    //if (mech == "drr") {
-        //return new DeficitRoundRobin(classes);
-    //}
+    if (mech == "drr") {
+        return new DeficitRoundRobin(classes);
+    }
     throw std::invalid_argument("Unknown qos mechanism: " + mech);
 }
 
