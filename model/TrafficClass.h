@@ -17,23 +17,22 @@ private:
     uint32_t quantum;
     uint32_t priority_level;
     bool isDefault;
-    std::queue<ns3::Ptr<ns3::Packet>> m_queue;
+    std::queue<Ptr<Packet>> m_queue;
     std::vector<Filter*> filters;
     uint32_t counts;
-
 
 public:
     TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef = false, uint32_t quantum = 0);
 
-    bool Enqueue(ns3::Ptr<ns3::Packet> p);
+    bool Enqueue(Ptr<Packet> p);
 
-    ns3::Ptr<ns3::Packet> Dequeue();
+    Ptr<Packet> Dequeue();
 
-    ns3::Ptr<const ns3::Packet> Peek() const;
+    Ptr<const Packet> Peek() const;
 
-    ns3::Ptr<ns3::Packet> Peek();
+    Ptr<Packet> Peek();
 
-    bool match(ns3::Ptr<ns3::Packet> p);
+    bool match(Ptr<Packet> p);
 
     uint32_t GetPriority() const { return priority_level; }
 

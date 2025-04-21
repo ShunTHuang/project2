@@ -11,7 +11,7 @@
 
 using namespace ns3;
 
-class FilterElement: public ns3::Object
+class FilterElement: public Object
 {
 public:
 

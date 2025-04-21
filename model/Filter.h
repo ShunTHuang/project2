@@ -5,8 +5,7 @@
 #ifndef FILTER_H
 #define FILTER_H
 
-#include "ns3/packet.h"
-#include "ns3/ptr.h"
+
 #include "FilterElement.h"
 
 class Filter {

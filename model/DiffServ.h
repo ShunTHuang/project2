@@ -6,9 +6,6 @@
 #define DIFFSERV_H
 
 #include <vector>
-#include <mutex>
-#include "ns3/ptr.h"
-#include "ns3/packet.h"
 #include "TrafficClass.h"
 #include "ns3/queue.h"
 
@@ -17,24 +14,23 @@ namespace ns3 {
     class DiffServ : public Queue<Packet> {
     protected:
         std::vector<TrafficClass *> q_class;
-        mutable std::mutex queue_mutex;
 
     public:
         virtual ~DiffServ();
 
-        bool Enqueue(ns3::Ptr<ns3::Packet> p);
+        bool Enqueue(Ptr<Packet> p);
 
-        ns3::Ptr<ns3::Packet> Dequeue();
+        Ptr<Packet> Dequeue();
 
-        ns3::Ptr<ns3::Packet> Remove();
+        Ptr<Packet> Remove();
 
-        ns3::Ptr<const ns3::Packet> Peek() const;
+        Ptr<const Packet> Peek() const;
 
-        static ns3::TypeId GetTypeId();
+        static TypeId GetTypeId();
 
-        virtual ns3::Ptr<ns3::Packet> Schedule() = 0;
+        virtual Ptr<Packet> Schedule() = 0;
 
-        virtual uint32_t Classify(ns3::Ptr<ns3::Packet> p) = 0;
+        virtual uint32_t Classify(Ptr<Packet> p) = 0;
     };
 
 }

@@ -14,14 +14,12 @@ namespace ns3 {
     TypeId DiffServ::GetTypeId()
     {
         static TypeId tid = TypeId("ns3::DiffServ<Packet>")
-                .SetParent<Queue<Packet>>()
+                .SetParent<Queue>()
             .SetGroupName("Network");
         return tid;
     }
 
-    bool DiffServ::Enqueue(ns3::Ptr<ns3::Packet> p) {
-        std::lock_guard<std::mutex> lock(queue_mutex);
-
+    bool DiffServ::Enqueue(Ptr<Packet> p) {
         uint32_t index = Classify(p); // Classify() returns the index of the queue
         NS_LOG_UNCOND("Enqueue packet UID=" << p->GetUid() << " to class " << index);
         if (index >= q_class.size()) {
@@ -30,23 +28,17 @@ namespace ns3 {
         return q_class[index]->Enqueue(p);
     }
 
-    ns3::Ptr<ns3::Packet> DiffServ::Dequeue() {
-        std::lock_guard<std::mutex> lock(queue_mutex);
-
+    Ptr<Packet> DiffServ::Dequeue() {
         return Schedule();
     }
 
-    ns3::Ptr<ns3::Packet> DiffServ::Remove() {
-        std::lock_guard<std::mutex> lock(queue_mutex);
-
+    Ptr<Packet> DiffServ::Remove() {
         return Schedule();
     }
 
-    ns3::Ptr<const ns3::Packet> DiffServ::Peek() const {
-        std::lock_guard<std::mutex> lock(queue_mutex);
-
+    Ptr<const Packet> DiffServ::Peek() const {
         for (const auto& tc : q_class) {
-            ns3::Ptr<const ns3::Packet> p = tc->Peek();
+            Ptr<const Packet> p = tc->Peek();
             if (p != nullptr) {
                 return p;
             }

@@ -19,7 +19,7 @@ TrafficClass::TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef
       counts(0){
 }
 
-bool TrafficClass::Enqueue(ns3::Ptr<ns3::Packet> p) {
+bool TrafficClass::Enqueue(Ptr<Packet> p) {
     if (packets >= maxPackets) {
         NS_LOG_WARN("TrafficClass full, dropping packet");
         return false;
@@ -52,7 +52,7 @@ Ptr<Packet> TrafficClass::Peek() {
     return p;
 }
 
-bool TrafficClass::match(ns3::Ptr<ns3::Packet> p) {
+bool TrafficClass::match(Ptr<Packet> p) {
     if (isDefault && filters.empty()) {
         return true;
     }
