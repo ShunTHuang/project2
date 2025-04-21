@@ -30,7 +30,6 @@ QoSCreator::createTrafficClasses(const std::string& filename) {
         double   weight     = q["weight"];
         uint32_t quantum = q["quantum"];
         bool     isDefault  = q["isDefault"];
-
         TrafficClass* tc = new TrafficClass(maxPackets, weight, priority , isDefault);
 
         parseFilters(q["filters"], tc);
@@ -67,17 +66,23 @@ QoSCreator::parseFilters(const json& filtersConfig, TrafficClass* tc) {
         Filter* group = new Filter();
         for (const auto& f : groupJson) {
             std::string type = f["filterType"];
+            NS_LOG_UNCOND ("  - type = " << type);
             if (type == "Protocol") {
                 std::string p = f["filterValue"];
+                NS_LOG_UNCOND ("      Protocol 值 = " << p);
                 group->AddElement(p == "tcp"
                                   ? static_cast<FilterElement*>(new Protocol(6))
                                   : static_cast<FilterElement*>(new Protocol(17)));
             }
             else if (type == "DstPort") {
-                group->AddElement(new DstPort(f["filterValue"]));
+                uint16_t port = f["filterValue"];
+                NS_LOG_UNCOND ("      DstPort = " << port);
+                group->AddElement(new DstPort(port));
             }
             else if (type == "SrcPort") {
-                group->AddElement(new SrcPort(f["filterValue"]));
+                uint16_t port = f["filterValue"];
+                NS_LOG_UNCOND ("      SrcPort = " << port);
+                group->AddElement (new SrcPort (port));
             }
             else if (type == "SrcIP") {
                 group->AddElement(new SrcIP(Ipv4Address(f["filterValue"])));

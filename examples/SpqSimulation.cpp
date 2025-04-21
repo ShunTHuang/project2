@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
   hosts.Create(2);
   routers.Create(1);
 
-  // 4Mbps，1Mbps）
+  // 4Mbps，1Mbps
   PointToPointHelper p2pHigh, p2pLow;
   p2pHigh.SetDeviceAttribute("DataRate", StringValue("4Mbps"));
   p2pHigh.SetChannelAttribute("Delay",    StringValue("1ms"));
@@ -37,12 +37,14 @@ int main(int argc, char *argv[])
   p2pLow .SetChannelAttribute("Delay",    StringValue("1ms"));
 
 
-  p2pHigh.SetQueue("ns3::StrictPriorityQueue",
-                     "ConfigFile", StringValue("src/config.example.json"));
+  // high：host0 <——> router0
+  p2pHigh.SetQueue("ns3::StrictPriorityQueue<Packet>",
+                     "ConfigFile", StringValue("src/project2/config.example.json"));
   NetDeviceContainer devsHigh = p2pHigh.Install(hosts.Get(0), routers.Get(0));
 
-  p2pLow.SetQueue("ns3::StrictPriorityQueue",
-                     "ConfigFile", StringValue("src/config.example.json"));
+  // low：router0 <——> host1
+  p2pLow.SetQueue("ns3::StrictPriorityQueue<Packet>",
+                     "ConfigFile", StringValue("src/project2/config.example.json"));
   NetDeviceContainer devsLow  = p2pLow.Install(routers.Get(0), hosts.Get(1));
 
   InternetStackHelper internet;
@@ -57,6 +59,7 @@ int main(int argc, char *argv[])
   Ipv4InterfaceContainer ifLow  = ipv4.Assign(devsLow);
 
   Ipv4GlobalRoutingHelper::PopulateRoutingTables();
+  //host0  ==> (HIGH, 4Mbps)==>  router ==> (LOW, 1Mbps) ==>  host1
   uint16_t portA = 50000, portB = 50001;
   BulkSendHelper bulkB("ns3::TcpSocketFactory",
                        InetSocketAddress(ifLow.GetAddress(1), portB));
@@ -64,16 +67,16 @@ int main(int argc, char *argv[])
   bulkB.SetAttribute ("SendSize", UintegerValue (1000));
   ApplicationContainer appB = bulkB.Install(hosts.Get(0));
   appB.Start(Seconds(0.0));
-  appB.Stop(Seconds(stopTime));
+  appB.Stop(Seconds(40));
 
 
   BulkSendHelper bulkA("ns3::TcpSocketFactory",
-                       InetSocketAddress(ifHigh .GetAddress(1), portA));
+                       InetSocketAddress(ifLow.GetAddress(1), portA));
   bulkA.SetAttribute("MaxBytes", UintegerValue(0));
   bulkA.SetAttribute ("SendSize", UintegerValue (1500));
   ApplicationContainer appA = bulkA.Install(hosts.Get(0));
-  appA.Start(Seconds(5.0));
-  appA.Stop(Seconds(stopTime));
+  appA.Start(Seconds(10.0));
+  appA.Stop(Seconds(20));
 
   PacketSinkHelper sinkB("ns3::TcpSocketFactory",
                          InetSocketAddress(Ipv4Address::GetAny(), portB));
@@ -86,8 +89,8 @@ int main(int argc, char *argv[])
   sinkApps.Stop(Seconds(stopTime));
   AsciiTraceHelper ascii;
   Ptr<OutputStreamWrapper> stream = ascii.CreateFileStream ("src/project2/throughput.tr");
-  p2pHigh.EnableAsciiAll (stream);
   p2pLow .EnableAsciiAll (stream);
+  p2pLow.EnablePcap ("spq-low-router", routers.Get(0)->GetDevice(1), true);
   Simulator::Stop(Seconds(stopTime));
   Simulator::Run();
   NS_LOG_INFO ("SpqSimulation stop time " << Simulator::Now ());

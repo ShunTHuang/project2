@@ -16,7 +16,7 @@ namespace ns3 {
         StrictPriorityQueue ();
         StrictPriorityQueue (std::vector<TrafficClass*> trafficClasses);
         ~StrictPriorityQueue () override;
-        virtual void DoInitialize (void) override;
+        void NotifyConstructionCompleted () override;
     protected:
         std::string m_configFile;
         Ptr<Packet> Schedule () override;

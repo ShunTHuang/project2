@@ -7,10 +7,10 @@
 #include <ns3/packet.h>
 #include "ns3/log.h"
 #include "ns3/simulator.h"
-#include <algorithm>
 #include "ns3/string.h"
 #include "ns3/uinteger.h"
 #include "utils/QoSCreator.h"
+
 
 namespace ns3 {
 
@@ -32,12 +32,7 @@ namespace ns3 {
 
     StrictPriorityQueue::StrictPriorityQueue()
     {
-        NS_LOG_UNCOND("[StrictPriorityQueue] Constructor: initializing two traffic classes at "
-                              << Simulator::Now());
-        TrafficClass* tc  = new TrafficClass(100000, 1, 2, false);
-        TrafficClass* tc2 = new TrafficClass(100000, 2, 1, true);
-        q_class.push_back(tc);
-        q_class.push_back(tc2);
+
     }
 
     StrictPriorityQueue::~StrictPriorityQueue()
@@ -48,18 +43,21 @@ namespace ns3 {
     {
         q_class = std::move(trafficClasses);
     }
+
     void
-    StrictPriorityQueue::DoInitialize()
+    StrictPriorityQueue::NotifyConstructionCompleted ()
     {
-        Queue<Packet>::DoInitialize();
-
-        if (!m_configFile.empty()) {
+        NS_LOG_UNCOND("[SPQ] NotifyConstructionCompleted, ConfigFile=" << m_configFile);
+        if (!m_configFile.empty())
+        {
             QoSCreator maker;
-            std::vector<TrafficClass*> classes = maker.createTrafficClasses (m_configFile);
-            q_class.swap (classes);
-            NS_LOG_UNCOND ("Loaded " << q_class.size () << " classes from " << m_configFile);
-
+            auto classes = maker.createTrafficClasses(m_configFile);
+            q_class.swap(classes);
+            NS_LOG_UNCOND("[SPQ] Loaded " << q_class.size() << " traffic classes from "
+                                          << m_configFile);
         }
+
+        DiffServ::NotifyConstructionCompleted ();
     }
 
     Ptr<Packet>
@@ -69,7 +67,7 @@ namespace ns3 {
         std::vector<TrafficClass*> sorted = q_class;
         std::sort(sorted.begin(), sorted.end(),
                   [](TrafficClass *a, TrafficClass *b) {
-                      return a->GetPriority() > b->GetPriority();
+                      return a->GetPriority() < b->GetPriority();
                   });
         for (auto cls : sorted)
         {
@@ -79,14 +77,14 @@ namespace ns3 {
             if (!cls->IsEmpty())
             {
                 Ptr<Packet> p = cls->Dequeue();
-               // NS_LOG_UNCOND("[StrictPriorityQueue] Dequeued one packet from priority "
+               //NS_LOG_UNCOND("[StrictPriorityQueue] Dequeued one packet from priority "
                                       //<< cls->GetPriority()
                                       //<< " at time " << Simulator::Now());
                 return p;
             }
         }
-        NS_LOG_UNCOND("[StrictPriorityQueue] All queues empty, returning nullptr at "
-                              << Simulator::Now());
+        //NS_LOG_UNCOND("[StrictPriorityQueue] All queues empty, returning nullptr at "
+                              //<< Simulator::Now());
         return nullptr;
     }
 
@@ -101,10 +99,12 @@ namespace ns3 {
         {
             if (q_class[i]->match(p))
             {
-                //NS_LOG_UNCOND("[StrictPriorityQueue] Packet uid=" << p->GetUid()
-                                                                  //<< " matched queue " << i
-                                                                  //<< ", priority=" << q_class[i]->GetPriority()
-                                                                  //<< " at time " << Simulator::Now());
+
+                NS_LOG_UNCOND("[StrictPriorityQueue] Packet uid=" << p->GetUid()
+                                                                      << " matched queue " << i
+                                                                      << ", priority=" << q_class[i]->GetPriority()
+                                                                      << " at time " << Simulator::Now());
+
                 return i;
             }
         }
