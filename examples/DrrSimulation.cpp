@@ -41,15 +41,9 @@ int main(int argc, char *argv[]) {
     // host0 <-> router
     NetDeviceContainer dIn = p2pIn.Install(hosts.Get(0), router.Get(0));
     // router <-> host1
+    p2pOut.SetQueue("ns3::DeficitRoundRobin",
+                     "ConfigFile", StringValue("src/config.example.json"));
     NetDeviceContainer dOut = p2pOut.Install(router.Get(0), hosts.Get(1));
-
-    // Ptr<DeficitRoundRobin> drr = CreateObject<DeficitRoundRobin>();
-    // drr->SetAttribute("ConfigFile", StringValue("src/config.example.json"));
-    // drr->Initialize();
-    //
-    // Ptr<NetDevice> dev = dOut.Get(0);
-    // Ptr<PointToPointNetDevice> ptpDev = DynamicCast<PointToPointNetDevice>(dev);
-    // ptpDev->SetQueue(drr);
 
     // Add DRR Queue to bottleneck link
     InternetStackHelper internet;
@@ -87,7 +81,6 @@ int main(int argc, char *argv[]) {
         sinkApps.Add(sinkApp);
     }
 
-    p2pIn.EnablePcapAll("drr-in");
     p2pOut.EnablePcapAll("drr-out");
 
     Simulator::Schedule(Seconds(stopTime), [sinkApps, ports]() {
