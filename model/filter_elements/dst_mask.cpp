@@ -4,7 +4,7 @@
 
 #include "dst_mask.h"
 #include "ns3/ipv4-header.h"
-#include "ns3/ppp-header.h"d
+#include "ns3/ppp-header.h"
 
 DstMask::DstMask(Ipv4Address address, Ipv4Mask m)
     : addr(address),
