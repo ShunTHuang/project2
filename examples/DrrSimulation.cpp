@@ -41,8 +41,6 @@ int main(int argc, char *argv[]) {
     // host0 <-> router
     NetDeviceContainer dIn = p2pIn.Install(hosts.Get(0), router.Get(0));
     // router <-> host1
-    // p2pOut.SetQueue("ns3::DeficitRoundRobin",
-    //                  "ConfigFile", StringValue("src/config.example.json"));
     NetDeviceContainer dOut = p2pOut.Install(router.Get(0), hosts.Get(1));
 
     // Ptr<DeficitRoundRobin> drr = CreateObject<DeficitRoundRobin>();
