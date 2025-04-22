@@ -9,7 +9,8 @@
 #include <vector>
 #include "Filter.h"
 
-class TrafficClass {
+class TrafficClass
+{
 private:
     uint32_t packets;
     uint32_t maxPackets;
@@ -34,9 +35,11 @@ public:
 
     bool match(Ptr<Packet> p);
 
-    uint32_t GetPriority() const { return priority_level; }
+    uint32_t
+    GetPriority() const { return priority_level; }
 
-    uint32_t GetCounts() const { return counts; }
+    uint32_t
+    GetCounts() const { return counts; }
 
     void AddQuantum();
 

@@ -4,11 +4,13 @@
 
 #include "Filter.h"
 
-bool Filter::match(Ptr<Packet> p) {
-    for (auto elem : elements) {
-        if (!elem->match(p)) {
+bool
+Filter::match(Ptr<Packet> p)
+{
+    for (auto elem : elements)
+    {
+        if (!elem->match(p))
             return false;
-        }
     }
     return true;
 }

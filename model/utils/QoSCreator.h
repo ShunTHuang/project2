@@ -13,10 +13,10 @@
 
 using json = nlohmann::json;
 
-class QoSCreator {
+class QoSCreator
+{
 public:
     std::vector<TrafficClass*> createTrafficClasses(const std::string& filename);
-
     DiffServ* createQoS(const std::string& filename);
 
 private:
