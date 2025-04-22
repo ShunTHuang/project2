@@ -8,14 +8,17 @@
 
 #include "FilterElement.h"
 
-class Filter {
+class Filter
+{
 private:
     std::vector<FilterElement*> elements;
 
 public:
     Filter() = default;
 
-    void AddElement(FilterElement* elem) {
+    void
+    AddElement(FilterElement* elem)
+    {
         elements.push_back(elem);
     }
 

@@ -16,16 +16,18 @@
 #include "queue/DeficitRoundRobin.h"
 
 std::vector<TrafficClass*>
-QoSCreator::createTrafficClasses(const std::string& filename) {
+QoSCreator::createTrafficClasses(const std::string& filename)
+{
     std::ifstream file(filename);
-    if (!file) {
+    if (!file)
         throw std::runtime_error("Failed to open config file: " + filename);
-    }
+
     json config;
     file >> config;
 
     std::vector<TrafficClass*> classes;
-    for (const auto& q : config["queues"]) {
+    for (const auto& q : config["queues"])
+    {
         uint32_t priority   = q["priority_level"];
         uint32_t maxPackets = q["maxPackets"];
         double   weight     = q["weight"];
@@ -41,59 +43,69 @@ QoSCreator::createTrafficClasses(const std::string& filename) {
 }
 
 DiffServ*
-QoSCreator::createQoS(const std::string& filename) {
+QoSCreator::createQoS(const std::string& filename)
+{
     auto classes = createTrafficClasses(filename);
 
     std::ifstream file(filename);
-    if (!file) {
+    if (!file)
         throw std::runtime_error("Failed to open config file: " + filename);
-    }
+
     json config;
     file >> config;
     std::string mech = config["qos_mechanism"];
 
-    if (mech == "spq") {
+    if (mech == "spq")
         return new StrictPriorityQueue(classes);
-    }
-    if (mech == "drr") {
+
+    if (mech == "drr")
         return new DeficitRoundRobin(classes);
-    }
+
     throw std::invalid_argument("Unknown qos mechanism: " + mech);
 }
 
 void
-QoSCreator::parseFilters(const json& filtersConfig, TrafficClass* tc) {
-    for (const auto& groupJson : filtersConfig) {
+QoSCreator::parseFilters(const json& filtersConfig, TrafficClass* tc)
+{
+    for (const auto& groupJson : filtersConfig)
+    {
         Filter* group = new Filter();
-        for (const auto& f : groupJson) {
+        for (const auto& f : groupJson)
+        {
             std::string type = f["filterType"];
             NS_LOG_UNCOND ("  - type = " << type);
-            if (type == "Protocol") {
+            if (type == "Protocol")
+            {
                 std::string p = f["filterValue"];
                 NS_LOG_UNCOND ("      Protocol 值 = " << p);
                 group->AddElement(p == "tcp"
                                   ? static_cast<FilterElement*>(new Protocol(6))
                                   : static_cast<FilterElement*>(new Protocol(17)));
             }
-            else if (type == "DstPort") {
+            else if (type == "DstPort")
+            {
                 uint16_t port = f["filterValue"];
                 NS_LOG_UNCOND ("      DstPort = " << port);
                 group->AddElement(new DstPort(port));
             }
-            else if (type == "SrcPort") {
+            else if (type == "SrcPort")
+            {
                 uint16_t port = f["filterValue"];
                 NS_LOG_UNCOND ("      SrcPort = " << port);
                 group->AddElement (new SrcPort (port));
             }
-            else if (type == "SrcIP") {
+            else if (type == "SrcIP")
+            {
                 std::string ip = f["filterValue"];
                 group->AddElement(new SrcIP(Ipv4Address(ip.c_str())));
             }
-            else if (type == "DstIP") {
+            else if (type == "DstIP")
+            {
                 std::string ip = f["filterValue"];
                 group->AddElement(new DstIP(Ipv4Address(ip.c_str())));
             }
-            else if (type == "SrcMask") {
+            else if (type == "SrcMask")
+            {
                 std::string addr = f["filterValue"]["address"];
                 std::string mask = f["filterValue"]["mask"];
                 group->AddElement(new SrcMask(Ipv4Address(addr.c_str()), Ipv4Mask(mask.c_str())));
@@ -103,9 +115,8 @@ QoSCreator::parseFilters(const json& filtersConfig, TrafficClass* tc) {
                 std::string mask = f["filterValue"]["mask"];
                 group->AddElement(new DstMask(Ipv4Address(addr.c_str()), Ipv4Mask(mask.c_str())));
             }
-            else {
+            else
                 throw std::invalid_argument("Unknown filter type: " + type);
-            }
         }
         tc->AddFilter(group);
     }

@@ -9,8 +9,8 @@
 #include "TrafficClass.h"
 #include "ns3/queue.h"
 
-namespace ns3 {
-
+namespace ns3
+{
     class DiffServ : public Queue<Packet> {
     protected:
         std::vector<TrafficClass *> q_class;

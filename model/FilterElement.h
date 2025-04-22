@@ -14,12 +14,10 @@ using namespace ns3;
 class FilterElement: public Object
 {
 public:
-
     FilterElement ();
     ~FilterElement ();
 
     virtual bool match(Ptr<Packet> packet) = 0;
-
 };
 
 
