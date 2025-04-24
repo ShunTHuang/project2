@@ -7,7 +7,6 @@
 #include "ns3/internet-module.h"
 #include "ns3/point-to-point-module.h"
 #include "ns3/applications-module.h"
-#include "ns3/traffic-control-module.h"
 #include "ns3/log.h"
 #include "queue/DeficitRoundRobin.h"
 
@@ -44,7 +43,7 @@ int main(int argc, char *argv[]) {
     NetDeviceContainer dOut = p2pOut.Install(router.Get(0), hosts.Get(1));
 
     Ptr<DeficitRoundRobin> drr = CreateObject<DeficitRoundRobin>();
-    drr->SetAttribute("ConfigFile", StringValue("src/config.example.json"));
+    drr->SetAttribute("ConfigFile", StringValue("src/project2/DrrConfig.json"));
     drr->Initialize();
 
     Ptr<NetDevice> dev = dOut.Get(0);
@@ -61,7 +60,7 @@ int main(int argc, char *argv[]) {
     ipv4.SetBase("10.1.1.0", "255.255.255.0");
     Ipv4InterfaceContainer ifHigh = ipv4.Assign(dIn);
     ipv4.SetBase("10.1.2.0", "255.255.255.0");
-    Ipv4InterfaceContainer iflow = ipv4.Assign(dOut);
+    Ipv4InterfaceContainer ifLow = ipv4.Assign(dOut);
 
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
@@ -71,24 +70,24 @@ int main(int argc, char *argv[]) {
 
     // BulkSend from host0 to host1
     for (int i = 0; i < 3; ++i) {
-        BulkSendHelper bulk("ns3::TcpSocketFactory",
-                            InetSocketAddress(iflow.GetAddress(1), ports[i]));
-        bulk.SetAttribute("MaxBytes", UintegerValue(0));
-        bulk.SetAttribute("SendSize", UintegerValue(1500));
-        ApplicationContainer app = bulk.Install(hosts.Get(0));
-        app.Start(Seconds(0.0));
-        app.Stop(Seconds(stopTime));
-
-        PacketSinkHelper sink("ns3::TcpSocketFactory",
-                              InetSocketAddress(Ipv4Address::GetAny(), ports[i]));
-        ApplicationContainer sinkApp = sink.Install(hosts.Get(1));
+        PacketSinkHelper udpSink("ns3::UdpSocketFactory",
+                                 InetSocketAddress(Ipv4Address::GetAny(), ports[i]));
+        ApplicationContainer sinkApp = udpSink.Install(hosts.Get(1));
         sinkApp.Start(Seconds(0.0));
         sinkApp.Stop(Seconds(stopTime));
-
         sinkApps.Add(sinkApp);
+
+        OnOffHelper udpClient("ns3::UdpSocketFactory",
+                              InetSocketAddress(ifLow.GetAddress(1), ports[i]));
+        udpClient.SetAttribute("DataRate", DataRateValue(DataRate("4Mbps")));
+        udpClient.SetAttribute("PacketSize", UintegerValue(270));
+        udpClient.SetAttribute("StartTime", TimeValue(Seconds(0.0)));
+        udpClient.SetAttribute("StopTime", TimeValue(Seconds(stopTime)));
+        ApplicationContainer clientApp = udpClient.Install(hosts.Get(0));
     }
 
-    p2pOut.EnablePcapAll("drr-out");
+    p2pIn.EnablePcap("drr-in", dIn.Get(0), 0);
+    p2pOut.EnablePcap("drr-out", dOut.Get(0), 0);
 
     Simulator::Schedule(Seconds(stopTime), [sinkApps, ports]() {
         for (uint32_t i = 0; i < sinkApps.GetN(); ++i) {

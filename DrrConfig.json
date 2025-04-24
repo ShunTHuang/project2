@@ -1,0 +1,40 @@
+
+{
+  "qos_mechanism": "drr",
+  "queues": [
+    {
+      "priority_level": 0,
+      "maxPackets": 10000,
+      "quantum": 300,
+      "weight": 1,
+      "isDefault": false,
+      "filters": [
+        [
+          { "filterType": "DstPort", "filterValue": 50001 }
+        ]
+      ]
+    },
+    {
+      "priority_level": 0,
+      "maxPackets": 10000,
+      "quantum": 200,
+      "weight": 1,
+      "isDefault": false,
+      "filters": [
+        [
+          { "filterType": "DstPort", "filterValue": 50002 }
+        ]
+      ]
+    },
+    {
+      "priority_level": 0,
+      "maxPackets": 10000,
+      "quantum": 100,
+      "weight": 1,
+      "isDefault": true,
+      "filters": [
+
+      ]
+    }
+  ]
+}
