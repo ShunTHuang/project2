@@ -1,6 +1,7 @@
 
 {
   "qos_mechanism": "spq",
+
   "queues": [
     {
       "priority_level": 0,
@@ -10,7 +11,7 @@
       "isDefault": false,
       "filters": [
         [
-          { "filterType": "Protocol", "filterValue": "tcp" },
+          { "filterType": "Protocol", "filterValue": "udp" },
           { "filterType": "DstPort", "filterValue": 50000 }
         ]
       ]
@@ -23,7 +24,7 @@
       "isDefault": false,
       "filters": [
         [
-          { "filterType": "Protocol", "filterValue": "tcp" },
+          { "filterType": "Protocol", "filterValue": "udp" },
           { "filterType": "DstPort", "filterValue": 50001 }
         ]
       ]
