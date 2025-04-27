@@ -19,11 +19,18 @@ NS_LOG_COMPONENT_DEFINE("SpqSimulation");
 
 int main(int argc, char *argv[])
 {
-  // CommandLine cmd;
-  // cmd.Parse(argc, argv);
-  LogComponentEnable ("SpqSimulation", LOG_LEVEL_INFO);
+    if (argc < 2)
+    {
+        std::cerr << "Usage: " << argv[0] << " <config-file-path>\n";
+        return 1;
+    }
+
+    std::string configFile = argv[1];
+    std::cout << "File Path: " << configFile << std::endl;
+
+    LogComponentEnable ("SpqSimulation", LOG_LEVEL_INFO);
   NS_LOG_INFO ("SpqSimulation Start time" << Simulator::Now ());
-  double stopTime = 30.0;
+  double stopTime = 40.0;
 
   NodeContainer hosts, routers;
   hosts.Create(2);
@@ -38,8 +45,8 @@ int main(int argc, char *argv[])
 
 
   // high：host0 <——> router0
-  p2pHigh.SetQueue("ns3::StrictPriorityQueue<Packet>",
-                     "ConfigFile", StringValue("src/project2/config.example.json"));
+  //p2pHigh.SetQueue("ns3::StrictPriorityQueue<Packet>",
+                     //"ConfigFile", StringValue("src/project2/config.example.json"));
   NetDeviceContainer devsHigh = p2pHigh.Install(hosts.Get(0), routers.Get(0));
 
   // low：router0 <——> host1
@@ -61,36 +68,48 @@ int main(int argc, char *argv[])
   Ipv4GlobalRoutingHelper::PopulateRoutingTables();
   //host0  ==> (HIGH, 4Mbps)==>  router ==> (LOW, 1Mbps) ==>  host1
   uint16_t portA = 50000, portB = 50001;
-  BulkSendHelper bulkB("ns3::TcpSocketFactory",
-                       InetSocketAddress(ifLow.GetAddress(1), portB));
-  bulkB.SetAttribute("MaxBytes", UintegerValue(0));
-  bulkB.SetAttribute ("SendSize", UintegerValue (1000));
-  ApplicationContainer appB = bulkB.Install(hosts.Get(0));
+
+  PacketSinkHelper sinkB("ns3::UdpSocketFactory",
+                           InetSocketAddress(Ipv4Address::GetAny(), portB));
+  PacketSinkHelper sinkA("ns3::UdpSocketFactory",
+                           InetSocketAddress(Ipv4Address::GetAny(), portA));
+  ApplicationContainer sinkAppsB = sinkB.Install(hosts.Get(1));
+  ApplicationContainer sinkAppsA = sinkA.Install(hosts.Get(1));
+  sinkAppsB.Start(Seconds(0.0));
+  sinkAppsA.Start(Seconds(0.0));
+
+  OnOffHelper udpB("ns3::UdpSocketFactory",
+                     InetSocketAddress(ifLow.GetAddress(1), portB));
+  udpB.SetAttribute("OnTime",  StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+  udpB.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+  udpB.SetAttribute("DataRate", DataRateValue(DataRate("4Mbps")));
+  udpB.SetAttribute("PacketSize", UintegerValue(1000));
+  ApplicationContainer appB = udpB.Install(hosts.Get(0));
   appB.Start(Seconds(0.0));
-  appB.Stop(Seconds(40));
+  appB.Stop(Seconds(40.0));
 
-
-  BulkSendHelper bulkA("ns3::TcpSocketFactory",
-                       InetSocketAddress(ifLow.GetAddress(1), portA));
-  bulkA.SetAttribute("MaxBytes", UintegerValue(0));
-  bulkA.SetAttribute ("SendSize", UintegerValue (1500));
-  ApplicationContainer appA = bulkA.Install(hosts.Get(0));
+  OnOffHelper udpA("ns3::UdpSocketFactory",
+                     InetSocketAddress(ifLow.GetAddress(1), portA));
+  udpA.SetAttribute("OnTime",  StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+  udpA.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+  udpA.SetAttribute("DataRate", DataRateValue(DataRate("4Mbps")));
+  udpA.SetAttribute("PacketSize", UintegerValue(1000));
+  ApplicationContainer appA = udpA.Install(hosts.Get(0));
   appA.Start(Seconds(10.0));
-  appA.Stop(Seconds(20));
+  appA.Stop(Seconds(20.0));
+  OnOffHelper udpC("ns3::UdpSocketFactory",
+                     InetSocketAddress(ifLow.GetAddress(1), portA));
+  udpC.SetAttribute("OnTime",  StringValue("ns3::ConstantRandomVariable[Constant=1]"));
+  udpC.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
+  udpC.SetAttribute("DataRate", DataRateValue(DataRate("4Mbps")));
+  udpC.SetAttribute("PacketSize", UintegerValue(1000));
+  ApplicationContainer appC = udpC.Install(hosts.Get(0));
+  appC.Start(Seconds(30.0));
+  appC.Stop(Seconds(40.0));
+  Ptr<NetDevice> host0HighDev = hosts.Get(0)->GetDevice(0);
+  p2pHigh.EnablePcap ("Pre_SPQ", host0HighDev,  false );
 
-  PacketSinkHelper sinkB("ns3::TcpSocketFactory",
-                         InetSocketAddress(Ipv4Address::GetAny(), portB));
-  PacketSinkHelper sinkA("ns3::TcpSocketFactory",
-                         InetSocketAddress(Ipv4Address::GetAny(), portA));
-  ApplicationContainer sinkApps;
-  sinkApps.Add(sinkB.Install(hosts.Get(1)));
-  sinkApps.Add(sinkA.Install(hosts.Get(1)));
-  sinkApps.Start(Seconds(0.0));
-  sinkApps.Stop(Seconds(stopTime));
-  AsciiTraceHelper ascii;
-  Ptr<OutputStreamWrapper> stream = ascii.CreateFileStream ("src/project2/throughput.tr");
-  p2pLow .EnableAsciiAll (stream);
-  p2pLow.EnablePcap ("spq-low-router", routers.Get(0)->GetDevice(1), true);
+  p2pLow.EnablePcap ("Post_SPQ", routers.Get(0)->GetDevice(1), false);
   Simulator::Stop(Seconds(stopTime));
   Simulator::Run();
   NS_LOG_INFO ("SpqSimulation stop time " << Simulator::Now ());
