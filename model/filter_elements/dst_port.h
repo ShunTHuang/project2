@@ -10,12 +10,12 @@
 
 class DstPort : public FilterElement
 {
-private:
-    uint32_t value;
-
 public:
-    DstPort(uint32_t port);
-    bool match(Ptr<Packet> p) override;
+    explicit DstPort(uint32_t port);
+    bool Match(Ptr<Packet> packet) override;
+
+private:
+    uint32_t m_port;
 };
 
 #endif //DST_PORT_H

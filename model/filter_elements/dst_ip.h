@@ -10,14 +10,14 @@
 #include "ns3/packet.h"
 #include "ns3/ptr.h"
 
-class DstIP : public FilterElement
+class DstIp : public FilterElement
 {
 private:
-    Ipv4Address value;
+    Ipv4Address m_address;
 
 public:
-    DstIP(Ipv4Address addr);
-    bool match(Ptr<Packet> p);
+    DstIp(Ipv4Address addr);
+    bool Match(Ptr<Packet> packet);
 };
 
 #endif //DST_IP_H
