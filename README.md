@@ -70,3 +70,14 @@ Open GitHub web → You will see
 
 - **Follow naming conventions and file structure**  
   Use consistent file casing and module placement.
+
+
+
+
+### ✅ Run NS-3
+```bash
+./ns3 run DrrSimulation -- src/project2/DrrConfig.json
+```
+```bash
+./ns3 run SpqSimulation -- src/project2/SpqConfig.json
+```

@@ -15,13 +15,14 @@ using namespace ns3;
 NS_LOG_COMPONENT_DEFINE("DrrSimulation");
 
 int main(int argc, char *argv[]) {
-    LogComponentEnable ("DrrSimulation", LOG_LEVEL_INFO);
-    LogComponentEnable("BulkSendApplication", LOG_LEVEL_INFO);
-    LogComponentEnable("PacketSink", LOG_LEVEL_INFO);
-    LogComponentEnable("TcpL4Protocol", LOG_LEVEL_INFO);
-    LogComponentEnable("TcpSocketBase", LOG_LEVEL_INFO);
+    if (argc < 2)
+    {
+        std::cerr << "Usage: ./ns3 run DrrSimulation -- <config-file-path>\n";
+        return 1;
+    }
 
-    NS_LOG_INFO ("DrrSimulation Start time" << Simulator::Now ());
+    std::string configFile = argv[1];
+
     double stopTime = 20.0;
 
     NodeContainer hosts;
@@ -43,7 +44,7 @@ int main(int argc, char *argv[]) {
     NetDeviceContainer dOut = p2pOut.Install(router.Get(0), hosts.Get(1));
 
     Ptr<DeficitRoundRobin> drr = CreateObject<DeficitRoundRobin>();
-    drr->SetAttribute("ConfigFile", StringValue("src/project2/DrrConfig.json"));
+    drr->SetAttribute("ConfigFile", StringValue(configFile));
     drr->Initialize();
 
     Ptr<NetDevice> dev = dOut.Get(0);
@@ -89,20 +90,8 @@ int main(int argc, char *argv[]) {
     p2pIn.EnablePcap("drr-in", dIn.Get(0), 0);
     p2pOut.EnablePcap("drr-out", dOut.Get(0), 0);
 
-    Simulator::Schedule(Seconds(stopTime), [sinkApps, ports]() {
-        for (uint32_t i = 0; i < sinkApps.GetN(); ++i) {
-            Ptr<PacketSink> sink = DynamicCast<PacketSink>(sinkApps.Get(i));
-            if (sink) {
-                std::cout << "Port " << ports[i % 3]
-                          << " received: " << sink->GetTotalRx()
-                          << " bytes" << std::endl;
-            }
-        }
-    });
-
     Simulator::Stop(Seconds(stopTime));
     Simulator::Run();
-    NS_LOG_INFO ("DrrSimulation stop time " << Simulator::Now ());
     Simulator::Destroy();
 
     return 0;

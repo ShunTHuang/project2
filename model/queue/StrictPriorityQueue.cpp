@@ -20,7 +20,7 @@ namespace ns3 {
     TypeId
     StrictPriorityQueue::GetTypeId()
     {
-        static TypeId tid = TypeId("ns3::StrictPriorityQueue")
+        static TypeId tid = TypeId("ns3::StrictPriorityQueue<Packet>")
           .SetParent<Queue<Packet>>()
           .AddConstructor<StrictPriorityQueue>()
           .AddAttribute("ConfigFile",
