@@ -12,15 +12,20 @@ namespace ns3 {
     class StrictPriorityQueue : public DiffServ
     {
     public:
-        static TypeId GetTypeId ();
-        StrictPriorityQueue ();
-        StrictPriorityQueue (std::vector<TrafficClass*> trafficClasses);
-        ~StrictPriorityQueue () override;
-        void NotifyConstructionCompleted () override;
+        static TypeId GetTypeId();
+
+        StrictPriorityQueue();
+        StrictPriorityQueue(std::vector<TrafficClass*> trafficClasses);
+        ~StrictPriorityQueue() override;
+
+        void NotifyConstructionCompleted() override;
+
     protected:
+        Ptr<Packet> Schedule() override;
+        uint32_t Classify(Ptr<Packet> packet) override;
+
+    private:
         std::string m_configFile;
-        Ptr<Packet> Schedule () override;
-        uint32_t Classify(Ptr<Packet> p) override;
     };
 
 }
