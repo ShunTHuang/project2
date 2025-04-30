@@ -10,21 +10,14 @@
 
 class Filter
 {
-private:
-    std::vector<FilterElement*> elements;
-
 public:
     Filter() = default;
 
-    void
-    AddElement(FilterElement* elem)
-    {
-        elements.push_back(elem);
-    }
+    void AddElement(FilterElement* elem);
+    bool Match(Ptr<Packet> packet);
 
-    bool match(Ptr<Packet> p);
+private:
+    std::vector<FilterElement*> m_elements;
 };
-
-
 
 #endif //FILTER_H

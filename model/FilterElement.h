@@ -17,7 +17,7 @@ public:
     FilterElement ();
     ~FilterElement ();
 
-    virtual bool match(Ptr<Packet> packet) = 0;
+    virtual bool Match(Ptr<Packet> packet) = 0;
 };
 
 

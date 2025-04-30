@@ -5,12 +5,20 @@
 #include "Filter.h"
 
 bool
-Filter::match(Ptr<Packet> p)
+Filter::Match(Ptr<Packet> packet)
 {
-    for (auto elem : elements)
+    for (auto elem : m_elements)
     {
-        if (!elem->match(p))
+        if (!elem->Match(packet))
+        {
             return false;
+        }
     }
     return true;
+}
+
+void
+Filter::AddElement(FilterElement* element)
+{
+    m_elements.push_back(element);
 }
