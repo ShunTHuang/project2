@@ -1,4 +1,4 @@
-# Project 2 – DRR and SPQ Queue Simulation in ns-3
+# Project 2 – DRR and SPQ Queue in ns-3
 
 This project implements two Quality of Service (QoS) scheduling mechanisms in ns-3:
 
