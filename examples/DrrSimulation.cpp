@@ -87,8 +87,8 @@ int main(int argc, char *argv[]) {
         ApplicationContainer clientApp = udpClient.Install(hosts.Get(0));
     }
 
-    p2pIn.EnablePcap("drr-in", dIn.Get(0), 0);
-    p2pOut.EnablePcap("drr-out", dOut.Get(0), 0);
+    p2pIn.EnablePcap("Pre_DRR", dIn.Get(0), 0);
+    p2pOut.EnablePcap("Post_DRR", dOut.Get(0), 0);
 
     Simulator::Stop(Seconds(stopTime));
     Simulator::Run();
