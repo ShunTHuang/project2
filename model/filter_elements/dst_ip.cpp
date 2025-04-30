@@ -6,23 +6,23 @@
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
-DstIP::DstIP(Ipv4Address addr)
-    : value(addr)
+DstIp::DstIp(Ipv4Address addr)
+  : m_address(addr)
 {
 }
 
 bool
-DstIP::match(Ptr<Packet> p)
+DstIp::Match(Ptr<Packet> packet)
 {
+    Ptr<Packet> copy = packet->Copy();
     PppHeader pppHeader;
     Ipv4Header ipv4Header;
-    Ptr<Packet> packetCopy = p->Copy();
 
-    packetCopy->RemoveHeader(pppHeader);
-    if (packetCopy->PeekHeader(ipv4Header))
+    copy->RemoveHeader(pppHeader);
+    if (copy->PeekHeader(ipv4Header))
     {
-        NS_LOG_UNCOND("[DstIP] IP: " << ipv4Header.GetSource());
-        return ipv4Header.GetSource() == value;
+        return ipv4Header.GetDestination() == m_address;
     }
+
     return false;
 }

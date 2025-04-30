@@ -10,14 +10,12 @@
 
 class Protocol : public FilterElement
 {
-private:
-    uint32_t value;
-
 public:
-    Protocol(uint32_t proto);
-    bool match(Ptr<Packet> p) override;
+    explicit Protocol(uint32_t proto);
+    bool Match(Ptr<Packet> packet) override;
+
+private:
+    uint32_t m_protocol;
 };
-
-
 
 #endif //PROTOCOL_H

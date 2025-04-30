@@ -16,95 +16,83 @@ namespace ns3 {
 
     NS_LOG_COMPONENT_DEFINE("StrictPriorityQueue");
     NS_OBJECT_ENSURE_REGISTERED(StrictPriorityQueue);
+
     TypeId
     StrictPriorityQueue::GetTypeId()
     {
         static TypeId tid = TypeId("ns3::StrictPriorityQueue<Packet>")
-                .SetParent<Queue<Packet>>()
-                .AddConstructor<StrictPriorityQueue>()
-                .AddAttribute("ConfigFile",
-                              "Path to JSON file describing traffic classes",
-                              StringValue(""),
-                              MakeStringAccessor(&StrictPriorityQueue::m_configFile),
-                              MakeStringChecker());
+          .SetParent<Queue<Packet>>()
+          .AddConstructor<StrictPriorityQueue>()
+          .AddAttribute("ConfigFile",
+                        "Path to JSON file describing traffic classes",
+                        StringValue(""),
+                        MakeStringAccessor(&StrictPriorityQueue::m_configFile),
+                        MakeStringChecker());
         return tid;
     }
 
-    StrictPriorityQueue::StrictPriorityQueue()
-    {
+    StrictPriorityQueue::StrictPriorityQueue() = default;
 
+    StrictPriorityQueue::StrictPriorityQueue(std::vector<TrafficClass*> trafficClasses)
+    {
+        m_classes = std::move(trafficClasses);
     }
 
     StrictPriorityQueue::~StrictPriorityQueue()
     {
-        NS_LOG_UNCOND("[StrictPriorityQueue] Destructor at " << Simulator::Now());
-    }
-    StrictPriorityQueue::StrictPriorityQueue(std::vector<TrafficClass*> trafficClasses)
-    {
-        q_class = std::move(trafficClasses);
+        for (auto* cls : m_classes)
+        {
+            delete cls;
+        }
+        m_classes.clear();
     }
 
     void
-    StrictPriorityQueue::NotifyConstructionCompleted ()
+    StrictPriorityQueue::NotifyConstructionCompleted()
     {
-        NS_LOG_UNCOND("[SPQ] NotifyConstructionCompleted, ConfigFile=" << m_configFile);
         if (!m_configFile.empty())
         {
-            QoSCreator maker;
-            auto classes = maker.createTrafficClasses(m_configFile);
-            q_class.swap(classes);
-            NS_LOG_UNCOND("[SPQ] Loaded " << q_class.size() << " traffic classes from "
-                                          << m_configFile);
+            QoSCreator creator;
+
+            for (auto* cls : m_classes)
+            {
+                delete cls;
+            }
+            m_classes.clear();
+
+            std::vector<TrafficClass*> fromFile = creator.CreateTrafficClasses(m_configFile);
+            m_classes.swap(fromFile);
         }
 
-        DiffServ::NotifyConstructionCompleted ();
+        DiffServ::NotifyConstructionCompleted();
     }
 
     Ptr<Packet>
     StrictPriorityQueue::Schedule()
     {
-        //NS_LOG_UNCOND("[StrictPriorityQueue] Schedule() called at " << Simulator::Now());
-        std::vector<TrafficClass*> sorted = q_class;
+        std::vector<TrafficClass*> sorted = m_classes;
         std::sort(sorted.begin(), sorted.end(),
-                  [](TrafficClass *a, TrafficClass *b) {
-                      return a->GetPriority() < b->GetPriority();
+                  [](TrafficClass* a, TrafficClass* b) {
+                    return a->GetPriority() < b->GetPriority();
                   });
-        for (auto cls : sorted)
+
+        for (TrafficClass* cls : sorted)
         {
-            //NS_LOG_UNCOND("[StrictPriorityQueue] Checking queue priority "
-                                  //<< cls->GetPriority()
-                                  //<< " at time " << Simulator::Now());
             if (!cls->IsEmpty())
             {
-                Ptr<Packet> p = cls->Dequeue();
-               //NS_LOG_UNCOND("[StrictPriorityQueue] Dequeued one packet from priority "
-                                      //<< cls->GetPriority()
-                                      //<< " at time " << Simulator::Now());
-                return p;
+                return cls->Dequeue();
             }
         }
-        //NS_LOG_UNCOND("[StrictPriorityQueue] All queues empty, returning nullptr at "
-                              //<< Simulator::Now());
         return nullptr;
     }
 
     uint32_t
-    StrictPriorityQueue::Classify(Ptr<Packet> p)
+    StrictPriorityQueue::Classify(Ptr<Packet> packet)
     {
-       // NS_LOG_UNCOND("[StrictPriorityQueue] Classify() called, packet uid="
-                              //<< p->GetUid()
-                              //<< ", size=" << p->GetSize()
-                              //<< " at time " << Simulator::Now());
-        for (uint32_t i = 0; i < q_class.size(); ++i)
+        for (uint32_t i = 0; i < m_classes.size(); ++i)
         {
-            if (q_class[i]->match(p))
+            if (m_classes[i] && m_classes[i]->Match(packet))
             {
-
-                NS_LOG_UNCOND("[StrictPriorityQueue] Packet uid=" << p->GetUid()
-                                                                      << " matched queue " << i
-                                                                      << ", priority=" << q_class[i]->GetPriority()
-                                                                      << " at time " << Simulator::Now());
-
                 return i;
             }
         }

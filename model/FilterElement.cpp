@@ -7,15 +7,10 @@
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE("FilterElement");
-
-
 FilterElement::FilterElement()
 {
-    NS_LOG_FUNCTION(this);
 }
 
 FilterElement::~FilterElement()
 {
-    NS_LOG_FUNCTION(this);
 }

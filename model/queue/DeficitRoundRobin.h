@@ -8,22 +8,23 @@
 #include "DiffServ.h"
 
 namespace ns3 {
-
-    class DeficitRoundRobin : public DiffServ {
-    private:
-        uint32_t queueIndex;
-        std::string m_configFile;
-
+    class DeficitRoundRobin : public DiffServ
+    {
     public:
         static TypeId GetTypeId();
 
         DeficitRoundRobin();
-        DeficitRoundRobin(std::vector<TrafficClass*> trafficClasses);
+        explicit DeficitRoundRobin(std::vector<TrafficClass*> trafficClasses);
         ~DeficitRoundRobin() override;
+
         void DoInitialize() override;
 
         Ptr<Packet> Schedule() override;
-        uint32_t Classify(Ptr<Packet> p) override;
+        uint32_t Classify(Ptr<Packet> packet) override;
+
+    private:
+        uint32_t m_queueIndex;
+        std::string m_configFile;
     };
 }
 

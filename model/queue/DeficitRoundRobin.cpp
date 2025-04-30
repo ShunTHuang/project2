@@ -13,81 +13,103 @@ namespace ns3 {
     NS_OBJECT_ENSURE_REGISTERED(DeficitRoundRobin);
 
     TypeId
-    DeficitRoundRobin::GetTypeId() {
-        static TypeId tid = TypeId("ns3::DeficitRoundRobin<Packet>")
-            .SetParent<Queue<Packet>>()
-            .AddConstructor<DeficitRoundRobin>()
-            .AddAttribute("ConfigFile",
-                              "Path to JSON file describing traffic classes",
-                              StringValue(""),
-                              MakeStringAccessor(&DeficitRoundRobin::m_configFile),
-                              MakeStringChecker());
+    DeficitRoundRobin::GetTypeId()
+    {
+        static TypeId tid = TypeId("ns3::DeficitRoundRobin")
+          .SetParent<Queue<Packet>>()
+          .AddConstructor<DeficitRoundRobin>()
+          .AddAttribute("ConfigFile",
+                        "Path to JSON file describing traffic classes",
+                        StringValue(""),
+                        MakeStringAccessor(&DeficitRoundRobin::m_configFile),
+                        MakeStringChecker());
         return tid;
     }
 
     DeficitRoundRobin::DeficitRoundRobin()
-        : queueIndex(0) {
-        NS_LOG_UNCOND("[DeficitRoundRobin] Constructor: initializing three traffic classes at " << Simulator::Now());
-        std::vector<uint32_t> m_quantumList = {300, 200, 100}; //default
-        for (size_t i = 0; i < m_quantumList.size(); ++i) {
-            auto* tc = new TrafficClass(100, 0, 0, false, m_quantumList[i]);
-            q_class.push_back(tc);
+      : m_queueIndex(0)
+    {
+        static const std::vector<uint32_t> defaultQuantum = {300, 200, 100};
+        for (uint32_t q : defaultQuantum)
+        {
+            m_classes.push_back(new TrafficClass(100, 0.0, 0, false, q));
         }
+    }
+
+    DeficitRoundRobin::DeficitRoundRobin(std::vector<TrafficClass*> trafficClasses)
+      : m_queueIndex(0)
+    {
+        m_classes.swap(trafficClasses);
+    }
+
+    DeficitRoundRobin::~DeficitRoundRobin()
+    {
+        for (auto* cls : m_classes)
+        {
+            delete cls;
+        }
+        m_classes.clear();
     }
 
     void
     DeficitRoundRobin::DoInitialize()
     {
         Queue<Packet>::DoInitialize();
-        if (!m_configFile.empty()) {
-            QoSCreator maker;
-            std::vector<TrafficClass*> trafficClasses = maker.createTrafficClasses (m_configFile);
-            q_class.swap (trafficClasses);
-            NS_LOG_UNCOND ("Loaded " << q_class.size () << " traffic classes from " << m_configFile);
+
+        if (!m_configFile.empty())
+        {
+            QoSCreator creator;
+
+            for (auto* cls : m_classes)
+            {
+                delete cls;
+            }
+            m_classes.clear();
+
+            std::vector<TrafficClass*> fromFile = creator.CreateTrafficClasses(m_configFile);
+            m_classes.swap(fromFile);
         }
     }
 
-    DeficitRoundRobin::DeficitRoundRobin(std::vector<TrafficClass*> trafficClasses)
-        : queueIndex(0) {
-        q_class.swap (trafficClasses);
-    }
+    Ptr<Packet>
+    DeficitRoundRobin::Schedule()
+    {
+        uint32_t attempts = m_classes.size();
+        while (attempts--)
+        {
+            TrafficClass* curr = m_classes[m_queueIndex];
+            m_queueIndex = (m_queueIndex + 1) % m_classes.size();
 
-    DeficitRoundRobin::~DeficitRoundRobin() {
-        NS_LOG_UNCOND("[DeficitRoundRobin] Destructor at " << Simulator::Now());
-    }
+            if (!curr)
+                continue;
 
-    Ptr<Packet> DeficitRoundRobin::Schedule() {
-        NS_LOG_UNCOND("[DeficitRoundRobin] Schedule running at " << Simulator::Now());
-        uint32_t attempts = q_class.size();
-        while (attempts--) {
-            if (TrafficClass* currQueue = q_class[queueIndex]; currQueue) {
-                currQueue->AddQuantum();
-                NS_LOG_UNCOND("[DeficitRoundRobin] AddQuantum running at " << Simulator::Now());
-                if (Ptr<Packet> pkt = currQueue->Peek();pkt && pkt->GetSize() <= currQueue->GetCounts()) {
-                    NS_LOG_UNCOND("[DeficitRoundRobin] DecCounts running at " << Simulator::Now());
-                    queueIndex = (queueIndex + 1) % q_class.size();
-                    currQueue->DecCounts(pkt->GetSize());
-                    return currQueue->Dequeue();
-                }
+            curr->AddQuantum();
+
+            Ptr<Packet> pkt = curr->Peek();
+            if (pkt && pkt->GetSize() <= curr->GetCounts())
+            {
+                curr->DecCounts(pkt->GetSize());
+                return curr->Dequeue();
             }
-            queueIndex = (queueIndex + 1) % q_class.size();
         }
         return nullptr;
     }
 
-    uint32_t DeficitRoundRobin::Classify(Ptr<Packet> p) {
-        NS_LOG_UNCOND("[DeficitRoundRobin] Classify running at " << Simulator::Now());
-
-        for (uint32_t i = 0; i < q_class.size(); ++i) {
-            if (q_class[i] && q_class[i]->match(p)) {
-                NS_LOG_UNCOND("Matched class index = " << i);
+    uint32_t
+    DeficitRoundRobin::Classify(Ptr<Packet> packet)
+    {
+        for (uint32_t i = 0; i < m_classes.size(); ++i)
+        {
+            if (m_classes[i] && m_classes[i]->Match(packet))
+            {
                 return i;
             }
         }
 
-        for (uint32_t i = 0; i < q_class.size(); ++i) {
-            if (q_class[i] && q_class[i]->IsDefault()) {
-                NS_LOG_UNCOND("Matched class index = " << i);
+        for (uint32_t i = 0; i < m_classes.size(); ++i)
+        {
+            if (m_classes[i] && m_classes[i]->IsDefault())
+            {
                 return i;
             }
         }

@@ -1,72 +1,68 @@
-# NS-3 Project: DiffServ Queueing Implementation
+# Project 2 – DRR and SPQ Queue in ns-3
 
-This project implements a custom DiffServ (Differentiated Services) queuing model for the ns-3 network simulator, including SPQ and DRR scheduling.
+This project implements two Quality of Service (QoS) scheduling mechanisms in ns-3:
+
+- **Deficit Round Robin (DRR)**
+- **Strict Priority Queueing (SPQ)**
 
 ---
 
-## 🔧 Install ns-3
+## 📁 Setup
 
-### ✅ Install Dependencies
+1. **Place the project directory**
 
-```bash
-sudo apt update
-```
+   Copy the `project2` folder into your ns-3 source tree under `src/`:
 
-```bash
-sudo apt install -y \
-  gcc g++ python3 python3-pip \
-  git mercurial cmake \
-  qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools \
-  pkg-config sqlite3 \
-  python3-setuptools \
-  gdb valgrind \
-  curl
-```
+   ```bash
+   mv project2 /ns-3-dev/src/
+   ```
 
-### ✅ Clone the ns-3 Repository
+2. **Navigate to the ns-3 root directory**
 
-```bash
-cd ~
-```
+   ```bash
+   cd /ns-3-dev
+   ```
 
-```bash
-git clone https://gitlab.com/nsnam/ns-3-dev.git
-```
+---
 
-### ✅ Clone the Project2 Repository
+## ▶️ Run the simulation
 
-```bash
-cd ns-3-dev/src             # Move into ns-3 source directory
-mkdir project2              # Create a new folder for your module
-cd project2                 # Enter the project2 folder
-git clone git@github.com:ShunTHuang/project2.git .
-```
+- To run the **DRR simulation**:
 
-## 🧑‍💻 Contributing
+  ```bash
+  ./ns3 run DrrSimulation -- src/project2/DrrConfig.json
+  ```
 
-### ✅ Create a new branch
-```bash
-git checkout -b feature/your-feature-name
-```
+- To run the **SPQ simulation**:
 
-### ✅ Commit and push your changes
-```bash
-git add .
-git commit -m "Add: your message"
-git push origin feature/your-feature
-```
+  ```bash
+  ./ns3 run SpqSimulation -- src/project2/SpqConfig.json
+  ```
 
-### ✅ Open a Pull Request (PR) to main or dev branch
-Open GitHub web → You will see
-👉 “Compare & pull request”
+> ⚠️ Make sure the config files exist and are valid JSON format.  
+> The `--` is required to pass arguments to the simulation's `main(argc, argv)`.
 
-### 📌 Guidelines
+---
 
-- **Do not commit directly to `main`**  
-  Use feature branches and open a Pull Request (PR) instead.
+## 📂 Config Files
 
-- **Keep PRs small and focused**  
-  One feature or bugfix per PR is preferred.
+The config files define the queue behavior and classification rules:
 
-- **Follow naming conventions and file structure**  
-  Use consistent file casing and module placement.
+- `DrrConfig.json` – DRR class definitions, filters, and quantum values.
+- `SpqConfig.json` – SPQ class definitions, filters, and priority mapping.
+
+
+---
+
+## 🧪 Output
+
+- `.pcap` trace files are generated in the `ns-3-dev/` directory.
+- Files are prefixed with `Pre_` and `Post_`.
+  For example: `Pre_DRR`, `Post_DRR`, `Pre_SPQ`, `Post_SPQ`.
+- You can analyze them using tools like Wireshark.
+
+---
+
+## 👨‍💻 Developer
+
+Developed by Koichi Nakata, Shing-Han Huang, Shun-Ting Huang  

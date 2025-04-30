@@ -6,29 +6,35 @@
 
 namespace ns3
 {
+
     DiffServ::~DiffServ()
     {
-        for (auto tc : q_class)
+        for (auto tc : m_classes)
+        {
             delete tc;
+        }
     }
 
-    TypeId DiffServ::GetTypeId()
+    TypeId
+    DiffServ::GetTypeId()
     {
-        static TypeId tid = TypeId("ns3::DiffServ<Packet>")
-                .SetParent<Queue>()
-                .SetGroupName("Network");
+        static TypeId tid = TypeId("ns3::DiffServ")
+          .SetParent<Queue<Packet>>()
+          .SetGroupName("Network");
         return tid;
     }
 
     bool
-    DiffServ::Enqueue(Ptr<Packet> p)
+    DiffServ::Enqueue(Ptr<Packet> packet)
     {
-        uint32_t index = Classify(p); // Classify() returns the index of the queue
-        NS_LOG_UNCOND("Enqueue packet UID=" << p->GetUid() << " to class " << index);
-        if (index >= q_class.size())
-            return false;
+        uint32_t index = Classify(packet); // Classify returns queue index
 
-        return q_class[index]->Enqueue(p);
+        if (index >= m_classes.size())
+        {
+            return false;
+        }
+
+        return m_classes[index]->Enqueue(packet);
     }
 
     Ptr<Packet>
@@ -46,12 +52,15 @@ namespace ns3
     Ptr<const Packet>
     DiffServ::Peek() const
     {
-        for (const auto& tc : q_class)
+        for (const auto& tc : m_classes)
         {
-            Ptr<const Packet> p = tc->Peek();
-            if (p != nullptr)
-                return p;
+            Ptr<const Packet> packet = tc->Peek();
+            if (packet != nullptr)
+            {
+                return packet;
+            }
         }
         return nullptr;
     }
-}
+
+} // namespace ns3

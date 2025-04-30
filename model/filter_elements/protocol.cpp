@@ -6,24 +6,22 @@
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
-Protocol::Protocol(uint32_t proto)
-    : value(proto)
+Protocol::Protocol(uint32_t protocol)
+  : m_protocol(protocol)
 {
 }
 
 bool
-Protocol::match(Ptr<Packet> packet)
+Protocol::Match(Ptr<Packet> packet)
 {
     Ptr<Packet> copy = packet->Copy();
     PppHeader pppHeader;
     Ipv4Header ipv4Header;
+
     copy->RemoveHeader(pppHeader);
     copy->PeekHeader(ipv4Header);
 
     uint16_t protocolNumber = ipv4Header.GetProtocol();
-    NS_LOG_UNCOND("[protocol] match() called, protocolNumber="
-                          << protocolNumber);
-    NS_LOG_UNCOND("[protocol] match() called, value="
-                          << value);
-    return protocolNumber == value;
+
+    return protocolNumber == m_protocol;
 }

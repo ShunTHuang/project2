@@ -6,26 +6,25 @@
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
-DstMask::DstMask(Ipv4Address address, Ipv4Mask m)
-    : addr(address),
-      mask(m)
+DstMask::DstMask(Ipv4Address address, Ipv4Mask mask)
+  : m_address(address),
+    m_mask(mask)
 {
 }
 
 bool
-DstMask::match(Ptr<Packet> p)
+DstMask::Match(Ptr<Packet> packet)
 {
+    Ptr<Packet> copy = packet->Copy();
     PppHeader pppHeader;
     Ipv4Header ipv4Header;
-    Ptr<Packet> packetCopy = p->Copy();
 
-    packetCopy->RemoveHeader(pppHeader);
-    packetCopy->RemoveHeader(ipv4Header);
+    copy->RemoveHeader(pppHeader);
+    copy->RemoveHeader(ipv4Header);
 
-    Ipv4Address src = ipv4Header.GetSource();
-    NS_LOG_UNCOND("[DstMask] match() called");
-    NS_LOG_UNCOND("[DstMask] Source IP = " << src);
-    NS_LOG_UNCOND("[DstMask] Masked = " << src.CombineMask(mask));
+    Ipv4Address dst = ipv4Header.GetDestination();
+    Ipv4Address maskedDst = dst.CombineMask(m_mask);
+    Ipv4Address maskedTarget = m_address.CombineMask(m_mask);
 
-    return src.CombineMask(mask) == addr.CombineMask(mask) && src == addr;
+    return maskedDst == maskedTarget;
 }

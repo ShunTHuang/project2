@@ -6,29 +6,26 @@
 #include "ns3/log.h"
 #include "ns3/simulator.h"
 
-NS_LOG_COMPONENT_DEFINE("TrafficClass");
-
-TrafficClass::TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef, uint32_t quantum)
-    : packets(0),
-      maxPackets(maxPkts),
-      weight(w),
-      quantum(quantum),
-      priority_level(prio),
-      isDefault(isDef),
-      counts(0)
+TrafficClass::TrafficClass(uint32_t maxPkts, double weight, uint32_t priority, bool isDefault, uint32_t quantum)
+  : m_packetCount(0),
+    m_maxPackets(maxPkts),
+    m_weight(weight),
+    m_quantum(quantum),
+    m_priorityLevel(priority),
+    m_isDefault(isDefault),
+    m_counts(0)
 {
 }
 
 bool
-TrafficClass::Enqueue(Ptr<Packet> p)
+TrafficClass::Enqueue(Ptr<Packet> packet)
 {
-    if (packets >= maxPackets)
+    if (m_packetCount >= m_maxPackets)
     {
-        NS_LOG_WARN("TrafficClass full, dropping packet");
         return false;
     }
-    m_queue.push(p);
-    ++packets;
+    m_queue.push(packet);
+    ++m_packetCount;
     return true;
 }
 
@@ -38,11 +35,10 @@ TrafficClass::Dequeue()
     if (m_queue.empty())
         return nullptr;
 
-    auto pkt = m_queue.front();
-    NS_ASSERT_MSG(pkt != nullptr, "[Traffic] Dequeue got nullptr from front");
+    Ptr<Packet> packet = m_queue.front();
     m_queue.pop();
-    --packets;
-    return pkt;
+    --m_packetCount;
+    return packet;
 }
 
 Ptr<Packet>
@@ -50,24 +46,22 @@ TrafficClass::Peek()
 {
     if (m_queue.empty())
     {
-        NS_LOG_LOGIC("[TrafficClass] Queue empty");
         return nullptr;
     }
 
-    Ptr<Packet> p = m_queue.front();
-    NS_ASSERT_MSG(p != nullptr, "[Traffic] Peek got nullptr from queue front");
-    return p;
+    Ptr<Packet> packet = m_queue.front();
+    return packet;
 }
 
 bool
-TrafficClass::match(Ptr<Packet> p)
+TrafficClass::Match(Ptr<Packet> packet)
 {
-    if (isDefault && filters.empty())
+    if (m_isDefault && m_filters.empty())
         return true;
 
-    for (Filter *filter: filters)
+    for (Filter* filter : m_filters)
     {
-        if (filter->match(p))
+        if (filter->Match(packet))
             return true;
     }
     return false;
@@ -77,38 +71,38 @@ TrafficClass::match(Ptr<Packet> p)
 void
 TrafficClass::AddQuantum()
 {
-    counts += quantum;
+    m_counts += m_quantum;
 }
 
 void
 TrafficClass::DecCounts(uint32_t pktSize)
 {
-    if (counts >= pktSize)
-        counts -= pktSize;
+    if (m_counts >= pktSize)
+    {
+        m_counts -= pktSize;
+    }
     else
     {
-        NS_LOG_WARN("Trying to decrease more than available quantum. counts="
-                    << counts << ", pktSize=" << pktSize);
-        counts = 0;
+        m_counts = 0;
     }
 }
 
 void
-TrafficClass::AddFilter(Filter *f)
+TrafficClass::AddFilter(Filter* filter)
 {
-    filters.push_back(f);
+    m_filters.push_back(filter);
 }
 
 void
-TrafficClass::SetDefault(bool def)
+TrafficClass::SetDefault(bool isDefault)
 {
-    isDefault = def;
+    m_isDefault = isDefault;
 }
 
 bool
 TrafficClass::IsDefault() const
 {
-    return isDefault;
+    return m_isDefault;
 }
 
 bool

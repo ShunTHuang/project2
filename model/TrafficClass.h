@@ -11,47 +11,39 @@
 
 class TrafficClass
 {
-private:
-    uint32_t packets;
-    uint32_t maxPackets;
-    double weight;
-    uint32_t quantum;
-    uint32_t priority_level;
-    bool isDefault;
-    std::queue<Ptr<Packet>> m_queue;
-    std::vector<Filter*> filters;
-    uint32_t counts;
-
 public:
-    TrafficClass(uint32_t maxPkts, double w, uint32_t prio, bool isDef = false, uint32_t quantum = 0);
+    TrafficClass(uint32_t maxPkts, double weight, uint32_t priority, bool isDefault = false, uint32_t quantum = 0);
 
-    bool Enqueue(Ptr<Packet> p);
-
+    bool Enqueue(Ptr<Packet> packet);
     Ptr<Packet> Dequeue();
-
     Ptr<const Packet> Peek() const;
-
     Ptr<Packet> Peek();
 
-    bool match(Ptr<Packet> p);
-
-    uint32_t
-    GetPriority() const { return priority_level; }
-
-    uint32_t
-    GetCounts() const { return counts; }
+    bool Match(Ptr<Packet> packet);
 
     void AddQuantum();
-
     void DecCounts(uint32_t pktSize);
+    void AddFilter(Filter* filter);
 
-    void AddFilter(Filter* f);
-
-    void SetDefault(bool def);
-
+    void SetDefault(bool isDefault);
     bool IsDefault() const;
-
     bool IsEmpty() const;
+
+    uint32_t GetPriority() const { return m_priorityLevel; }
+    uint32_t GetCounts() const { return m_counts; }
+
+private:
+    uint32_t m_packetCount;
+    uint32_t m_maxPackets;
+    double m_weight;
+    uint32_t m_quantum;
+    uint32_t m_priorityLevel;
+    bool m_isDefault;
+
+    std::queue<Ptr<Packet>> m_queue;
+    std::vector<Filter*> m_filters;
+
+    uint32_t m_counts;
 };
 
 #endif

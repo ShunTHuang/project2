@@ -21,13 +21,11 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        std::cerr << "Usage: " << argv[0] << " <config-file-path>\n";
+        std::cerr << "Usage: ./ns3 run SpqSimulation -- <config-file-path>\n";
         return 1;
     }
 
     std::string configFile = argv[1];
-    std::cout << "File Path: " << configFile << std::endl;
-
     LogComponentEnable ("SpqSimulation", LOG_LEVEL_INFO);
   NS_LOG_INFO ("SpqSimulation Start time" << Simulator::Now ());
   double stopTime = 40.0;
@@ -45,13 +43,11 @@ int main(int argc, char *argv[])
 
 
   // high：host0 <——> router0
-  //p2pHigh.SetQueue("ns3::StrictPriorityQueue<Packet>",
-                     //"ConfigFile", StringValue("src/project2/config.example.json"));
   NetDeviceContainer devsHigh = p2pHigh.Install(hosts.Get(0), routers.Get(0));
 
   // low：router0 <——> host1
   p2pLow.SetQueue("ns3::StrictPriorityQueue<Packet>",
-                     "ConfigFile", StringValue("src/project2/config.example.json"));
+                     "ConfigFile", StringValue(configFile));
   NetDeviceContainer devsLow  = p2pLow.Install(routers.Get(0), hosts.Get(1));
 
   InternetStackHelper internet;
