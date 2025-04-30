@@ -16,11 +16,11 @@ using json = nlohmann::json;
 class QoSCreator
 {
 public:
-    std::vector<TrafficClass*> createTrafficClasses(const std::string& filename);
-    DiffServ* createQoS(const std::string& filename);
+    std::vector<TrafficClass*> CreateTrafficClasses(const std::string& filename);
+    DiffServ* CreateQoS(const std::string& filename);
 
 private:
-    void parseFilters(const json& filtersConfig, TrafficClass* tc);
+    void ParseFilters(const json& filtersConfig, TrafficClass* tc);
 };
 
 #endif // QOSCREATOR_H
