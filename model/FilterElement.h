@@ -9,7 +9,8 @@
 #include "ns3/object.h"
 #include "ns3/packet.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     class FilterElement: public Object
     {
@@ -21,4 +22,5 @@ namespace ns3 {
     };
 
 } // namespace ns3
+
 #endif /* FILTER_ELEMENT_H */

@@ -7,7 +7,8 @@
 
 #include "DiffServ.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     class StrictPriorityQueue : public DiffServ
     {
@@ -28,5 +29,6 @@ namespace ns3 {
         std::string m_configFile;
     };
 
-}
+} // namespace ns3
+
 #endif

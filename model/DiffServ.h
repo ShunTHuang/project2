@@ -9,7 +9,8 @@
 #include "TrafficClass.h"
 #include "ns3/queue.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     class DiffServ : public Queue<Packet>
     {
@@ -31,4 +32,5 @@ namespace ns3 {
     };
 
 } // namespace ns3
+
 #endif //DIFFSERV_H

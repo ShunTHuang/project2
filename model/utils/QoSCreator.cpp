@@ -21,7 +21,8 @@
 #include "queue/StrictPriorityQueue.h"
 #include "queue/DeficitRoundRobin.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     std::vector<TrafficClass*>
     QoSCreator::CreateTrafficClasses(const std::string& filename)

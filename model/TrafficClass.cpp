@@ -5,7 +5,8 @@
 #include "TrafficClass.h"
 #include "ns3/simulator.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     TrafficClass::TrafficClass(uint32_t maxPkts, double weight, uint32_t priority, bool isDefault, uint32_t quantum)
       : m_packetCount(0),

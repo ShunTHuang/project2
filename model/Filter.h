@@ -8,7 +8,8 @@
 
 #include "FilterElement.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     class Filter
     {
@@ -23,4 +24,5 @@ namespace ns3 {
     };
 
 } // namespace ns3
+
 #endif //FILTER_H

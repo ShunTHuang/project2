@@ -4,7 +4,8 @@
 
 #include "FilterElement.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     FilterElement::FilterElement()
     {

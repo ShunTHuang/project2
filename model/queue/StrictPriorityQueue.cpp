@@ -12,7 +12,8 @@
 #include "utils/QoSCreator.h"
 
 
-namespace ns3 {
+namespace ns3
+{
 
     NS_LOG_COMPONENT_DEFINE("StrictPriorityQueue");
     NS_OBJECT_ENSURE_REGISTERED(StrictPriorityQueue);
@@ -99,4 +100,4 @@ namespace ns3 {
         return 0;
     }
 
-}
+} // namespace ns3

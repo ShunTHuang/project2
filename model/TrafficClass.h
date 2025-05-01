@@ -8,7 +8,9 @@
 #include <queue>
 #include <vector>
 #include "Filter.h"
-namespace ns3 {
+
+namespace ns3
+{
 
     class TrafficClass
     {
@@ -48,4 +50,5 @@ namespace ns3 {
     };
 
 } // namespace ns3
+
 #endif

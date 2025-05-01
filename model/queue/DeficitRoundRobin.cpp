@@ -8,7 +8,9 @@
 #include "ns3/string.h"
 #include "utils/QoSCreator.h"
 
-namespace ns3 {
+namespace ns3
+{
+
     NS_LOG_COMPONENT_DEFINE("DeficitRoundRobin");
     NS_OBJECT_ENSURE_REGISTERED(DeficitRoundRobin);
 
@@ -116,4 +118,5 @@ namespace ns3 {
 
         return 0;
     }
-}
+
+} // namespace ns3

@@ -13,7 +13,8 @@
 
 using json = nlohmann::json;
 
-namespace ns3 {
+namespace ns3
+{
 
     class QoSCreator
     {
@@ -26,4 +27,5 @@ namespace ns3 {
     };
 
 } // namespace ns3
+
 #endif // QOSCREATOR_H

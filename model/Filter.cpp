@@ -4,7 +4,8 @@
 
 #include "Filter.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     bool
     Filter::Match(Ptr<Packet> packet)

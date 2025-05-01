@@ -7,7 +7,9 @@
 
 #include "DiffServ.h"
 
-namespace ns3 {
+namespace ns3
+{
+
     class DeficitRoundRobin : public DiffServ
     {
     public:
@@ -26,7 +28,7 @@ namespace ns3 {
         uint32_t m_queueIndex;
         std::string m_configFile;
     };
-}
 
+} // namespace ns3
 
 #endif //DEFICITROUNDROBIN_H
