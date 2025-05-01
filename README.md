@@ -1,6 +1,6 @@
 # Project 2 – DRR and SPQ Queue in ns-3
 
-This project implements two Quality of Service (QoS) scheduling mechanisms in ns-3:
+This project implements two Quality of Service (QoS) mechanisms in ns-3:
 
 - **Deficit Round Robin (DRR)**
 - **Strict Priority Queueing (SPQ)**
@@ -52,6 +52,16 @@ Ensure the following software is installed:
 
     ```bash
     cd /ns-3-dev
+    ```
+   
+3. **Configure and build the programs**
+
+    ```bash
+    ./ns3 configure
+    ```
+   
+    ```bash
+    ./ns3 build
     ```
 
 ---
