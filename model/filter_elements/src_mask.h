@@ -10,16 +10,17 @@
 #include "ns3/packet.h"
 #include "ns3/ptr.h"
 
-class SrcMask : public FilterElement
-{
-public:
-    SrcMask(Ipv4Address address, Ipv4Mask mask);
-    bool Match(Ptr<Packet> packet) override;
+namespace ns3 {
+    class SrcMask : public FilterElement
+    {
+    public:
+        SrcMask(Ipv4Address address, Ipv4Mask mask);
+        bool Match(Ptr<Packet> packet) override;
 
-private:
-    Ipv4Address m_address;
-    Ipv4Mask m_mask;
-};
-
+    private:
+        Ipv4Address m_address;
+        Ipv4Mask m_mask;
+    };
+}
 
 #endif //SRC_MASK_H

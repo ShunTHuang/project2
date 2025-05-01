@@ -6,23 +6,25 @@
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
-DstIp::DstIp(Ipv4Address addr)
-  : m_address(addr)
-{
-}
-
-bool
-DstIp::Match(Ptr<Packet> packet)
-{
-    Ptr<Packet> copy = packet->Copy();
-    PppHeader pppHeader;
-    Ipv4Header ipv4Header;
-
-    copy->RemoveHeader(pppHeader);
-    if (copy->PeekHeader(ipv4Header))
+namespace ns3 {
+    DstIp::DstIp(Ipv4Address addr)
+      : m_address(addr)
     {
-        return ipv4Header.GetDestination() == m_address;
     }
 
-    return false;
+    bool
+    DstIp::Match(Ptr<Packet> packet)
+    {
+        Ptr<Packet> copy = packet->Copy();
+        PppHeader pppHeader;
+        Ipv4Header ipv4Header;
+
+        copy->RemoveHeader(pppHeader);
+        if (copy->PeekHeader(ipv4Header))
+        {
+            return ipv4Header.GetDestination() == m_address;
+        }
+
+        return false;
+    }
 }

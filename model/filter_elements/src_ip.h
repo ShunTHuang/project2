@@ -9,14 +9,15 @@
 #include "ns3/ipv4-address.h"
 #include "ns3/packet.h"
 
-class SrcIp : public FilterElement
-{
-public:
-    explicit SrcIp(Ipv4Address addr);
-    bool Match(Ptr<Packet> packet) override;
+namespace ns3 {
+    class SrcIp : public FilterElement
+    {
+    public:
+        explicit SrcIp(Ipv4Address addr);
+        bool Match(Ptr<Packet> packet) override;
 
-private:
-    Ipv4Address m_address;
-};
-
+    private:
+        Ipv4Address m_address;
+    };
+}
 #endif //SRC_IP_H

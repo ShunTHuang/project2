@@ -8,14 +8,15 @@
 #include "FilterElement.h"
 #include "ns3/packet.h"
 
-class Protocol : public FilterElement
-{
-public:
-    explicit Protocol(uint32_t proto);
-    bool Match(Ptr<Packet> packet) override;
+namespace ns3 {
+    class Protocol : public FilterElement
+    {
+    public:
+        explicit Protocol(uint32_t proto);
+        bool Match(Ptr<Packet> packet) override;
 
-private:
-    uint32_t m_protocol;
-};
-
+    private:
+        uint32_t m_protocol;
+    };
+}
 #endif //PROTOCOL_H

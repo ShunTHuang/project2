@@ -8,14 +8,15 @@
 #include "FilterElement.h"
 #include "ns3/packet.h"
 
-class DstPort : public FilterElement
-{
-public:
-    explicit DstPort(uint32_t port);
-    bool Match(Ptr<Packet> packet) override;
+namespace ns3 {
+    class DstPort : public FilterElement
+    {
+    public:
+        explicit DstPort(uint32_t port);
+        bool Match(Ptr<Packet> packet) override;
 
-private:
-    uint32_t m_port;
-};
-
+    private:
+        uint32_t m_port;
+    };
+}
 #endif //DST_PORT_H
