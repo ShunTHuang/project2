@@ -9,6 +9,7 @@
 #include "ns3/packet.h"
 
 namespace ns3 {
+
     class Protocol : public FilterElement
     {
     public:
@@ -18,5 +19,7 @@ namespace ns3 {
     private:
         uint32_t m_protocol;
     };
-}
+
+} // namespace ns3
+
 #endif //PROTOCOL_H

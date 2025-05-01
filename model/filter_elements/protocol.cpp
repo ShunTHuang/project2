@@ -7,6 +7,7 @@
 #include "ns3/ppp-header.h"
 
 namespace ns3 {
+
     Protocol::Protocol(uint32_t protocol)
       : m_protocol(protocol)
     {
@@ -26,4 +27,5 @@ namespace ns3 {
 
         return protocolNumber == m_protocol;
     }
-}
+
+} // namespace ns3

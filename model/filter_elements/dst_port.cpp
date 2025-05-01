@@ -9,6 +9,7 @@
 #include "ns3/ppp-header.h"
 
 namespace ns3 {
+
     DstPort::DstPort(uint32_t port)
       : m_port(port)
     {
@@ -45,4 +46,5 @@ namespace ns3 {
 
         return false;
     }
-}
+
+} // namespace ns3

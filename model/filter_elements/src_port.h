@@ -9,6 +9,7 @@
 #include "ns3/packet.h"
 
 namespace ns3 {
+
     class SrcPort : public FilterElement
     {
     public:
@@ -18,5 +19,6 @@ namespace ns3 {
     private:
         uint32_t m_port;
     };
-}
+
+} // namespace ns3
 #endif //SRC_PORT_H

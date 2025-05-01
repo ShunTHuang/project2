@@ -11,6 +11,7 @@
 #include "ns3/ptr.h"
 
 namespace ns3 {
+    
     class DstIp : public FilterElement
     {
     private:
@@ -20,6 +21,7 @@ namespace ns3 {
         DstIp(Ipv4Address addr);
         bool Match(Ptr<Packet> packet);
     };
-}
+    
+} // namespace ns3
 
 #endif //DST_IP_H

@@ -11,6 +11,7 @@
 #include "ns3/ptr.h"
 
 namespace ns3 {
+
     class DstMask : public FilterElement
     {
     public:
@@ -21,5 +22,7 @@ namespace ns3 {
         Ipv4Address m_address;
         Ipv4Mask m_mask;
     };
-}
+
+} // namespace ns3
+
 #endif //DST_MASK_H

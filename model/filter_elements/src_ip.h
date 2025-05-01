@@ -10,6 +10,7 @@
 #include "ns3/packet.h"
 
 namespace ns3 {
+
     class SrcIp : public FilterElement
     {
     public:
@@ -19,5 +20,7 @@ namespace ns3 {
     private:
         Ipv4Address m_address;
     };
-}
+
+} // namespace ns3
+
 #endif //SRC_IP_H

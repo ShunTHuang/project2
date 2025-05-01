@@ -9,6 +9,7 @@
 #include "ns3/packet.h"
 
 namespace ns3 {
+
     class DstPort : public FilterElement
     {
     public:
@@ -18,5 +19,7 @@ namespace ns3 {
     private:
         uint32_t m_port;
     };
-}
+
+} // namespace ns3
+
 #endif //DST_PORT_H

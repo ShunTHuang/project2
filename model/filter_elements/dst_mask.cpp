@@ -7,6 +7,7 @@
 #include "ns3/ppp-header.h"
 
 namespace ns3 {
+
     DstMask::DstMask(Ipv4Address address, Ipv4Mask mask)
       : m_address(address),
         m_mask(mask)
@@ -29,4 +30,5 @@ namespace ns3 {
 
         return maskedDst == maskedTarget;
     }
-}
+
+} // namespace ns3

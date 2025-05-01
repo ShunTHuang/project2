@@ -7,6 +7,7 @@
 #include "ns3/ppp-header.h"
 
 namespace ns3 {
+
     DstIp::DstIp(Ipv4Address addr)
       : m_address(addr)
     {
@@ -27,4 +28,5 @@ namespace ns3 {
 
         return false;
     }
-}
+
+} // namespace ns3
