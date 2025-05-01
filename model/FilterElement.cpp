@@ -3,14 +3,15 @@
 //
 
 #include "FilterElement.h"
-#include "ns3/log.h"
 
-using namespace ns3;
+namespace ns3 {
 
-FilterElement::FilterElement()
-{
-}
+    FilterElement::FilterElement()
+    {
+    }
 
-FilterElement::~FilterElement()
-{
-}
+    FilterElement::~FilterElement()
+    {
+    }
+
+} // namespace ns3

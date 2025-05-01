@@ -4,21 +4,25 @@
 
 #include "Filter.h"
 
-bool
-Filter::Match(Ptr<Packet> packet)
-{
-    for (auto elem : m_elements)
-    {
-        if (!elem->Match(packet))
-        {
-            return false;
-        }
-    }
-    return true;
-}
+namespace ns3 {
 
-void
-Filter::AddElement(FilterElement* element)
-{
-    m_elements.push_back(element);
-}
+    bool
+    Filter::Match(Ptr<Packet> packet)
+    {
+        for (auto elem : m_elements)
+        {
+            if (!elem->Match(packet))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void
+    Filter::AddElement(FilterElement* element)
+    {
+        m_elements.push_back(element);
+    }
+
+} // namespace ns3

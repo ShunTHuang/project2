@@ -13,14 +13,17 @@
 
 using json = nlohmann::json;
 
-class QoSCreator
-{
-public:
-    std::vector<TrafficClass*> CreateTrafficClasses(const std::string& filename);
-    DiffServ* CreateQoS(const std::string& filename);
+namespace ns3 {
 
-private:
-    void ParseFilters(const json& filtersConfig, TrafficClass* tc);
-};
+    class QoSCreator
+    {
+    public:
+        std::vector<TrafficClass*> CreateTrafficClasses(const std::string& filename);
+        DiffServ* CreateQoS(const std::string& filename);
 
+    private:
+        void ParseFilters(const json& filtersConfig, TrafficClass* tc);
+    };
+
+} // namespace ns3
 #endif // QOSCREATOR_H

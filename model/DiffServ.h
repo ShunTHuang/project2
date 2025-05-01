@@ -30,5 +30,5 @@ namespace ns3 {
         std::vector<TrafficClass*> m_classes;
     };
 
-}
+} // namespace ns3
 #endif //DIFFSERV_H

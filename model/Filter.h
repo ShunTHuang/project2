@@ -8,16 +8,19 @@
 
 #include "FilterElement.h"
 
-class Filter
-{
-public:
-    Filter() = default;
+namespace ns3 {
 
-    void AddElement(FilterElement* elem);
-    bool Match(Ptr<Packet> packet);
+    class Filter
+    {
+    public:
+        Filter() = default;
 
-private:
-    std::vector<FilterElement*> m_elements;
-};
+        void AddElement(FilterElement* elem);
+        bool Match(Ptr<Packet> packet);
 
+    private:
+        std::vector<FilterElement*> m_elements;
+    };
+
+} // namespace ns3
 #endif //FILTER_H
