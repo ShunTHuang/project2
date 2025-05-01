@@ -7,21 +7,52 @@ This project implements two Quality of Service (QoS) scheduling mechanisms in ns
 
 ---
 
+## 👨‍💻 Developer
+
+Developed by Koichi Nakata, Shing-Han Huang, Shun-Ting Huang
+
+## 🔹 Operating System
+This project has been tested on:
+
+    Ubuntu 22.04.4 LTS (Jammy Jellyfish)
+
+To check your OS version, run:
+
+    cat /etc/os-release
+
+## 🔹 Required Software
+Ensure the following software is installed:
+
+------------------------------------------------------------------------------------
+| Software     | Version    | Installation Command           | Check Command       |
+|--------------|------------|--------------------------------|---------------------|
+| GCC          | 11.4.0     | sudo apt install gcc           | gcc --version       |
+| Make         | Latest     | sudo apt install make          | make --version      |
+------------------------------------------------------------------------------------
+
+## 🛠 Install
+
+- Install nlohmann-json
+    ```bash
+    sudo apt update
+    sudo apt install nlohmann-json-dev
+    ```
+
 ## 📁 Setup
 
 1. **Place the project directory**
 
    Copy the `project2` folder into your ns-3 source tree under `src/`:
 
-   ```bash
-   mv project2 /ns-3-dev/src/
-   ```
+    ```bash
+    mv project2 /ns-3-dev/src/
+    ```
 
 2. **Navigate to the ns-3 root directory**
 
-   ```bash
-   cd /ns-3-dev
-   ```
+    ```bash
+    cd /ns-3-dev
+    ```
 
 ---
 
@@ -29,15 +60,15 @@ This project implements two Quality of Service (QoS) scheduling mechanisms in ns
 
 - To run the **DRR simulation**:
 
-  ```bash
-  ./ns3 run DrrSimulation -- src/project2/DrrConfig.json
-  ```
+    ```bash
+    ./ns3 run DrrSimulation -- src/project2/DrrConfig.json
+    ```
 
 - To run the **SPQ simulation**:
 
-  ```bash
-  ./ns3 run SpqSimulation -- src/project2/SpqConfig.json
-  ```
+    ```bash
+    ./ns3 run SpqSimulation -- src/project2/SpqConfig.json
+    ```
 
 > ⚠️ Make sure the config files exist and are valid JSON format.  
 > The `--` is required to pass arguments to the simulation's `main(argc, argv)`.
@@ -60,9 +91,3 @@ The config files define the queue behavior and classification rules:
 - Files are prefixed with `Pre_` and `Post_`.
   For example: `Pre_DRR`, `Post_DRR`, `Pre_SPQ`, `Post_SPQ`.
 - You can analyze them using tools like Wireshark.
-
----
-
-## 👨‍💻 Developer
-
-Developed by Koichi Nakata, Shing-Han Huang, Shun-Ting Huang  
