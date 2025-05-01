@@ -10,7 +10,8 @@
 #include "ns3/packet.h"
 #include "ns3/ptr.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     class SrcMask : public FilterElement
     {

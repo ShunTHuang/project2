@@ -8,7 +8,8 @@
 #include "FilterElement.h"
 #include "ns3/packet.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     class Protocol : public FilterElement
     {

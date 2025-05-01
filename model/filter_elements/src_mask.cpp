@@ -6,7 +6,8 @@
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     SrcMask::SrcMask(Ipv4Address address, Ipv4Mask mask)
       : m_address(address),

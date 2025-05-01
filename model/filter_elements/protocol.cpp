@@ -6,7 +6,8 @@
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
-namespace ns3 {
+namespace ns3
+{
 
     Protocol::Protocol(uint32_t protocol)
       : m_protocol(protocol)
