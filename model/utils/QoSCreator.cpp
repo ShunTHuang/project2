@@ -6,18 +6,13 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "../filter_elements/dst_ip.h"
-#include "../filter_elements/dst_mask.h"
-#include "../filter_elements/src_ip.h"
-#include "../filter_elements/src_mask.h"
-#include "../filter_elements/src_port.h"
-#include "filter_elements/protocol.h"
-#include "filter_elements/dst_port.h"
-#include "filter_elements/src_port.h"
-#include "filter_elements/src_ip.h"
 #include "filter_elements/dst_ip.h"
-#include "filter_elements/src_mask.h"
 #include "filter_elements/dst_mask.h"
+#include "filter_elements/dst_port.h"
+#include "filter_elements/protocol.h"
+#include "filter_elements/src_ip.h"
+#include "filter_elements/src_mask.h"
+#include "filter_elements/src_port.h"
 #include "queue/StrictPriorityQueue.h"
 #include "queue/DeficitRoundRobin.h"
 
