@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     std::string configFile = argv[1];
     LogComponentEnable ("SpqSimulation", LOG_LEVEL_INFO);
-  NS_LOG_INFO ("SpqSimulation Start time" << Simulator::Now ());
+
   double stopTime = 40.0;
 
   NodeContainer hosts, routers;
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
   p2pLow.EnablePcap ("Post_SPQ", routers.Get(0)->GetDevice(1), false);
   Simulator::Stop(Seconds(stopTime));
   Simulator::Run();
-  NS_LOG_INFO ("SpqSimulation stop time " << Simulator::Now ());
+
   Simulator::Destroy();
 
   return 0;
