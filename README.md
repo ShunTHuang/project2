@@ -32,6 +32,13 @@ Ensure the following software is installed:
 
 ## 🛠 Install
 
+- Follow the [ns-3 guide](https://www.nsnam.org/docs/installation/html/quick-start.html#download) to install ns-3.
+  Make sure to run:
+    ```bash
+    ./ns3 configure --enable-examples --enable-tests
+    ./ns3 build
+    ```
+
 - Install nlohmann-json
     ```bash
     sudo apt update
