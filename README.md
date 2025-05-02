@@ -1,6 +1,6 @@
 # Project 2 – DRR and SPQ Queue in ns-3
 
-This project implements two Quality of Service (QoS) scheduling mechanisms in ns-3:
+This project implements two Quality of Service (QoS) mechanisms in ns-3:
 
 - **Deficit Round Robin (DRR)**
 - **Strict Priority Queueing (SPQ)**
