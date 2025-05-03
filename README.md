@@ -77,9 +77,25 @@ Ensure the following software is installed:
     ./ns3 run SpqSimulation -- src/project2/SpqConfig.json
     ```
 
-> ⚠️ Make sure the config files exist and are valid JSON format.  
-> The `--` is required to pass arguments to the simulation's `main(argc, argv)`.
+- Or to use CLI script and then run:
 
+    ```bash
+    ./ns3 run SpqSimulation -- src/project2/CLIConfig.txt
+    ```
+  
+    > ⚠️ Make sure the config files exist and are valid JSON format.  
+    
+    > The `--` is required to pass arguments to the simulation's `main(argc, argv)`.
+
+    > ⚠️ **Note:** The port numbers used in the ns-3 simulation differ from those on the Catalyst 3750 switch.
+
+  - **In ns-3 simulation**:
+      - High-priority traffic: UDP port `50000`
+      - Low-priority  traffic: UDP port `50001`
+
+  - **On the Catalyst 3750 switch**:
+      - High-priority traffic: UDP port `50001`
+      - Low-priority  traffic : UDP port `50002`
 ---
 
 ## 📂 Config Files
