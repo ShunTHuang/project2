@@ -1,0 +1,48 @@
+conf t
+
+mls qos
+
+access-list 101 permit udp any any eq 50000
+access-list 102 permit udp any any eq 50001
+
+class-map match-all CLASS1
+ match access-group 101
+exit
+
+class-map match-all CLASS2
+ match access-group 102
+exit
+
+policy-map MARK
+ class CLASS1
+  set dscp 46
+ exit
+ class CLASS2
+  set dscp 8
+ exit
+exit
+
+interface FastEthernet1/0/2
+ switchport
+ switchport mode access
+ mls qos trust dscp
+ service-policy input MARK
+exit
+
+interface FastEthernet1/0/5
+ switchport
+ switchport mode access
+ mls qos trust dscp
+ priority-queue out
+ srr-queue bandwidth share 4 1 1 1
+ srr-queue bandwidth limit 30
+exit
+
+mls qos map dscp-cos 46 to 5
+mls qos map dscp-cos 8 to 1
+
+mls qos srr-queue output cos-map queue 1 threshold 3 5
+mls qos srr-queue output cos-map queue 2 threshold 3 1
+
+end
+write memory
