@@ -22,7 +22,7 @@ build_lib(
         model/queue/StrictPriorityQueue.cpp
         model/queue/DeficitRoundRobin.cpp
         model/utils/QoSCreator.cpp
-        model/utils/SpqGenerator.cpp
+        model/utils/CLIParser.cpp
         HEADER_FILES
         model/DiffServ.h
         model/TrafficClass.h
@@ -38,7 +38,7 @@ build_lib(
         model/queue/StrictPriorityQueue.h
         model/queue/DeficitRoundRobin.h
         model/utils/QoSCreator.h
-        model/utils/SpqGenerator.h
+        model/utils/CLIParser.h
         LIBRARIES_TO_LINK
         ${libcore}
         ${libnetwork}

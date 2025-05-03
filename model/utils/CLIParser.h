@@ -19,7 +19,7 @@ namespace ns3
         int queue;
     };
 
-    class SpqGenerator
+    class CLIParser
     {
         public:
             bool GenerateSpqConfig(const std::string& cliFilePath,

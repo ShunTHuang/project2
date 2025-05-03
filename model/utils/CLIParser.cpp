@@ -2,7 +2,7 @@
 // Created by shun on 5/3/25.
 //
 
-#include "SpqGenerator.h"
+#include "CLIParser.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -122,7 +122,7 @@ namespace ns3
     }
 
     bool
-    SpqGenerator::GenerateSpqConfig (const std::string &cliFilePath,
+    CLIParser::GenerateSpqConfig (const std::string &cliFilePath,
                                      const std::string &jsonOutputPath)
     {
         auto rules = ParseCliFile (cliFilePath);

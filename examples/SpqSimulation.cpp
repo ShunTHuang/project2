@@ -11,7 +11,7 @@
 #include "ns3/log.h"
 #include "ns3/traffic-control-module.h"
 #include "ns3/trace-helper.h"
-#include "utils/SpqGenerator.h"
+#include "utils/CLIParser.h"
 
 
 using namespace ns3;
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     if (configFile.size() >= 4 && configFile.substr(configFile.size() - 4) == ".txt")
     {
         const std::string outputJsonPath = "src/project2/SpqCLIConfig.json";
-        SpqGenerator generator;
+        CLIParser generator;
         if (!generator.GenerateSpqConfig(configFile, outputJsonPath)) {
             std::cerr << "Failed to generate SPQ config from " << configFile << "\n";
             std::exit(1);
