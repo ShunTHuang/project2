@@ -49,11 +49,7 @@ Ensure the following software is installed:
 
 1. **Place the project directory**
 
-   Copy the `project2` folder into your ns-3 source tree under `src/`:
-
-    ```bash
-    mv project2 /ns-3-dev/src/
-    ```
+   Copy the `project2` folder into your ns-3 source tree under `src/`
 
 2. **Navigate to the ns-3 root directory**
 
