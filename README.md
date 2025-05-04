@@ -42,7 +42,7 @@ Ensure the following software is installed:
 - Install nlohmann-json
     ```bash
     sudo apt update
-    sudo apt install nlohmann-json-dev
+    sudo apt install nlohmann-json3-dev
     ```
 
 ## 📁 Setup
