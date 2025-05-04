@@ -73,7 +73,7 @@ Ensure the following software is installed:
     ./ns3 run SpqSimulation -- src/project2/SpqConfig.json
     ```
 
-- Or to use CLI script and then run:
+- Or to use CLI script and then run(Extra credit):
 
     ```bash
     ./ns3 run SpqSimulation -- src/project2/CLIConfig.txt
