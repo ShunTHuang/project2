@@ -172,5 +172,4 @@ namespace ns3
         ofs << config.dump(2) << std::endl;
         return true;
     }
-
 } // namespace ns3
