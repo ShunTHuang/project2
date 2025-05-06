@@ -1,6 +1,10 @@
-//
-// Created by shun on 4/16/25.
-//
+/*
+ * Copyright (c) 2025 shun-peter-koichi.code
+ *
+ * SPDX-License-Identifier: GPL-2.0-only
+ *
+ * Author: Shun <shuang86@dons.usfca.edu>
+ */
 
 #include "src_port.h"
 #include "ns3/udp-header.h"
@@ -11,11 +15,25 @@
 namespace ns3
 {
 
+    /**
+     * @brief Constructor that store port number to match.
+     *
+     * @param port Source port value to compare.
+     */
     SrcPort::SrcPort(uint32_t port)
-      : m_port(port)
+            : m_port(port)
     {
     }
 
+    /**
+     * @brief Check if the packet's source port match with stored port.
+     *
+     * It will remove PPP and IP headers, then check protocol.
+     * If TCP or UDP, it will peek transport header and compare source port.
+     *
+     * @param packet The packet to evaluate.
+     * @return True if match; false otherwise.
+     */
     bool
     SrcPort::Match(Ptr<Packet> packet)
     {

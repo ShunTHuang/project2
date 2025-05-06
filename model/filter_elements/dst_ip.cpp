@@ -1,6 +1,10 @@
-//
-// Created by shun on 4/16/25.
-//
+/*
+ * Copyright (c) 2025 shun-peter-koichi.code
+ *
+ * SPDX-License-Identifier: GPL-2.0-only
+ *
+ * Author: Shun <shuang86@dons.usfca.edu>
+ */
 
 #include "dst_ip.h"
 #include "ns3/ipv4-header.h"
@@ -9,11 +13,22 @@
 namespace ns3
 {
 
+    /**
+     * @brief Constructor.
+     *
+     * @param addr The destination IP address to match.
+     */
     DstIp::DstIp(Ipv4Address addr)
-      : m_address(addr)
+            : m_address(addr)
     {
     }
 
+    /**
+     * @brief Check if the given packet matches the destination IP address.
+     *
+     * @param packet The packet to evaluate.
+     * @return True if the destination IP matches; false otherwise.
+     */
     bool
     DstIp::Match(Ptr<Packet> packet)
     {

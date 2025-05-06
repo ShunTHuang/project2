@@ -1,6 +1,10 @@
-//
-// Created by shun on 5/3/25.
-//
+/*
+ * Copyright (c) 2025 shun-peter-koichi.code
+ *
+ * SPDX-License-Identifier: GPL-2.0-only
+ *
+ * Author: Shun <shuang86@dons.usfca.edu>
+ */
 
 #include "CLIParser.h"
 #include <iostream>
@@ -12,9 +16,9 @@
 namespace ns3
 {
 
-    // Map DSCP to COS values
+// Map DSCP to COS values
     int
-    GetCosFromDscp (int dscp)
+    GetCosFromDscp(int dscp)
     {
         switch (dscp)
         {
@@ -27,9 +31,9 @@ namespace ns3
         }
     }
 
-    // Map COS to queue index
+// Map COS to queue index
     int
-    GetQueueFromCos (int cos)
+    GetQueueFromCos(int cos)
     {
         switch (cos)
         {
@@ -42,123 +46,129 @@ namespace ns3
         }
     }
 
-    // Parse the CLI file and build Rule list
+// Parse the CLI file and build Rule list
     std::vector<Rule>
-    ParseCliFile (const std::string &filename)
+    ParseCliFile(const std::string& filename)
     {
-      std::ifstream infile (filename);
-      if (!infile)
+        std::ifstream infile(filename);
+        if (!infile)
         {
-          return {};
+            return {};
         }
 
-      std::regex accessListRe (R"(^\s*access-list\s+(\d+)\s+permit\s+udp\s+any\s+any\s+eq\s+(\d+))");
-      std::regex classMapRe   (R"(^\s*class-map\s+match-all\s+(\S+))");
-      std::regex matchAclRe   (R"(^\s*match\s+access-group\s+(\d+))");
-      std::regex policyClassRe(R"(^\s*class\s+(\S+)\s*$)");
-      std::regex setDscpRe    (R"(^\s*set\s+dscp\s+(\d+))");
+        std::regex accessListRe(R"(^\s*access-list\s+(\d+)\s+permit\s+udp\s+any\s+any\s+eq\s+(\d+))");
+        std::regex classMapRe(R"(^\s*class-map\s+match-all\s+(\S+))");
+        std::regex matchAclRe(R"(^\s*match\s+access-group\s+(\d+))");
+        std::regex policyClassRe(R"(^\s*class\s+(\S+)\s*$)");
+        std::regex setDscpRe(R"(^\s*set\s+dscp\s+(\d+))");
 
-      std::unordered_map<int,int>        aclToPort;
-      std::unordered_map<std::string,int> classToAcl;
-      std::unordered_map<std::string,int> classToDscp;
+        std::unordered_map<int, int> aclToPort;
+        std::unordered_map<std::string, int> classToAcl;
+        std::unordered_map<std::string, int> classToDscp;
 
-      std::string currentClass;
-      std::string currentPolicyClass;
-      std::string line;
+        std::string currentClass;
+        std::string currentPolicyClass;
+        std::string line;
 
-      while (std::getline (infile, line))
+        while (std::getline(infile, line))
         {
-          std::smatch m;
-          if (std::regex_search (line, m, accessListRe))
+            std::smatch m;
+            if (std::regex_search(line, m, accessListRe))
             {
-              aclToPort[std::stoi (m[1])] = std::stoi (m[2]);
+                aclToPort[std::stoi(m[1])] = std::stoi(m[2]);
             }
-          else if (std::regex_search (line, m, classMapRe))
+            else if (std::regex_search(line, m, classMapRe))
             {
-              currentClass = m[1];
+                currentClass = m[1];
             }
-          else if (std::regex_search (line, m, matchAclRe))
+            else if (std::regex_search(line, m, matchAclRe))
             {
-              classToAcl[currentClass] = std::stoi (m[1]);
+                classToAcl[currentClass] = std::stoi(m[1]);
             }
-          else if (std::regex_search (line, m, policyClassRe)
-                   && line.find ("class-map") == std::string::npos)
+            else if (std::regex_search(line, m, policyClassRe)
+                     && line.find("class-map") == std::string::npos)
             {
-              currentPolicyClass = m[1];
+                currentPolicyClass = m[1];
             }
-          else if (std::regex_search (line, m, setDscpRe))
+            else if (std::regex_search(line, m, setDscpRe))
             {
-              classToDscp[currentPolicyClass] = std::stoi (m[1]);
+                classToDscp[currentPolicyClass] = std::stoi(m[1]);
             }
         }
 
-      std::vector<Rule> rules;
-      for (auto const &kv : classToAcl)
+        std::vector<Rule> rules;
+        for (const auto& kv : classToAcl)
         {
-          const std::string &cls = kv.first;
-          int aclId              = kv.second;
-          auto itPort = aclToPort.find (aclId);
-          auto itDscp = classToDscp.find (cls);
-          if (itPort != aclToPort.end () && itDscp != classToDscp.end ())
+            const std::string& cls = kv.first;
+            int aclId = kv.second;
+            auto itPort = aclToPort.find(aclId);
+            auto itDscp = classToDscp.find(cls);
+            if (itPort != aclToPort.end() && itDscp != classToDscp.end())
             {
-              int port  = itPort->second;
-              int dscp  = itDscp->second;
-              int cos   = GetCosFromDscp (dscp);
-              int queue = GetQueueFromCos (cos);
-              if (queue > 0)
+                int port = itPort->second;
+                int dscp = itDscp->second;
+                int cos = GetCosFromDscp(dscp);
+                int queue = GetQueueFromCos(cos);
+                if (queue > 0)
                 {
-                  rules.push_back ({port, dscp, queue});
+                    rules.push_back({port, dscp, queue});
                 }
             }
         }
 
-      // Sort by queue index to ensure low-priority first
-      std::sort (rules.begin (), rules.end (), [] (auto const &a, auto const &b)
-        {
-          return a.queue < b.queue;
+        // Sort by queue index to ensure low-priority first
+        std::sort(rules.begin(), rules.end(), [](auto const& a, auto const& b) {
+            return a.queue < b.queue;
         });
 
-      return rules;
+        return rules;
     }
 
+/**
+ * @brief Generate JSON config file from CLI command file.
+ *
+ * @param cliFilePath Path to CLI input file.
+ * @param jsonOutputPath Path to write JSON output.
+ * @return True if successful; otherwise false.
+ */
     bool
-    CLIParser::GenerateSpqConfig (const std::string &cliFilePath,
-                                     const std::string &jsonOutputPath)
+    CLIParser::GenerateSpqConfig(const std::string& cliFilePath,
+                                 const std::string& jsonOutputPath)
     {
-        auto rules = ParseCliFile (cliFilePath);
-        if (rules.empty ())
+        auto rules = ParseCliFile(cliFilePath);
+        if (rules.empty())
         {
             return false;
         }
 
         nlohmann::json config;
         config["qos_mechanism"] = "spq";
-        config["queues"]        = nlohmann::json::array ();
+        config["queues"] = nlohmann::json::array();
 
-        for (auto const &r : rules)
+        for (const auto& r : rules)
         {
             nlohmann::json q;
             q["priority_level"] = (r.queue == 1 ? 0 : 1);
-            q["maxPackets"]     = 100;
-            q["quantum"]        = 100;
-            q["weight"]         = 1;
-            q["isDefault"]      = false;
+            q["maxPackets"] = 100;
+            q["quantum"] = 100;
+            q["weight"] = 1;
+            q["isDefault"] = false;
 
             // Build filter group
-            nlohmann::json filter = nlohmann::json::array ({
-              {{"filterType", "Protocol"}, {"filterValue", "udp"}},
-              {{"filterType", "DstPort"},  {"filterValue", r.dstPort}}
-            });
-            q["filters"] = nlohmann::json::array ({ filter });
-            config["queues"].push_back (q);
+            nlohmann::json filter = nlohmann::json::array({
+                                                                  {{"filterType", "Protocol"}, {"filterValue", "udp"}},
+                                                                  {{"filterType", "DstPort"},  {"filterValue", r.dstPort}}
+                                                          });
+            q["filters"] = nlohmann::json::array({filter});
+            config["queues"].push_back(q);
         }
 
-        std::ofstream ofs (jsonOutputPath);
+        std::ofstream ofs(jsonOutputPath);
         if (!ofs)
         {
             return false;
         }
-        ofs << config.dump (2) << std::endl;
+        ofs << config.dump(2) << std::endl;
         return true;
     }
 

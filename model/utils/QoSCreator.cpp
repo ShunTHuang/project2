@@ -1,6 +1,10 @@
-//
-// Created by koichi on 4/18/25.
-//
+/*
+ * Copyright (c) 2025 shun-peter-koichi.code
+ *
+ * SPDX-License-Identifier: GPL-2.0-only
+ *
+ * Author: Koichi <knakata@dons.usfca.edu>
+ */
 
 #include "QoSCreator.h"
 #include <fstream>
@@ -19,6 +23,12 @@
 namespace ns3
 {
 
+/**
+ * @brief Parse config file and create list of traffic classes.
+ *
+ * @param filename Path to JSON config file.
+ * @return Vector of pointer to created TrafficClass.
+ */
     std::vector<TrafficClass*>
     QoSCreator::CreateTrafficClasses(const std::string& filename)
     {
@@ -49,6 +59,12 @@ namespace ns3
         return classes;
     }
 
+/**
+ * @brief Create a QoS object (DiffServ) from config file.
+ *
+ * @param filename Path to JSON config file.
+ * @return A pointer to created DiffServ-based queue.
+ */
     DiffServ*
     QoSCreator::CreateQoS(const std::string& filename)
     {
@@ -77,6 +93,12 @@ namespace ns3
         throw std::invalid_argument("Unknown qos mechanism: " + mech);
     }
 
+/**
+ * @brief Helper to parse filters section inside traffic class config.
+ *
+ * @param filtersConfig JSON object with filter data.
+ * @param tc Pointer to traffic class to add filters into.
+ */
     void
     QoSCreator::ParseFilters(const json& filtersConfig, TrafficClass* tc)
     {
