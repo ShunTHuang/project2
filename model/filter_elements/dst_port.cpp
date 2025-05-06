@@ -21,7 +21,7 @@ namespace ns3
      * @param port Destination port number to compare.
      */
     DstPort::DstPort(uint32_t port)
-            : m_port(port)
+        : m_port(port)
     {
     }
 

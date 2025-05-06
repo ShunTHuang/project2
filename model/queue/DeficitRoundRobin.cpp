@@ -28,7 +28,7 @@ namespace ns3
     DeficitRoundRobin::GetTypeId()
     {
         static TypeId tid = TypeId("ns3::DeficitRoundRobin")
-                                    .SetParent<Queue<Packet>>()
+                .SetParent<Queue<Packet>>()
                 .AddConstructor<DeficitRoundRobin>()
                 .AddAttribute("ConfigFile",
                               "Path to JSON file describing traffic classes",
@@ -42,7 +42,7 @@ namespace ns3
  * @brief Default constructor.
  */
     DeficitRoundRobin::DeficitRoundRobin()
-            : m_queueIndex(0)
+        : m_queueIndex(0)
     {
         static const std::vector<uint32_t> defaultQuantum = {300, 200, 100};
         for (uint32_t q : defaultQuantum)
@@ -57,7 +57,7 @@ namespace ns3
  * @param trafficClasses List of traffic class to be used.
  */
     DeficitRoundRobin::DeficitRoundRobin(std::vector<TrafficClass*> trafficClasses)
-            : m_queueIndex(0)
+        : m_queueIndex(0)
     {
         m_classes.swap(trafficClasses);
     }

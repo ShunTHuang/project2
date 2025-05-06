@@ -21,7 +21,7 @@ namespace ns3
      * @param port Source port value to compare.
      */
     SrcPort::SrcPort(uint32_t port)
-            : m_port(port)
+        : m_port(port)
     {
     }
 

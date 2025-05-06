@@ -56,11 +56,11 @@ namespace ns3
             return {};
         }
 
-        std::regex accessListRe(R"(^\s*access-list\s+(\d+)\s+permit\s+udp\s+any\s+any\s+eq\s+(\d+))");
-        std::regex classMapRe(R"(^\s*class-map\s+match-all\s+(\S+))");
-        std::regex matchAclRe(R"(^\s*match\s+access-group\s+(\d+))");
+        std::regex accessListRe (R"(^\s*access-list\s+(\d+)\s+permit\s+udp\s+any\s+any\s+eq\s+(\d+))");
+        std::regex classMapRe   (R"(^\s*class-map\s+match-all\s+(\S+))");
+        std::regex matchAclRe   (R"(^\s*match\s+access-group\s+(\d+))");
         std::regex policyClassRe(R"(^\s*class\s+(\S+)\s*$)");
-        std::regex setDscpRe(R"(^\s*set\s+dscp\s+(\d+))");
+        std::regex setDscpRe    (R"(^\s*set\s+dscp\s+(\d+))");
 
         std::unordered_map<int, int> aclToPort;
         std::unordered_map<std::string, int> classToAcl;
@@ -97,17 +97,17 @@ namespace ns3
         }
 
         std::vector<Rule> rules;
-        for (const auto& kv : classToAcl)
+        for (auto const& kv : classToAcl)
         {
             const std::string& cls = kv.first;
-            int aclId = kv.second;
+            int aclId              = kv.second;
             auto itPort = aclToPort.find(aclId);
             auto itDscp = classToDscp.find(cls);
             if (itPort != aclToPort.end() && itDscp != classToDscp.end())
             {
-                int port = itPort->second;
-                int dscp = itDscp->second;
-                int cos = GetCosFromDscp(dscp);
+                int port  = itPort->second;
+                int dscp  = itDscp->second;
+                int cos   = GetCosFromDscp(dscp);
                 int queue = GetQueueFromCos(cos);
                 if (queue > 0)
                 {
@@ -117,7 +117,8 @@ namespace ns3
         }
 
         // Sort by queue index to ensure low-priority first
-        std::sort(rules.begin(), rules.end(), [](auto const& a, auto const& b) {
+        std::sort(rules.begin(), rules.end(), [](auto const& a, auto const& b)
+        {
             return a.queue < b.queue;
         });
 
@@ -145,20 +146,20 @@ namespace ns3
         config["qos_mechanism"] = "spq";
         config["queues"] = nlohmann::json::array();
 
-        for (const auto& r : rules)
+        for (auto const& r : rules)
         {
             nlohmann::json q;
             q["priority_level"] = (r.queue == 1 ? 0 : 1);
-            q["maxPackets"] = 100;
-            q["quantum"] = 100;
-            q["weight"] = 1;
-            q["isDefault"] = false;
+            q["maxPackets"]     = 100;
+            q["quantum"]        = 100;
+            q["weight"]         = 1;
+            q["isDefault"]      = false;
 
             // Build filter group
             nlohmann::json filter = nlohmann::json::array({
-                                                                  {{"filterType", "Protocol"}, {"filterValue", "udp"}},
-                                                                  {{"filterType", "DstPort"},  {"filterValue", r.dstPort}}
-                                                          });
+                {{"filterType", "Protocol"}, {"filterValue", "udp"}},
+                {{"filterType", "DstPort"},  {"filterValue", r.dstPort}}
+            });
             q["filters"] = nlohmann::json::array({filter});
             config["queues"].push_back(q);
         }

@@ -22,13 +22,13 @@ namespace ns3
      * @param quantum Quantum value used for DRR scheduling.
      */
     TrafficClass::TrafficClass(uint32_t maxPkts, double weight, uint32_t priority, bool isDefault, uint32_t quantum)
-            : m_packetCount(0),
-              m_maxPackets(maxPkts),
-              m_weight(weight),
-              m_quantum(quantum),
-              m_priorityLevel(priority),
-              m_isDefault(isDefault),
-              m_counts(0)
+        : m_packetCount(0),
+          m_maxPackets(maxPkts),
+          m_weight(weight),
+          m_quantum(quantum),
+          m_priorityLevel(priority),
+          m_isDefault(isDefault),
+          m_counts(0)
     {
     }
 

@@ -19,7 +19,7 @@ namespace ns3
      * @param addr The destination IP address to match.
      */
     DstIp::DstIp(Ipv4Address addr)
-            : m_address(addr)
+        : m_address(addr)
     {
     }
 

@@ -20,8 +20,8 @@ namespace ns3
  * @param mask The mask apply to both stored and packet address.
  */
     SrcMask::SrcMask(Ipv4Address address, Ipv4Mask mask)
-            : m_address(address),
-              m_mask(mask)
+        : m_address(address),
+          m_mask(mask)
     {
     }
 

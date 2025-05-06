@@ -88,4 +88,4 @@ namespace ns3
 
 } // namespace ns3
 
-#endif // DIFFSERV_H
+#endif //DIFFSERV_H

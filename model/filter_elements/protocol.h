@@ -47,4 +47,4 @@ namespace ns3
 
 } // namespace ns3
 
-#endif // PROTOCOL_H
+#endif //PROTOCOL_H

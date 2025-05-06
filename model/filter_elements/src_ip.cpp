@@ -19,7 +19,7 @@ namespace ns3
  * @param addr Source IP address you want to match.
  */
     SrcIp::SrcIp(Ipv4Address addr)
-            : m_address(addr)
+        : m_address(addr)
     {
     }
 

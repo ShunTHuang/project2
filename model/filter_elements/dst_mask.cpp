@@ -20,8 +20,8 @@ namespace ns3
      * @param mask The IPv4 mask to use for compare.
      */
     DstMask::DstMask(Ipv4Address address, Ipv4Mask mask)
-            : m_address(address),
-              m_mask(mask)
+        : m_address(address),
+          m_mask(mask)
     {
     }
 

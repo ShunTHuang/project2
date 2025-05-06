@@ -31,7 +31,7 @@ namespace ns3
     StrictPriorityQueue::GetTypeId()
     {
         static TypeId tid = TypeId("ns3::StrictPriorityQueue<Packet>")
-                                    .SetParent<Queue<Packet>>()
+                .SetParent<Queue<Packet>>()
                 .AddConstructor<StrictPriorityQueue>()
                 .AddAttribute("ConfigFile",
                               "Path to JSON file describing traffic classes",
@@ -104,7 +104,7 @@ namespace ns3
         std::vector<TrafficClass*> sorted = m_classes;
         std::sort(sorted.begin(), sorted.end(),
                   [](TrafficClass* a, TrafficClass* b) {
-                      return a->GetPriority() < b->GetPriority();
+                        return a->GetPriority() < b->GetPriority();
                   });
 
         for (TrafficClass* cls : sorted)

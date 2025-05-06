@@ -19,7 +19,7 @@ namespace ns3
      * @param protocol Protocol number (for example, 6 for TCP, 17 for UDP).
      */
     Protocol::Protocol(uint32_t protocol)
-            : m_protocol(protocol)
+        : m_protocol(protocol)
     {
     }
 
