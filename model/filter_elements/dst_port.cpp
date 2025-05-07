@@ -1,6 +1,10 @@
-//
-// Created by shun on 4/16/25.
-//
+/*
+ * Copyright (c) 2025 shun-peter-koichi.code
+ *
+ * SPDX-License-Identifier: GPL-2.0-only
+ *
+ * Author: Shun <shuang86@dons.usfca.edu>
+ */
 
 #include "dst_port.h"
 #include "ns3/udp-header.h"
@@ -11,11 +15,25 @@
 namespace ns3
 {
 
+    /**
+     * @brief Constructor that set the port to match.
+     *
+     * @param port Destination port number to compare.
+     */
     DstPort::DstPort(uint32_t port)
-      : m_port(port)
+        : m_port(port)
     {
     }
 
+    /**
+     * @brief Check if packet's destination port match stored port.
+     *
+     * This will extract transport header and see if destination port
+     * is equal to m_port.
+     *
+     * @param packet The packet to test.
+     * @return True if match; otherwise false.
+     */
     bool
     DstPort::Match(Ptr<Packet> packet)
     {

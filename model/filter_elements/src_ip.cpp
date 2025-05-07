@@ -1,6 +1,10 @@
-//
-// Created by shun on 4/16/25.
-//
+/*
+ * Copyright (c) 2025 shun-peter-koichi.code
+ *
+ * SPDX-License-Identifier: GPL-2.0-only
+ *
+ * Author: Shun <shuang86@dons.usfca.edu>
+ */
 
 #include "src_ip.h"
 #include "ns3/ipv4-header.h"
@@ -9,11 +13,25 @@
 namespace ns3
 {
 
+/**
+ * @brief Constructor with IP address to match.
+ *
+ * @param addr Source IP address you want to match.
+ */
     SrcIp::SrcIp(Ipv4Address addr)
-      : m_address(addr)
+        : m_address(addr)
     {
     }
 
+    /**
+     * @brief Check if the packet's source IP match stored address.
+     *
+     * Remove PPP and IP headers to get source IP from packet.
+     * If same with m_address, then match success.
+     *
+     * @param packet The packet to evaluate.
+     * @return True if matched; false if not.
+     */
     bool
     SrcIp::Match(Ptr<Packet> packet)
     {
