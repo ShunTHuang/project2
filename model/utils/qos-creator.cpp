@@ -14,7 +14,7 @@
 #include "filter_elements/destination-mask.h"
 #include "filter_elements/destination-port-number.h"
 #include "filter_elements/protocol-number.h"
-#include "filter_elements/src-ip-address.h"
+#include "filter_elements/source-ip-address.h"
 #include "filter_elements/source-mask.h"
 #include "filter_elements/source-port-number.h"
 #include "queue/strict-priority-queue.h"
