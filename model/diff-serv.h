@@ -10,7 +10,7 @@
 #define DIFFSERV_H
 
 #include <vector>
-#include "TrafficClass.h"
+#include "traffic-class.h"
 #include "ns3/queue.h"
 
 namespace ns3

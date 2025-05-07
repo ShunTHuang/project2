@@ -9,7 +9,7 @@
 #ifndef DEFICITROUNDROBIN_H
 #define DEFICITROUNDROBIN_H
 
-#include "DiffServ.h"
+#include "diff-serv.h"
 
 namespace ns3
 {

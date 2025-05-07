@@ -6,7 +6,7 @@
  * Author: Shun <shuang86@dons.usfca.edu>
  */
 
-#include "TrafficClass.h"
+#include "traffic-class.h"
 #include "ns3/simulator.h"
 
 namespace ns3

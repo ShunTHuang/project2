@@ -9,7 +9,7 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
-#include "FilterElement.h"
+#include "filter-element.h"
 #include "ns3/packet.h"
 
 namespace ns3

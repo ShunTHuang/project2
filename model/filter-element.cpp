@@ -6,7 +6,7 @@
  * Author: Shun <shuang@dons.usfca.edu>
  */
 
-#include "FilterElement.h"
+#include "filter-element.h"
 
 namespace ns3
 {

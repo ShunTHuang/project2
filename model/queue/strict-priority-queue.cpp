@@ -6,15 +6,15 @@
  * Author: Peter <shuang85@dons.usfca.edu>
  */
 
-#include "StrictPriorityQueue.h"
-#include "TrafficClass.h"
+#include "strict-priority-queue.h"
+#include "traffic-class.h"
 #include <ns3/queue.h>
 #include <ns3/packet.h>
 #include "ns3/log.h"
 #include "ns3/simulator.h"
 #include "ns3/string.h"
 #include "ns3/uinteger.h"
-#include "utils/QoSCreator.h"
+#include "utils/qos-creator.h"
 
 namespace ns3
 {

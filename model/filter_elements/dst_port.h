@@ -9,7 +9,7 @@
 #ifndef DST_PORT_H
 #define DST_PORT_H
 
-#include "FilterElement.h"
+#include "filter-element.h"
 #include "ns3/packet.h"
 
 namespace ns3

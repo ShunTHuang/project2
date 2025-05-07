@@ -6,7 +6,7 @@
  * Author: Shun <shuang86@dons.usfca.edu>
  */
 
-#include "DiffServ.h"
+#include "diff-serv.h"
 
 namespace ns3
 {

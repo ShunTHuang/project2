@@ -11,7 +11,7 @@
 
 #include <queue>
 #include <vector>
-#include "Filter.h"
+#include "filter.h"
 
 namespace ns3
 {

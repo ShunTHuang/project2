@@ -8,10 +8,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 build_lib(
         LIBNAME project2
         SOURCE_FILES
-        model/DiffServ.cpp
-        model/TrafficClass.cpp
-        model/Filter.cpp
-        model/FilterElement.cpp
+        model/diff-serv.cpp
+        model/traffic-class.cpp
+        model/filter.cpp
+        model/filter-element.cpp
         model/filter_elements/src_ip.cpp
         model/filter_elements/src_mask.cpp
         model/filter_elements/src_port.cpp
@@ -19,15 +19,15 @@ build_lib(
         model/filter_elements/dst_mask.cpp
         model/filter_elements/dst_port.cpp
         model/filter_elements/protocol.cpp
-        model/queue/StrictPriorityQueue.cpp
-        model/queue/DeficitRoundRobin.cpp
-        model/utils/QoSCreator.cpp
-        model/utils/CLIParser.cpp
+        model/queue/strict-priority-queue.cpp
+        model/queue/deficit-round-robin.cpp
+        model/utils/qos-creator.cpp
+        model/utils/cli-parser.cpp
         HEADER_FILES
-        model/DiffServ.h
-        model/TrafficClass.h
-        model/Filter.h
-        model/FilterElement.h
+        model/diff-serv.h
+        model/traffic-class.h
+        model/filter.h
+        model/filter-element.h
         model/filter_elements/src_ip.h
         model/filter_elements/src_mask.h
         model/filter_elements/src_port.h
@@ -35,10 +35,10 @@ build_lib(
         model/filter_elements/dst_mask.h
         model/filter_elements/dst_port.h
         model/filter_elements/protocol.h
-        model/queue/StrictPriorityQueue.h
-        model/queue/DeficitRoundRobin.h
-        model/utils/QoSCreator.h
-        model/utils/CLIParser.h
+        model/queue/strict-priority-queue.h
+        model/queue/deficit-round-robin.h
+        model/utils/qos-creator.h
+        model/utils/cli-parser.h
         LIBRARIES_TO_LINK
         ${libcore}
         ${libnetwork}
