@@ -6,7 +6,7 @@
  * Author: Shun <shuang86@dons.usfca.edu>
  */
 
-#include "dst_ip.h"
+#include "destination-ip-address.h"
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
@@ -18,7 +18,7 @@ namespace ns3
      *
      * @param addr The destination IP address to match.
      */
-    DstIp::DstIp(Ipv4Address addr)
+    DestinationIPAddress::DestinationIPAddress(Ipv4Address addr)
         : m_address(addr)
     {
     }
@@ -30,7 +30,7 @@ namespace ns3
      * @return True if the destination IP matches; false otherwise.
      */
     bool
-    DstIp::Match(Ptr<Packet> packet)
+    DestinationIPAddress::Match(Ptr<Packet> packet)
     {
         Ptr<Packet> copy = packet->Copy();
         PppHeader pppHeader;

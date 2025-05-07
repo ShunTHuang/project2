@@ -6,7 +6,7 @@
  * Author: Shun <shuang86@dons.usfca.edu>
  */
 
-#include "dst_port.h"
+#include "destination-port-number.h"
 #include "ns3/udp-header.h"
 #include "ns3/tcp-header.h"
 #include "ns3/ipv4-header.h"
@@ -20,7 +20,7 @@ namespace ns3
      *
      * @param port Destination port number to compare.
      */
-    DstPort::DstPort(uint32_t port)
+    DestinationPortNumber::DestinationPortNumber(uint32_t port)
         : m_port(port)
     {
     }
@@ -35,7 +35,7 @@ namespace ns3
      * @return True if match; otherwise false.
      */
     bool
-    DstPort::Match(Ptr<Packet> packet)
+    DestinationPortNumber::Match(Ptr<Packet> packet)
     {
         Ptr<Packet> copy = packet->Copy();
         PppHeader pppHeader;

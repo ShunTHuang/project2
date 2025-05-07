@@ -6,7 +6,7 @@
  * Author: Shun <shuang86@dons.usfca.edu>
  */
 
-#include "src_port.h"
+#include "source-port-number.h"
 #include "ns3/udp-header.h"
 #include "ns3/tcp-header.h"
 #include "ns3/ipv4-header.h"
@@ -20,7 +20,7 @@ namespace ns3
      *
      * @param port Source port value to compare.
      */
-    SrcPort::SrcPort(uint32_t port)
+    SourcePortNumber::SourcePortNumber(uint32_t port)
         : m_port(port)
     {
     }
@@ -35,7 +35,7 @@ namespace ns3
      * @return True if match; false otherwise.
      */
     bool
-    SrcPort::Match(Ptr<Packet> packet)
+    SourcePortNumber::Match(Ptr<Packet> packet)
     {
         Ptr<Packet> copy = packet->Copy();
         PppHeader pppHeader;

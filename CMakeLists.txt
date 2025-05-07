@@ -12,13 +12,13 @@ build_lib(
         model/traffic-class.cpp
         model/filter.cpp
         model/filter-element.cpp
-        model/filter_elements/src_ip.cpp
-        model/filter_elements/src_mask.cpp
-        model/filter_elements/src_port.cpp
-        model/filter_elements/dst_ip.cpp
-        model/filter_elements/dst_mask.cpp
-        model/filter_elements/dst_port.cpp
-        model/filter_elements/protocol.cpp
+        model/filter_elements/source-ip-address.cpp
+        model/filter_elements/source-mask.cpp
+        model/filter_elements/source-port-number.cpp
+        model/filter_elements/destination-ip-address.cpp
+        model/filter_elements/destination-mask.cpp
+        model/filter_elements/destination-port-number.cpp
+        model/filter_elements/protocol-number.cpp
         model/queue/strict-priority-queue.cpp
         model/queue/deficit-round-robin.cpp
         model/utils/qos-creator.cpp
@@ -28,13 +28,13 @@ build_lib(
         model/traffic-class.h
         model/filter.h
         model/filter-element.h
-        model/filter_elements/src_ip.h
-        model/filter_elements/src_mask.h
-        model/filter_elements/src_port.h
-        model/filter_elements/dst_ip.h
-        model/filter_elements/dst_mask.h
-        model/filter_elements/dst_port.h
-        model/filter_elements/protocol.h
+        model/filter_elements/source-ip-address.h
+        model/filter_elements/source-mask.h
+        model/filter_elements/source-port-number.h
+        model/filter_elements/destination-ip-address.h
+        model/filter_elements/destination-mask.h
+        model/filter_elements/destination-port-number.h
+        model/filter_elements/protocol-number.h
         model/queue/strict-priority-queue.h
         model/queue/deficit-round-robin.h
         model/utils/qos-creator.h
