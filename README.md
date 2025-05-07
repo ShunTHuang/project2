@@ -1,4 +1,4 @@
-# Project 2 – DRR and SPQ Queue in ns-3
+# QoS Project: DRR and SPQ Queue in ns-3
 
 This project implements two Quality of Service (QoS) mechanisms in ns-3:
 
@@ -73,7 +73,7 @@ Ensure the following software is installed:
     ./ns3 run SpqSimulation -- src/project2/SpqConfig.json
     ```
 
-- Or to use CLI script and then run(Extra credit):
+- Or to use CLI script and then run (Extra credit):
 
     ```bash
     ./ns3 run SpqSimulation -- src/project2/CLIConfig.txt
@@ -81,9 +81,9 @@ Ensure the following software is installed:
   
     > ⚠️ Make sure the config files exist and are valid JSON format.  
     
-    > The `--` is required to pass arguments to the simulation's `main(argc, argv)`.
+    > ⚠️ The `--` is required to pass arguments to the simulation's `main(argc, argv)`.
 
-    > ⚠️ **Note:** The port numbers used in the ns-3 simulation differ from those on the Catalyst 3750 switch.
+    > ⚠️ The port numbers used in the ns-3 simulation differ from those on the Catalyst 3750 switch.
 
   - **In ns-3 simulation**:
       - High-priority traffic: UDP port `50000`
@@ -100,6 +100,7 @@ The config files define the queue behavior and classification rules:
 
 - `DrrConfig.json` – DRR class definitions, filters, and quantum values.
 - `SpqConfig.json` – SPQ class definitions, filters, and priority mapping.
+- `CLIConfig.txt` – The same functionalities as `SpqConfig.json` but can be applied to CISCO Catalyst Switch 3750. 
 
 
 ---
@@ -109,4 +110,16 @@ The config files define the queue behavior and classification rules:
 - `.pcap` trace files are generated in the `ns-3-dev/` directory.
 - Files are prefixed with `Pre_` and `Post_`.
   For example: `Pre_DRR`, `Post_DRR`, `Pre_SPQ`, `Post_SPQ`.
-- You can analyze them using tools like Wireshark.
+- You can analyze them using Wireshark. To generate effective charts, please add the following filtering rules to the I/O chart:
+  - DRR simulation:
+    - udp.dstport == 50001
+    - udp.dstport == 50002
+    - udp.dstport == 50003
+
+  - SPQ simulation configured by SpqConfig.json:
+    - udp.dstport == 50000
+    - udp.dstport == 50001
+
+  - SPQ simulation configured by CLIConfig.txt:
+    - udp.dstport == 50001
+    - udp.dstport == 50002
