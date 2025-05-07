@@ -11,7 +11,7 @@
 #include "ns3/log.h"
 #include "ns3/traffic-control-module.h"
 #include "ns3/trace-helper.h"
-#include "utils/CLIParser.h"
+#include "utils/cli-parser.h"
 
 
 using namespace ns3;

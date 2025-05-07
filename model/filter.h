@@ -9,7 +9,7 @@
 #ifndef FILTER_H
 #define FILTER_H
 
-#include "FilterElement.h"
+#include "filter-element.h"
 
 namespace ns3
 {

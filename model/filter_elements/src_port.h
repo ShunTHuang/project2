@@ -9,7 +9,7 @@
 #ifndef SRC_PORT_H
 #define SRC_PORT_H
 
-#include "FilterElement.h"
+#include "filter-element.h"
 #include "ns3/packet.h"
 
 namespace ns3

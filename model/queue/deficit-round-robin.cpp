@@ -6,12 +6,12 @@
  * Author: Koichi <knakata@dons.usfca.edu>
  */
 
-#include "DeficitRoundRobin.h"
-#include "TrafficClass.h"
+#include "deficit-round-robin.h"
+#include "traffic-class.h"
 #include "ns3/log.h"
 #include "ns3/simulator.h"
 #include "ns3/string.h"
-#include "utils/QoSCreator.h"
+#include "utils/qos-creator.h"
 
 namespace ns3
 {

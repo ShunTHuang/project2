@@ -9,7 +9,7 @@
 #ifndef SPQQUEUE_H
 #define SPQQUEUE_H
 
-#include "DiffServ.h"
+#include "diff-serv.h"
 
 namespace ns3
 {

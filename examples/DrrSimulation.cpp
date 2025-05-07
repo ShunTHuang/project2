@@ -8,7 +8,7 @@
 #include "ns3/point-to-point-module.h"
 #include "ns3/applications-module.h"
 #include "ns3/log.h"
-#include "queue/DeficitRoundRobin.h"
+#include "queue/deficit-round-robin.h"
 
 using namespace ns3;
 

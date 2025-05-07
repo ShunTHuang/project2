@@ -9,7 +9,7 @@
 #ifndef SRC_MASK_H
 #define SRC_MASK_H
 
-#include "FilterElement.h"
+#include "filter-element.h"
 #include "ns3/ipv4-address.h"
 #include "ns3/packet.h"
 #include "ns3/ptr.h"

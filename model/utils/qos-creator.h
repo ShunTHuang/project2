@@ -12,8 +12,8 @@
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
-#include "TrafficClass.h"
-#include "DiffServ.h"
+#include "traffic-class.h"
+#include "diff-serv.h"
 
 using json = nlohmann::json;
 

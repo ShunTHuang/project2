@@ -6,7 +6,7 @@
  * Author: Koichi <knakata@dons.usfca.edu>
  */
 
-#include "QoSCreator.h"
+#include "qos-creator.h"
 #include <fstream>
 #include <stdexcept>
 
@@ -17,8 +17,8 @@
 #include "filter_elements/src_ip.h"
 #include "filter_elements/src_mask.h"
 #include "filter_elements/src_port.h"
-#include "queue/StrictPriorityQueue.h"
-#include "queue/DeficitRoundRobin.h"
+#include "queue/strict-priority-queue.h"
+#include "queue/deficit-round-robin.h"
 
 namespace ns3
 {
