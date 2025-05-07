@@ -6,7 +6,7 @@
  * Author: Shun <shuang86@dons.usfca.edu>
  */
 
-#include "src_mask.h"
+#include "source-mask.h"
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
@@ -19,7 +19,7 @@ namespace ns3
  * @param address The base source address to compare.
  * @param mask The mask apply to both stored and packet address.
  */
-    SrcMask::SrcMask(Ipv4Address address, Ipv4Mask mask)
+    SourceMask::SourceMask(Ipv4Address address, Ipv4Mask mask)
         : m_address(address),
           m_mask(mask)
     {
@@ -34,7 +34,7 @@ namespace ns3
  * @return True if match; false otherwise.
  */
     bool
-    SrcMask::Match(Ptr<Packet> packet)
+    SourceMask::Match(Ptr<Packet> packet)
     {
         Ptr<Packet> copy = packet->Copy();
         PppHeader pppHeader;

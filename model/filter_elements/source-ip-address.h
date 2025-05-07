@@ -22,7 +22,7 @@ namespace ns3
  * This class will look at the IP header and compare source address
  * to the one stored in this filter.
  */
-    class SrcIp : public FilterElement
+    class SourceIPAddress : public FilterElement
     {
     public:
         /**
@@ -30,7 +30,7 @@ namespace ns3
          *
          * @param addr Source IP address you want to match.
          */
-        explicit SrcIp(Ipv4Address addr);
+        explicit SourceIPAddress(Ipv4Address addr);
 
         /**
          * @brief Check if the packet's source IP match stored address.

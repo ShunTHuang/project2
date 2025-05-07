@@ -6,7 +6,7 @@
  * Author: Shun <shuang86@dons.usfca.edu>
  */
 
-#include "protocol.h"
+#include "protocol-number.h"
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
@@ -18,7 +18,7 @@ namespace ns3
      *
      * @param protocol Protocol number (for example, 6 for TCP, 17 for UDP).
      */
-    Protocol::Protocol(uint32_t protocol)
+    ProtocolNumber::ProtocolNumber(uint32_t protocol)
         : m_protocol(protocol)
     {
     }
@@ -33,7 +33,7 @@ namespace ns3
      * @return True if match; false if not.
      */
     bool
-    Protocol::Match(Ptr<Packet> packet)
+    ProtocolNumber::Match(Ptr<Packet> packet)
     {
         Ptr<Packet> copy = packet->Copy();
         PppHeader pppHeader;

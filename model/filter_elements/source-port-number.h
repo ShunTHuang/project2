@@ -21,7 +21,7 @@ namespace ns3
  * This class support match packet by its source port,
  * like if packet is coming from specific UDP or TCP port.
  */
-    class SrcPort : public FilterElement
+    class SourcePortNumber : public FilterElement
     {
     public:
         /**
@@ -29,7 +29,7 @@ namespace ns3
          *
          * @param port Source port value to compare.
          */
-        explicit SrcPort(uint32_t port);
+        explicit SourcePortNumber(uint32_t port);
 
         /**
          * @brief Check if the packet's source port match with stored port.

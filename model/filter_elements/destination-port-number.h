@@ -21,7 +21,7 @@ namespace ns3
  * It looks inside transport layer header (like UDP or TCP)
  * and compare port with the value stored.
  */
-    class DstPort : public FilterElement
+    class DestinationPortNumber : public FilterElement
     {
     public:
         /**
@@ -29,7 +29,7 @@ namespace ns3
          *
          * @param port Destination port number to compare.
          */
-        explicit DstPort(uint32_t port);
+        explicit DestinationPortNumber(uint32_t port);
 
         /**
          * @brief Check if packet's destination port match stored port.

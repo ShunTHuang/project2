@@ -23,7 +23,7 @@ namespace ns3
  * It use mask to compare part of IP address from packet.
  * This is useful to match subnet instead of full address.
  */
-    class SrcMask : public FilterElement
+    class SourceMask : public FilterElement
     {
     public:
         /**
@@ -32,7 +32,7 @@ namespace ns3
          * @param address The base source address to compare.
          * @param mask The mask apply to both stored and packet address.
          */
-        SrcMask(Ipv4Address address, Ipv4Mask mask);
+        SourceMask(Ipv4Address address, Ipv4Mask mask);
 
         /**
          * @brief Check if packet source address match after apply mask.

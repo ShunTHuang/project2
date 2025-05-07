@@ -23,7 +23,7 @@ namespace ns3
  * It will check destination IP address of packet and compare with
  * stored IP and mask. If masked value is same, then packet is matched.
  */
-    class DstMask : public FilterElement
+    class DestinationMask : public FilterElement
     {
     public:
         /**
@@ -32,7 +32,7 @@ namespace ns3
          * @param address The base IP address to match with mask.
          * @param mask The IPv4 mask to use for compare.
          */
-        DstMask(Ipv4Address address, Ipv4Mask mask);
+        DestinationMask(Ipv4Address address, Ipv4Mask mask);
 
         /**
          * @brief Check if packet's destination address match the given address with mask.

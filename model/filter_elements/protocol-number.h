@@ -20,7 +20,7 @@ namespace ns3
  *
  * It is useful when you want to filter packet by protocol, like TCP or UDP.
  */
-    class Protocol : public FilterElement
+    class ProtocolNumber : public FilterElement
     {
     public:
         /**
@@ -28,7 +28,7 @@ namespace ns3
          *
          * @param proto Protocol number (for example, 6 for TCP, 17 for UDP).
          */
-        explicit Protocol(uint32_t proto);
+        explicit ProtocolNumber(uint32_t proto);
 
         /**
          * @brief Check if packet's protocol field match stored protocol number.

@@ -10,13 +10,13 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "filter_elements/dst_ip.h"
-#include "filter_elements/dst_mask.h"
-#include "filter_elements/dst_port.h"
-#include "filter_elements/protocol.h"
-#include "filter_elements/src_ip.h"
-#include "filter_elements/src_mask.h"
-#include "filter_elements/src_port.h"
+#include "filter_elements/destination-ip-address.h"
+#include "filter_elements/destination-mask.h"
+#include "filter_elements/destination-port-number.h"
+#include "filter_elements/protocol-number.h"
+#include "filter_elements/source-ip-address.h"
+#include "filter_elements/source-mask.h"
+#include "filter_elements/source-port-number.h"
 #include "queue/strict-priority-queue.h"
 #include "queue/deficit-round-robin.h"
 
@@ -113,35 +113,35 @@ namespace ns3
                 {
                     std::string proto = f["filterValue"];
                     uint8_t protoNumber = (proto == "tcp") ? 6 : 17;
-                    group->AddElement(new Protocol(protoNumber));
+                    group->AddElement(new ProtocolNumber(protoNumber));
                 }
                 else if (type == "DstPort")
                 {
-                    group->AddElement(new DstPort(f["filterValue"]));
+                    group->AddElement(new DestinationPortNumber(f["filterValue"]));
                 }
                 else if (type == "SrcPort")
                 {
-                    group->AddElement(new SrcPort(f["filterValue"]));
+                    group->AddElement(new SourcePortNumber(f["filterValue"]));
                 }
                 else if (type == "SrcIP")
                 {
-                    group->AddElement(new SrcIp(Ipv4Address(f["filterValue"].get<std::string>().c_str())));
+                    group->AddElement(new SourceIPAddress(Ipv4Address(f["filterValue"].get<std::string>().c_str())));
                 }
                 else if (type == "DstIP")
                 {
-                    group->AddElement(new DstIp(Ipv4Address(f["filterValue"].get<std::string>().c_str())));
+                    group->AddElement(new DestinationIPAddress(Ipv4Address(f["filterValue"].get<std::string>().c_str())));
                 }
                 else if (type == "SrcMask")
                 {
                     std::string addr = f["filterValue"]["address"];
                     std::string mask = f["filterValue"]["mask"];
-                    group->AddElement(new SrcMask(Ipv4Address(addr.c_str()), Ipv4Mask(mask.c_str())));
+                    group->AddElement(new SourceMask(Ipv4Address(addr.c_str()), Ipv4Mask(mask.c_str())));
                 }
                 else if (type == "DstMask")
                 {
                     std::string addr = f["filterValue"]["address"];
                     std::string mask = f["filterValue"]["mask"];
-                    group->AddElement(new DstMask(Ipv4Address(addr.c_str()), Ipv4Mask(mask.c_str())));
+                    group->AddElement(new DestinationMask(Ipv4Address(addr.c_str()), Ipv4Mask(mask.c_str())));
                 }
                 else
                 {

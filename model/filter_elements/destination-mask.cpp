@@ -6,7 +6,7 @@
  * Author: Shun <shuang86@dons.usfca.edu>
  */
 
-#include "dst_mask.h"
+#include "destination-mask.h"
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
@@ -19,7 +19,7 @@ namespace ns3
      * @param address The base IP address to match with mask.
      * @param mask The IPv4 mask to use for compare.
      */
-    DstMask::DstMask(Ipv4Address address, Ipv4Mask mask)
+    DestinationMask::DestinationMask(Ipv4Address address, Ipv4Mask mask)
         : m_address(address),
           m_mask(mask)
     {
@@ -35,7 +35,7 @@ namespace ns3
      * @return True if destination address matched after mask apply; false if not.
      */
     bool
-    DstMask::Match(Ptr<Packet> packet)
+    DestinationMask::Match(Ptr<Packet> packet)
     {
         Ptr<Packet> copy = packet->Copy();
         PppHeader pppHeader;

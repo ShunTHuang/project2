@@ -23,7 +23,7 @@ namespace ns3
      * This class implements the FilterElement interface and checks whether
      * a given packet's destination IP address matches a specified target address.
      */
-    class DstIp : public FilterElement
+    class DestinationIPAddress : public FilterElement
     {
     private:
         Ipv4Address m_address; ///< IP address to match against.
@@ -34,7 +34,7 @@ namespace ns3
          *
          * @param addr The destination IP address to match.
          */
-        DstIp(Ipv4Address addr);
+        DestinationIPAddress(Ipv4Address addr);
 
         /**
          * @brief Check if the given packet matches the destination IP address.

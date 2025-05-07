@@ -6,7 +6,7 @@
  * Author: Shun <shuang86@dons.usfca.edu>
  */
 
-#include "src_ip.h"
+#include "source-ip-address.h"
 #include "ns3/ipv4-header.h"
 #include "ns3/ppp-header.h"
 
@@ -18,7 +18,7 @@ namespace ns3
  *
  * @param addr Source IP address you want to match.
  */
-    SrcIp::SrcIp(Ipv4Address addr)
+    SourceIPAddress::SourceIPAddress(Ipv4Address addr)
         : m_address(addr)
     {
     }
@@ -33,7 +33,7 @@ namespace ns3
      * @return True if matched; false if not.
      */
     bool
-    SrcIp::Match(Ptr<Packet> packet)
+    SourceIPAddress::Match(Ptr<Packet> packet)
     {
         Ptr<Packet> copy = packet->Copy();
         PppHeader pppHeader;
