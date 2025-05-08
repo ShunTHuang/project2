@@ -56,6 +56,12 @@ Ensure the following software is installed:
     ```bash
     cd /ns-3-dev
     ```
+3. **Run**
+
+    ```bash
+    ./ns3 configure --enable-examples --enable-tests
+    ./ns3 build
+    ```
 
 ---
 
