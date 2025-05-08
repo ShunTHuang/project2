@@ -91,6 +91,8 @@ Ensure the following software is installed:
 
     > ⚠️ The port numbers used in the ns-3 simulation differ from those on the Catalyst 3750 switch.
 
+    > ⚠️ In the SpqSimulation, ports 50000 and 50001 are used to represent traffic classes. Therefore, the CLI configuration aligns with these ports. However, on the actual Catalyst 3750 switch, ports 50001 and 50002 are used instead.
+
   - **In ns-3 simulation**:
       - High-priority traffic: UDP port `50000`
       - Low-priority  traffic: UDP port `50001`
